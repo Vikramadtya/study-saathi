@@ -1,4 +1,4 @@
-site_name: Algo Sathi
+site_name: Study Sathi
 
 theme:
   name: material
@@ -15,6 +15,8 @@ theme:
     - content.code.copy # Adds a clean "copy to clipboard" button on code blocks
     - content.code.annotate # Allows adding interactive, clickable notes to code blocks
     - content.tabs.link # If a user clicks a "Python" tab on one page, it auto-selects Python everywhere
+    - content.tooltips
+
 
   # 2. REFINED PALETTE: Added OS-level auto-detection for a seamless first impression.
   palette:
@@ -42,11 +44,16 @@ theme:
 
   font:
     # Retaining your highly readable, psychology-backed font choices
-    text: Merriweather Sans
+    text: Lora
     code: Atkinson Hyperlegible
     
   logo: assets/logo.svg
   favicon: assets/favicon.ico
+
+plugins:
+  - social
+  - tags
+  - glightbox
 
 
 
@@ -78,7 +85,16 @@ markdown_extensions:
   - pymdownx.tasklist:
       custom_checkbox: true # Makes markdown checklists look like native UI checkboxes
   - pymdownx.mark # Allows you to highlight text ==like this==
-
+  - pymdownx.blocks.caption
+  - abbr
+  - def_list
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.tilde
+  - footnotes
 
 extra:
   social:

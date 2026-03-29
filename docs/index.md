@@ -1,17 +1,22 @@
-# Welcome to MkDocs
+# About
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+Hello! I’m Vikramaditya Singh, and you’ve landed on my curated collection of notes, insights, and learnings from the world of software development and technology.  These serve as my personal reference library, where I document everything from coding best practices to deep dives into technical concepts.
 
-## Commands
+Whether you're a fellow developer looking for specific information, a student on a learning journey, or just someone passionate about tech, I hope you find these notes as useful and enlightening as I do. Feel free to explore, learn, and make these resources part of your toolkit.
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+Let’s keep learning together!
 
-## Project layout
+<div class="grid cards" markdown>
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+- Algorithmic Patterns
+- Design Patterns
+- System Design
+- Coding Problem Solution
+
+</div>
+
+
+## Few Links to explore
+
+- To know more about me checkout my portfolio 🍻
+- To read my latest piece on a tech topic checkout my blog 🍻
