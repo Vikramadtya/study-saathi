@@ -6,7 +6,7 @@ Setip commands
 > which python3
 > python -m venv venv
 > source venv/bin/activate
-> pip install mkdocs-material
+> pip3 install mkdocs-material
 > mkdocs new .
 > mkdocs serve
 ```

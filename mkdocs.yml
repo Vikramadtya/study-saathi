@@ -95,6 +95,9 @@ markdown_extensions:
   - pymdownx.keys
   - pymdownx.tilde
   - footnotes
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
 
 extra:
   social:
