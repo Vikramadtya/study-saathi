@@ -98,6 +98,8 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
+  - pymdownx.arithmatex:
+      generic: true
 
 extra:
   social:
@@ -105,3 +107,6 @@ extra:
       link: https://youtube.com/@james-willett
     - icon: fontawesome/brands/linkedin
       link: https://linkedin.com/in/willettjames
+
+extra_javascript:
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js

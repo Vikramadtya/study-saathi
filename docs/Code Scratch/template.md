@@ -1,29 +1,31 @@
 ---
-description: '#cc #string'
+tags: #cc #string
 ---
 
-# Template
+# Title
 
+## Question
 
+## Solution
 
-***
+### Pattern
 
-## Intuition
+### How to Identify
 
-*
+### Description
 
-## Approach
+### The Intuition
 
-*
+### Approach
 
-## Complexity
+### Complexity
 
-* | **Time complexity** : $\text{O}()$ |
-  | ---------------------------------- |
-* | **Space complexity** : $\text{O}()$ |
-  | ----------------------------------- |
+| Label            | Worst           | Average         |
+| :--------------- | :-------------- | :-------------- |
+| Time Complexity  | $\text{O}(n)$   | $$\text{O}(n)$$ |
+| Space Complexity | $$\text{O}(n)$$ | $$\text{O}(n)$$ |
 
-## Code
+### Code
 
 ```java
 ```

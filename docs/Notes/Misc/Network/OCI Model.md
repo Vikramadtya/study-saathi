@@ -15,7 +15,7 @@ This is the OSI model, which has seven layer
 - Presentation: This one will make sure that information is readable for the application layer by formatting and structuring the data. Most computers use the ASCII table for characters. If another computer would use another character like EBCDIC, then the presentation layer needs to “reformat” the data, so both computers agree on the same characters.
 - Application: Here are your applications. E-mail, browsing the web (HTTP), FTP, and many more.
 
->  “People Do Need To See Pamela Anderson”
+> “People Do Need To See Pamela Anderson”
 
 Going from the application layer all the way down to the physical layer is what we call encapsulation. Going from the physical layer and working your way up to the application layer is called de-encapsulation.
 
