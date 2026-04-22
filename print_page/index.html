@@ -13573,16 +13573,16 @@
     background: rgba(255, 255, 255, 0.06) !important;
   }
 
-  /* Terminal Styling - Now with Floating Position */
+  /* Terminal Styling - Positioned to the Bottom Right */
   .terminal-window {
     background: #1a1a1a; border-radius: 12px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.5);
     font-family: 'Fira Code', monospace; overflow: hidden;
     border: 1px solid #444; text-align: left;
-    position: absolute; /* Floating over the image */
-    bottom: -20px;
-    right: -20px;
-    width: 280px;
+    position: absolute; 
+    bottom: 65%;
+    right: 60%; /* Moves it to the right of the image */
+    width: 260px;
     z-index: 10;
     animation: fadeInUp 1s ease-out 0.5s backwards;
   }
@@ -13626,7 +13626,7 @@
     </div>
 
     <div style="flex: 1; min-width: 320px; text-align: center; position: relative; padding: 20px;">
-      <div style="position: relative; display: inline-block;">
+      <div style="position: relative; display: inline-block; max-width: 100%;">
         <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="https://www.vikramaditya-singh.in/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FMe.0b66a5c7.jpeg&amp;w=828&amp;q=75" data-desc-position="bottom"><img src="https://www.vikramaditya-singh.in/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FMe.0b66a5c7.jpeg&amp;w=828&amp;q=75" width="350" style="border-radius: 32px; animation: float 6s ease-in-out infinite; box-shadow: 0 20px 50px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1);"></a>
 
         <div class="terminal-window">
@@ -17357,15 +17357,7 @@ Otherwise, , where the insertion point is defined as the point at which the key 
 </thead>
 <tbody>
 <tr>
-<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-misc-find-nth-root-of-m">Find Nth Root Of M</a></td>
-<td>2026-04-22</td>
-</tr>
-<tr>
 <td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-misc-implement-upper-bound">Implement Upper Bound</a></td>
-<td>2026-04-22</td>
-</tr>
-<tr>
-<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-misc-implement-lower-bound">Implement Lower Bound</a></td>
 <td>2026-04-22</td>
 </tr>
 <tr>
@@ -17373,7 +17365,15 @@ Otherwise, , where the insertion point is defined as the point at which the key 
 <td>2026-04-22</td>
 </tr>
 <tr>
+<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-misc-find-nth-root-of-m">Find Nth Root Of M</a></td>
+<td>2026-04-22</td>
+</tr>
+<tr>
 <td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-misc-number-of-occurrence">Number Of Occurrence</a></td>
+<td>2026-04-22</td>
+</tr>
+<tr>
+<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-misc-implement-lower-bound">Implement Lower Bound</a></td>
 <td>2026-04-22</td>
 </tr>
 <tr>
@@ -17381,19 +17381,19 @@ Otherwise, , where the insertion point is defined as the point at which the key 
 <td>2026-04-22</td>
 </tr>
 <tr>
-<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-78.-subsets">78. Subsets</a></td>
+<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-3169.-count-days-without-meetings">3169. Count Days Without Meetings</a></td>
 <td>2026-04-22</td>
 </tr>
 <tr>
-<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-61.-rotate-list">61. Rotate List</a></td>
+<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-34.-find-first-and-last-position-of-element-in-sorted-array">34. Find First And Last Position Of Element In Sorted Array</a></td>
 <td>2026-04-22</td>
 </tr>
 <tr>
-<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-560.-subarray-sum-equals-k">560. Subarray Sum Equals K</a></td>
+<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-56.-merge-intervals">56. Merge Intervals</a></td>
 <td>2026-04-22</td>
 </tr>
 <tr>
-<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-73.-set-matrix-zeroes">73. Set Matrix Zeroes</a></td>
+<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-49.-group-anagrams">49. Group Anagrams</a></td>
 <td>2026-04-22</td>
 </tr>
 </tbody>
@@ -22905,7 +22905,7 @@ To count how many times <code>x</code> appears, we can:</p>
 <td>2026-04-22</td>
 </tr>
 <tr>
-<td><a href="#code%20scratch-take%20u%20forward-nonecode scratch-take u forward-sorting-insertion sort">Insertion Sort</a></td>
+<td><a href="#code%20scratch-take%20u%20forward-nonecode scratch-take u forward-sorting-selection sort">Selection Sort</a></td>
 <td>2026-04-22</td>
 </tr>
 <tr>
@@ -22913,7 +22913,7 @@ To count how many times <code>x</code> appears, we can:</p>
 <td>2026-04-22</td>
 </tr>
 <tr>
-<td><a href="#code%20scratch-take%20u%20forward-nonecode scratch-take u forward-sorting-selection sort">Selection Sort</a></td>
+<td><a href="#code%20scratch-take%20u%20forward-nonecode scratch-take u forward-sorting-insertion sort">Insertion Sort</a></td>
 <td>2026-04-22</td>
 </tr>
 <tr>
@@ -22937,7 +22937,7 @@ To count how many times <code>x</code> appears, we can:</p>
 <td>2026-04-22</td>
 </tr>
 <tr>
-<td><a href="#code%20scratch-take%20u%20forward-nonecode scratch-take u forward-hashing-faqs-count subarrays with given xor k">Count Subarrays With Given Xor K</a></td>
+<td><a href="#code%20scratch-take%20u%20forward-nonecode scratch-take u forward-hashing-faqs-count subarrays with given sum">Count Subarrays With Given Sum</a></td>
 <td>2026-04-22</td>
 </tr>
 </tbody>
