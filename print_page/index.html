@@ -23,7 +23,7 @@
     
     
       
-        <title>Print Site - Study Sathi</title>
+        <title>Print Site - Viki's Corner</title>
       
     
     
@@ -100,7 +100,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="Study Sathi" class="md-header__button md-logo" aria-label="Study Sathi" data-md-component="logo">
+    <a href=".." title="Viki&#39;s Corner" class="md-header__button md-logo" aria-label="Viki's Corner" data-md-component="logo">
       
   <img src="../assets/logo.svg" alt="logo">
 
@@ -113,7 +113,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            Study Sathi
+            Viki's Corner
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -397,12 +397,12 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="Study Sathi" class="md-nav__button md-logo" aria-label="Study Sathi" data-md-component="logo">
+    <a href=".." title="Viki&#39;s Corner" class="md-nav__button md-logo" aria-label="Viki's Corner" data-md-component="logo">
       
   <img src="../assets/logo.svg" alt="logo">
 
     </a>
-    Study Sathi
+    Viki's Corner
   </label>
   
     <div class="md-nav__source">
@@ -13531,40 +13531,135 @@
                 </nav>
             </div>
         </section>
-        <section class="print-page" id="index" heading-number="1"><html><head>
+        <section class="print-page" id="index" heading-number="1"><html><head><style>
+  /* Personalization & Beauty Layer */
+  .hero-gradient {
+    background: radial-gradient(circle at top right, rgba(138, 43, 226, 0.1), transparent),
+                radial-gradient(circle at bottom left, rgba(0, 122, 255, 0.05), transparent);
+    border-radius: 24px;
+    padding: 3rem 2rem;
+    margin-top: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+  }
+
+  .viki-title {
+    font-weight: 900;
+    font-size: 3.5rem;
+    letter-spacing: -2px;
+    background: linear-gradient(to right, var(--md-primary-fg-color), #bc13fe, #448aff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+  }
+
+  .md-typeset .grid.cards > :is(ul, ol) > li {
+    border-radius: 16px;
+    transition: all 0.3s ease;
+    border: 1px solid var(--md-default-fg-color--lightest);
+  }
+
+  .md-typeset .grid.cards > :is(ul, ol) > li:hover {
+    transform: translateY(-5px);
+    border-color: var(--md-primary-fg-color);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    background: var(--md-primary-fg-color--transparent);
+  }
+
+  .status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: rgba(0, 200, 83, 0.1);
+    color: #00c853;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+</style>
+
+
         <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function () {
             remove_material_navigation();remove_mkdocs_theme_navigation();generate_toc();
         })
         </script>
-        </head><body><div class="md-container">
-  <div class="md-grid">
-    <div style="text-align: center; padding: 2rem 0;">
-      <h1 style="font-weight: 800; font-size: 2.5rem;">Study Sathi</h1>
-      <p style="font-size: 1.2rem; color: var(--md-default-fg-color--light);">
-        Hello! I’m Vikramaditya Singh, and you’ve landed on my curated collection of notes, insights, and learnings from the world of software development and technology.  
+        </head><body><div class="hero-gradient">
+  <div class="md-grid" style="display: flex; align-items: center; gap: 3rem; flex-wrap: wrap;">
+
+    <div style="flex: 1.5; min-width: 300px;">
+      <div class="status-badge">● Open for collaboration</div>
+      <h1 class="viki-title">Hey, I'm Viki.</h1>
+      <p style="font-size: 1.25rem; line-height: 1.5; color: var(--md-default-fg-color);">
+        A software enthusiast building <span style="color: var(--md-primary-fg-color); font-weight: 600;">Study Saathi</span>—my personal second brain for all things code, architecture, and logic.
       </p>
-      <a href="#getting-started" class="md-button md-button--primary">Get Started</a>
-      <a href="https://github.com/Vikramadtya/study-saathi" class="md-button">View on GitHub</a>
+      <p style="color: var(--md-default-fg-color--light); margin-bottom: 2rem;">
+        This isn't just documentation; it's a living library of my technical journey. Dig in, explore the patterns, and let's build something better together.
+      </p>
+
+      <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+        <a href="#getting-started" class="md-button md-button--primary" style="border-radius: 8px; padding: 0.6rem 2rem;">Start Exploring</a>
+        <a href="https://github.com/Vikramadtya/study-saathi" class="md-button" style="display: inline-flex; align-items: center; gap: 8px; border-radius: 8px;">
+        GitHub
+        </a>
+      </div>
+    </div>
+
+    <div style="flex: 1; min-width: 250px; text-align: center;">
+      <div style="position: relative; display: inline-block;">
+        <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="https://illustrations.popsy.co/gray/fogg-uploading-1.png" data-desc-position="bottom"><img src="https://illustrations.popsy.co/gray/fogg-uploading-1.png" width="400" style="z-index: 2; position: relative;"></a>
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; height: 80%; background: var(--md-primary-fg-color); filter: blur(80px); opacity: 0.15; z-index: 1;"></div>
+      </div>
     </div>
   </div>
 </div>
 
-<p>These serve as my personal reference library, where I document everything from coding best practices to deep dives into technical concepts. Whether you're a fellow developer looking for specific information, a student on a learning journey, or just someone passionate about tech, I hope you find these notes as useful and enlightening as I do. Feel free to explore, learn, and make these resources part of your toolkit.</p>
-<p>Let’s keep learning together!</p>
+<hr>
+<h2 id="index-the-second-brain">🧠 The Second Brain<a class="headerlink" href="#index-the-second-brain" title="Permanent link">¶</a></h2>
 <div class="grid cards">
 <ul>
-<li>Algorithmic Patterns</li>
-<li>Design Patterns</li>
-<li>System Design</li>
-<li>Coding Problem Solution</li>
+<li>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m3.5 18.5 6-6 4 4L22 6.92 20.59 5.5l-7.09 8-4-4L2 17z"></path></svg></span> <strong>Algorithmic Patterns</strong>
+    ---
+    Decoding data structures and the logic of efficiency.
+    <a href="#algorithms"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"></path></svg></span> View Notes</a></p>
+</li>
+<li>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 18h-6v-5.79c-.66.61-1.53.99-2.5.99-2.04 0-3.7-1.66-3.7-3.7a3.7 3.7 0 0 1 3.7-3.7c2.04 0 3.7 1.66 3.7 3.7 0 .97-.38 1.84-.99 2.5H18m1-9H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2"></path></svg></span> <strong>Design Patterns</strong>
+    ---
+    Standardized solutions to architect robust software.
+    <a href="#patterns"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"></path></svg></span> View Notes</a></p>
+</li>
+<li>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 17.5c0 .89.18 1.73.5 2.5h-7c-1.5 0-2.81-.5-3.89-1.57C1.54 17.38 1 16.09 1 14.58q0-1.95 1.17-3.48C3.34 9.57 4 9.43 5.25 9.15c.42-1.53 1.25-2.77 2.5-3.72S10.42 4 12 4c1.95 0 3.6.68 4.96 2.04S19 9.05 19 11h.1c-3.4.23-6.1 3.05-6.1 6.5m6-4V12l-2.25 2.25L19 16.5V15a2.5 2.5 0 0 1 2.5 2.5c0 .4-.09.78-.26 1.12l1.09 1.09c.42-.63.67-1.39.67-2.21 0-2.21-1.79-4-4-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5c0-.4.09-.78.26-1.12l-1.09-1.09c-.42.63-.67 1.39-.67 2.21 0 2.21 1.79 4 4 4V23l2.25-2.25L19 18.5z"></path></svg></span> <strong>System Design</strong>
+    ---
+    How big systems talk to each other at scale.
+    <a href="#system-design"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"></path></svg></span> View Notes</a></p>
+</li>
+<li>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 19a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1c0-.21-.07-.41-.18-.57L13 8.35V4h-2v4.35L5.18 18.43c-.11.16-.18.36-.18.57m1 3a3 3 0 0 1-3-3c0-.6.18-1.16.5-1.63L9 7.81V6a1 1 0 0 1-1-1V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1a1 1 0 0 1-1 1v1.81l5.5 9.56c.32.47.5 1.03.5 1.63a3 3 0 0 1-3 3zm7-6 1.34-1.34L16.27 18H7.73l2.66-4.61zm-.5-4a.5.5 0 0 1 .5.5.5.5 0 0 1-.5.5.5.5 0 0 1-.5-.5.5.5 0 0 1 .5-.5"></path></svg></span> <strong>Coding Problem Solution</strong>
+    ---
+    Breakdowns of complex LeetCode and real-world bugs.
+    <a href="#solutions"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"></path></svg></span> View Notes</a></p>
+</li>
 </ul>
 </div>
-<h2 id="index-few-links-to-explore">Few Links to explore<a class="headerlink" href="#index-few-links-to-explore" title="Permanent link">¶</a></h2>
+<hr>
+<h3 id="index-beyond-the-code">🌐 Beyond the Code<a class="headerlink" href="#index-beyond-the-code" title="Permanent link">¶</a></h3>
+<div class="grid cards">
 <ul>
-<li>To know more about me checkout my portfolio 🍻</li>
-<li>To read my latest piece on a tech topic checkout my blog 🍻</li>
-</ul></body></html></section>
+<li>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2M7.07 18.28c.43-.9 3.05-1.78 4.93-1.78s4.5.88 4.93 1.78A7.9 7.9 0 0 1 12 20c-1.86 0-3.57-.64-4.93-1.72m11.29-1.45c-1.43-1.74-4.9-2.33-6.36-2.33s-4.93.59-6.36 2.33A7.93 7.93 0 0 1 4 12c0-4.41 3.59-8 8-8s8 3.59 8 8c0 1.82-.62 3.5-1.64 4.83M12 6c-1.94 0-3.5 1.56-3.5 3.5S10.06 13 12 13s3.5-1.56 3.5-3.5S13.94 6 12 6m0 5a1.5 1.5 0 0 1-1.5-1.5A1.5 1.5 0 0 1 12 8a1.5 1.5 0 0 1 1.5 1.5A1.5 1.5 0 0 1 12 11"></path></svg></span> <strong>Portfolio</strong>
+    Visit my home on the web.
+    <a href="https://www.vikramaditya-singh.in">Let's connect <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"></path></svg></span></a></p>
+</li>
+<li>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 2s-7.64-.37-13.66 7.88C3.72 16.21 2 22 2 22l1.94-1c1.44-2.5 2.19-3.53 3.6-5 2.53.74 5.17.65 7.46-2-2-.56-3.6-.43-5.96-.19C11.69 12 13.5 11.6 16 12l1-2c-1.8-.34-3-.37-4.78.04C14.19 8.65 15.56 7.87 18 8l1.21-1.93c-1.56-.11-2.5.06-4.29.5 1.61-1.46 3.08-2.12 5.22-2.25 0 0 1.05-1.89 1.86-2.32"></path></svg></span> <strong>Blog</strong>
+    Long-form thoughts on tech and life.
+    <a href="https://www.neuralcook.com/home">Read more <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"></path></svg></span></a></p>
+</li>
+</ul>
+</div></body></html></section>
                     <section class='print-page md-section' id='section-2' heading-number='2'>
                         <h1>Algorithmic Pattern<a class='headerlink' href='#section-2' title='Permanent link'></a>
                         </h1>
@@ -17216,19 +17311,19 @@ Otherwise, , where the insertion point is defined as the point at which the key 
 <td>2026-04-22</td>
 </tr>
 <tr>
-<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-875.-koko-eating-bananas">875. Koko Eating Bananas</a></td>
-<td>2026-04-22</td>
-</tr>
-<tr>
-<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-3169.-count-days-without-meetings">3169. Count Days Without Meetings</a></td>
-<td>2026-04-22</td>
-</tr>
-<tr>
-<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-34.-find-first-and-last-position-of-element-in-sorted-array">34. Find First And Last Position Of Element In Sorted Array</a></td>
-<td>2026-04-22</td>
-</tr>
-<tr>
 <td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-56.-merge-intervals">56. Merge Intervals</a></td>
+<td>2026-04-22</td>
+</tr>
+<tr>
+<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-560.-subarray-sum-equals-k">560. Subarray Sum Equals K</a></td>
+<td>2026-04-22</td>
+</tr>
+<tr>
+<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-75.-sort-colors">75. Sort Colors</a></td>
+<td>2026-04-22</td>
+</tr>
+<tr>
+<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-636.-exclusive-time-of-functions">636. Exclusive Time Of Functions</a></td>
 <td>2026-04-22</td>
 </tr>
 </tbody>
