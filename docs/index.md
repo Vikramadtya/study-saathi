@@ -75,7 +75,7 @@ hide:
 
     <div style="flex: 1; min-width: 250px; text-align: center;">
       <div style="position: relative; display: inline-block;">
-        <img src="https://illustrations.popsy.co/gray/fogg-uploading-1.png" width="400" style="z-index: 2; position: relative;">
+        <img src="https://www.vikramaditya-singh.in/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FMe.0b66a5c7.jpeg&w=828&q=75" width="400" style="z-index: 2; position: relative;">
         <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; height: 80%; background: var(--md-primary-fg-color); filter: blur(80px); opacity: 0.15; z-index: 1;"></div>
       </div>
     </div>
