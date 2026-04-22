@@ -56,7 +56,7 @@ hide:
     position: absolute; 
     bottom: 65%;
     right: 60%; /* Moves it to the right of the image */
-    width: 260px;
+    width: 360px;
     z-index: 10;
     animation: fadeInUp 1s ease-out 0.5s backwards;
   }
@@ -117,8 +117,8 @@ hide:
 
 <div class="marquee-container">
   <div class="marquee-content">
-    <span>PYTHON</span> <span>REACT</span> <span>SYSTEM DESIGN</span> <span>DOCKER</span> <span>AWS</span> <span>KUBERNETES</span> <span>FASTAPI</span> <span>NEXT.JS</span> <span>POSTGRES</span>
-    <span>PYTHON</span> <span>REACT</span> <span>SYSTEM DESIGN</span> <span>DOCKER</span> <span>AWS</span> <span>KUBERNETES</span> <span>FASTAPI</span> <span>NEXT.JS</span> <span>POSTGRES</span>
+    <span>PYTHON</span> <span>REACT</span> <span>SYSTEM DESIGN</span> <span>DOCKER</span> <span>AWS</span> <span>KUBERNETES</span> <span>ORACLE</span> <span>NEXT.JS</span> <span>POSTGRES</span>
+    <span>PYTHON</span> <span>REACT</span> <span>SYSTEM DESIGN</span> <span>DOCKER</span> <span>AWS</span> <span>KUBERNETES</span> <span>ORACLE</span> <span>NEXT.JS</span> <span>POSTGRES</span>
   </div>
 </div>
 
