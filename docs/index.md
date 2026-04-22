@@ -47,16 +47,16 @@ hide:
     background: rgba(255, 255, 255, 0.06) !important;
   }
 
-  /* Terminal Styling - Now with Floating Position */
+  /* Terminal Styling - Positioned to the Bottom Right */
   .terminal-window {
     background: #1a1a1a; border-radius: 12px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.5);
     font-family: 'Fira Code', monospace; overflow: hidden;
     border: 1px solid #444; text-align: left;
-    position: absolute; /* Floating over the image */
-    bottom: -20px;
-    right: -20px;
-    width: 280px;
+    position: absolute; 
+    bottom: 65%;
+    right: 60%; /* Moves it to the right of the image */
+    width: 260px;
     z-index: 10;
     animation: fadeInUp 1s ease-out 0.5s backwards;
   }
@@ -94,7 +94,7 @@ hide:
     </div>
 
     <div style="flex: 1; min-width: 320px; text-align: center; position: relative; padding: 20px;">
-      <div style="position: relative; display: inline-block;">
+      <div style="position: relative; display: inline-block; max-width: 100%;">
         <img src="https://www.vikramaditya-singh.in/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FMe.0b66a5c7.jpeg&w=828&q=75" width="350" style="border-radius: 32px; animation: float 6s ease-in-out infinite; box-shadow: 0 20px 50px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1);">
         
         <div class="terminal-window">
