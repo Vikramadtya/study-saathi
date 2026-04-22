@@ -12,27 +12,47 @@ def main():
         print("✨ No changes detected. Everything is already up to date!")
         sys.exit(0)
 
-    # 2. Parse changed files for the commit message
-    changed_files = [line.split()[-1] for line in status.split('\n') if line]
-    files_str = ", ".join(changed_files)
-    
-    print(f"👀 Changes detected in: {files_str}")
-    
-    print("📦 Staging files...")
+    added = []
+    updated = []
+    deleted = []
+
+    # 2. Categorize files based on their 2-character Git status code
+    for line in status.split('\n'):
+        if not line:
+            continue
+        code = line[:2]
+        filename = line[3:]
+
+        if '?' in code or 'A' in code:
+            added.append(filename)
+        elif 'M' in code:
+            updated.append(filename)
+        elif 'D' in code:
+            deleted.append(filename)
+
+    # Print nicely to the terminal
+    print("👀 Changes detected:")
+    if added: print(f"  🟢 Added: {', '.join(added)}")
+    if updated: print(f"  🟡 Updated: {', '.join(updated)}")
+    if deleted: print(f"  🔴 Deleted: {', '.join(deleted)}")
+
+    print("\n📦 Staging files...")
     run_cmd("git add .")
-    
+
     print("📝 Committing...")
-    # Escape quotes for the commit message
-    commit_msg = f'docs: update {files_str}'
-    run_cmd(f'git commit -m "{commit_msg}"')
+    # Build a clean, multiline commit message
+    commit_msg = "docs: auto-sync updates\n\n"
+    if added: commit_msg += f"Added: {', '.join(added)}\n"
+    if updated: commit_msg += f"Updated: {', '.join(updated)}\n"
+    if deleted: commit_msg += f"Deleted: {', '.join(deleted)}\n"
     
+    # Run commit using a list to safely pass the multiline string
+    subprocess.run(["git", "commit", "-m", commit_msg])
+
     print("🚀 Pushing to remote...")
-    push_result = subprocess.run("git push", shell=True)
+    subprocess.run(["git", "push"])
     
-    if push_result.returncode == 0:
-        print("✅ Successfully synced to remote!")
-    else:
-        print("❌ Failed to push to remote.")
+    print("✅ Successfully synced to remote!")
 
 if __name__ == "__main__":
     main()
