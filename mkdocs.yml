@@ -6,7 +6,7 @@ repo_url: https://github.com/Vikramadtya/study-saathi
 edit_uri: edit/main/docs/ 
 
 # A professional copyright notice for the footer
-copyright: Copyright &copy; 2024 Vikramaditya Singh
+copyright: Copyright &copy; Vikramaditya Singh
 
 theme:
   name: material

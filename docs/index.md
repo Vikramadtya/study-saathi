@@ -47,13 +47,18 @@ hide:
     background: rgba(255, 255, 255, 0.06) !important;
   }
 
-  /* Terminal Styling */
+  /* Terminal Styling - Now with Floating Position */
   .terminal-window {
     background: #1a1a1a; border-radius: 12px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
     font-family: 'Fira Code', monospace; overflow: hidden;
-    border: 1px solid #333; text-align: left;
-    margin-top: 1.5rem; animation: fadeInUp 1s ease-out 0.5s backwards;
+    border: 1px solid #444; text-align: left;
+    position: absolute; /* Floating over the image */
+    bottom: -20px;
+    right: -20px;
+    width: 280px;
+    z-index: 10;
+    animation: fadeInUp 1s ease-out 0.5s backwards;
   }
   .terminal-header { background: #333; padding: 8px 15px; display: flex; gap: 6px; }
   .dot { width: 8px; height: 8px; border-radius: 50%; }
@@ -88,20 +93,22 @@ hide:
       </div>
     </div>
 
-    <div style="flex: 1; min-width: 320px; text-align: center;">
-      <img src="https://www.vikramaditya-singh.in/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FMe.0b66a5c7.jpeg&w=828&q=75" width="220" style="animation: float 6s ease-in-out infinite; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
-      
-      <div class="terminal-window">
-        <div class="terminal-header">
-          <div class="dot" style="background: #ff5f56;"></div>
-          <div class="dot" style="background: #ffbd2e;"></div>
-          <div class="dot" style="background: #27c93f;"></div>
-        </div>
-        <div style="padding: 15px; font-size: 0.85rem; color: #d4d4d4; text-align: left;">
-          <span style="color: var(--viki-primary);">$</span> viki --status<br>
-          <span style="color: #bc13fe;">> Mood:</span> Always Learning<br>
-          <span style="color: #448aff;">> Build:</span> Study Saathi v2.0<br>
-          <span style="color: #27c93f;">[READY]</span> Knowledge Base Loaded.
+    <div style="flex: 1; min-width: 320px; text-align: center; position: relative; padding: 20px;">
+      <div style="position: relative; display: inline-block;">
+        <img src="https://www.vikramaditya-singh.in/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FMe.0b66a5c7.jpeg&w=828&q=75" width="350" style="border-radius: 32px; animation: float 6s ease-in-out infinite; box-shadow: 0 20px 50px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1);">
+        
+        <div class="terminal-window">
+          <div class="terminal-header">
+            <div class="dot" style="background: #ff5f56;"></div>
+            <div class="dot" style="background: #ffbd2e;"></div>
+            <div class="dot" style="background: #27c93f;"></div>
+          </div>
+          <div style="padding: 15px; font-size: 0.85rem; color: #d4d4d4; text-align: left;">
+            <span style="color: var(--viki-primary);">$</span> viki --status<br>
+            <span style="color: #bc13fe;">> Mood:</span> Always Learning<br>
+            <span style="color: #448aff;">> Build:</span> Study Saathi v2.0<br>
+            <span style="color: #27c93f;">[READY]</span> Knowledge Base Loaded.
+          </div>
         </div>
       </div>
     </div>
