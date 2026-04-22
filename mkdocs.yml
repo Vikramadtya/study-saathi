@@ -1,4 +1,6 @@
 site_name: Study Sathi
+site_description: An elite-level knowledge base for Data Structures, Algorithms, and System Design.
+site_author: Vikramaditya Singh
 repo_name: Vikramadtya/study-saathi
 repo_url: https://github.com/Vikramadtya/study-saathi
 edit_uri: edit/main/docs/ 
@@ -8,8 +10,11 @@ copyright: Copyright &copy; 2024 Vikramaditya Singh
 
 theme:
   name: material
+  custom_dir: overrides
   
   features:
+    - navigation.instant # Converts the site to an SPA
+    - navigation.instant.progress # Adds a sleek loading bar at the top for heavy pages
     - navigation.tabs 
     - navigation.tabs.sticky 
     - navigation.sections 
@@ -62,6 +67,10 @@ plugins:
         font_family: Lora
   - awesome-pages:
       collapse_single_pages: true 
+  - print-site:
+      add_to_navigation: false # Forces the print icon to appear
+  - macros:
+      module_name: main
 
 markdown_extensions:
   - toc:
@@ -80,7 +89,8 @@ markdown_extensions:
   - pymdownx.tilde
   - pymdownx.mark 
   - pymdownx.inlinehilite
-  - pymdownx.snippets
+  - pymdownx.snippets:
+      base_path: . # The dot means "look at the root of the entire repository"
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg

@@ -1,0 +1,8 @@
+title: TakeUForward Solutions
+icon: fontawesome/solid/laptop-code
+nav:
+  - index.md
+  - Sorting
+  - Arrays
+  - Binary Search
+  - Hashing

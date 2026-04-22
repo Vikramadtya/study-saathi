@@ -1,0 +1,8 @@
+title: LeetCode Solutions
+icon: fontawesome/solid/laptop-code
+nav:
+  - index.md
+  - easy
+  - medium
+  - hard
+  - misc
