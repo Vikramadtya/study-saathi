@@ -13573,13 +13573,18 @@
     background: rgba(255, 255, 255, 0.06) !important;
   }
 
-  /* Terminal Styling */
+  /* Terminal Styling - Now with Floating Position */
   .terminal-window {
     background: #1a1a1a; border-radius: 12px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
     font-family: 'Fira Code', monospace; overflow: hidden;
-    border: 1px solid #333; text-align: left;
-    margin-top: 1.5rem; animation: fadeInUp 1s ease-out 0.5s backwards;
+    border: 1px solid #444; text-align: left;
+    position: absolute; /* Floating over the image */
+    bottom: -20px;
+    right: -20px;
+    width: 280px;
+    z-index: 10;
+    animation: fadeInUp 1s ease-out 0.5s backwards;
   }
   .terminal-header { background: #333; padding: 8px 15px; display: flex; gap: 6px; }
   .dot { width: 8px; height: 8px; border-radius: 50%; }
@@ -13620,20 +13625,22 @@
       </div>
     </div>
 
-    <div style="flex: 1; min-width: 320px; text-align: center;">
-      <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="https://www.vikramaditya-singh.in/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FMe.0b66a5c7.jpeg&amp;w=828&amp;q=75" data-desc-position="bottom"><img src="https://www.vikramaditya-singh.in/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FMe.0b66a5c7.jpeg&amp;w=828&amp;q=75" width="220" style="animation: float 6s ease-in-out infinite; box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></a>
+    <div style="flex: 1; min-width: 320px; text-align: center; position: relative; padding: 20px;">
+      <div style="position: relative; display: inline-block;">
+        <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="https://www.vikramaditya-singh.in/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FMe.0b66a5c7.jpeg&amp;w=828&amp;q=75" data-desc-position="bottom"><img src="https://www.vikramaditya-singh.in/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FMe.0b66a5c7.jpeg&amp;w=828&amp;q=75" width="350" style="border-radius: 32px; animation: float 6s ease-in-out infinite; box-shadow: 0 20px 50px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1);"></a>
 
-      <div class="terminal-window">
-        <div class="terminal-header">
-          <div class="dot" style="background: #ff5f56;"></div>
-          <div class="dot" style="background: #ffbd2e;"></div>
-          <div class="dot" style="background: #27c93f;"></div>
-        </div>
-        <div style="padding: 15px; font-size: 0.85rem; color: #d4d4d4; text-align: left;">
-          <span style="color: var(--viki-primary);">$</span> viki --status<br>
-          <span style="color: #bc13fe;">&gt; Mood:</span> Always Learning<br>
-          <span style="color: #448aff;">&gt; Build:</span> Study Saathi v2.0<br>
-          <span style="color: #27c93f;">[READY]</span> Knowledge Base Loaded.
+        <div class="terminal-window">
+          <div class="terminal-header">
+            <div class="dot" style="background: #ff5f56;"></div>
+            <div class="dot" style="background: #ffbd2e;"></div>
+            <div class="dot" style="background: #27c93f;"></div>
+          </div>
+          <div style="padding: 15px; font-size: 0.85rem; color: #d4d4d4; text-align: left;">
+            <span style="color: var(--viki-primary);">$</span> viki --status<br>
+            <span style="color: #bc13fe;">&gt; Mood:</span> Always Learning<br>
+            <span style="color: #448aff;">&gt; Build:</span> Study Saathi v2.0<br>
+            <span style="color: #27c93f;">[READY]</span> Knowledge Base Loaded.
+          </div>
         </div>
       </div>
     </div>
@@ -17374,10 +17381,6 @@ Otherwise, , where the insertion point is defined as the point at which the key 
 <td>2026-04-22</td>
 </tr>
 <tr>
-<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-48.-rotate-image">48. Rotate Image</a></td>
-<td>2026-04-22</td>
-</tr>
-<tr>
 <td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-78.-subsets">78. Subsets</a></td>
 <td>2026-04-22</td>
 </tr>
@@ -17386,7 +17389,11 @@ Otherwise, , where the insertion point is defined as the point at which the key 
 <td>2026-04-22</td>
 </tr>
 <tr>
-<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-50.-pow-x-n">50. Pow X N</a></td>
+<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-560.-subarray-sum-equals-k">560. Subarray Sum Equals K</a></td>
+<td>2026-04-22</td>
+</tr>
+<tr>
+<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-73.-set-matrix-zeroes">73. Set Matrix Zeroes</a></td>
 <td>2026-04-22</td>
 </tr>
 </tbody>
@@ -27003,7 +27010,7 @@ You cannot use standard Binary Search because the array is not monotonic.</p>
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright &copy; 2024 Vikramaditya Singh
+      Copyright &copy; Vikramaditya Singh
     </div>
   
   
