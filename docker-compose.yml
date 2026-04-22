@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  mkdocs:
+    build: .
+    container_name: mkdocs_live
+    user: "${UID:-1000}:${GID:-1000}"
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount the current directory (.) to /app inside the container
+      - .:/app

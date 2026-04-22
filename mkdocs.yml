@@ -1,49 +1,49 @@
 site_name: Study Sathi
+repo_name: Vikramadtya/study-saathi
+repo_url: https://github.com/Vikramadtya/study-saathi
+edit_uri: edit/main/docs/ 
+
+# A professional copyright notice for the footer
+copyright: Copyright &copy; 2024 Vikramaditya Singh
 
 theme:
   name: material
   
-  # 1. ENHANCED FEATURES: This makes it feel like a modern web app, not just a document.
   features:
-    - navigation.tabs # Moves top-level folders to a sleek top navigation bar
-    - navigation.tabs.sticky # Keeps the top bar visible when scrolling down
-    - navigation.sections # Groups sub-pages elegantly in the sidebar
-    - navigation.top # Adds a smooth "back to top" button for long pages
-    - navigation.tracking # Updates the URL hash as the user scrolls through sections
-    - search.suggest # Auto-suggests results as the user types in the search bar
-    - search.highlight # Highlights the searched terms on the destination page
-    - content.code.copy # Adds a clean "copy to clipboard" button on code blocks
-    - content.code.annotate # Allows adding interactive, clickable notes to code blocks
-    - content.tabs.link # If a user clicks a "Python" tab on one page, it auto-selects Python everywhere
+    - navigation.tabs 
+    - navigation.tabs.sticky 
+    - navigation.sections 
+    - navigation.indexes # NEW: Allows folders to be clickable pages
+    - navigation.top 
+    - navigation.tracking 
+    - search.suggest 
+    - search.highlight 
+    - content.code.copy 
+    - content.code.annotate 
+    - content.tabs.link 
     - content.tooltips
 
-
-  # 2. REFINED PALETTE: Added OS-level auto-detection for a seamless first impression.
   palette:
-    # Auto-detects the user's OS preference first
     - media: "(prefers-color-scheme)"
       toggle:
         icon: material/brightness-auto
         name: Switch to light mode
-    # Light Mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: indigo # Swapped blue for indigo for a slightly more modern, vibrant tech feel
+      primary: indigo 
       accent: deep orange
       toggle:
         icon: material/weather-night
         name: Switch to dark mode
-    # Dark Mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: teal # Swapped green for teal to provide better contrast against the dark slate background
-      accent: cyan # Swapped deep purple for cyan so accents pop clearly in the dark
+      primary: teal 
+      accent: cyan 
       toggle:
         icon: material/weather-sunny
         name: Switch to system preference
 
   font:
-    # Retaining your highly readable, psychology-backed font choices
     text: Lora
     code: Atkinson Hyperlegible
     
@@ -51,21 +51,36 @@ theme:
   favicon: assets/favicon.ico
 
 plugins:
-  - social
+  - search
   - tags
   - glightbox
+  - git-revision-date-localized
+  - minify: # NEW: Compresses your site for faster loading
+      minify_html: true
+  - social: # ENHANCED: Generates beautiful sharing cards
+      cards_layout_options:
+        font_family: Lora
+  - awesome-pages:
+      collapse_single_pages: true 
 
-
-
-
-# 3. POWER-UP MARKDOWN: Added essential plugins for beautiful documentation elements.
 markdown_extensions:
   - toc:
-      permalink: true # Adds a neat little clickable anchor link "¶" next to headers when hovering
-  - admonition # Enables beautiful callout boxes (Notes, Warnings, Tips)
+      permalink: true 
+  - admonition 
   - attr_list
   - md_in_html
-  - pymdownx.details # Allows making those callout boxes collapsible
+  - abbr
+  - def_list
+  - footnotes
+  - pymdownx.details 
+  - pymdownx.blocks.caption
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.tilde
+  - pymdownx.mark 
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
@@ -73,40 +88,29 @@ markdown_extensions:
       anchor_linenums: true
       line_spans: __span
       pygments_lang_class: true
-  - pymdownx.inlinehilite
-  - pymdownx.snippets
   - pymdownx.superfences:
-      custom_fences: # Unlocks Mermaid.js so you can generate beautiful diagrams via code
+      custom_fences: 
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.tabbed:
-      alternate_style: true # Upgrades tabs to look like modern grouped buttons
+      alternate_style: true 
   - pymdownx.tasklist:
-      custom_checkbox: true # Makes markdown checklists look like native UI checkboxes
-  - pymdownx.mark # Allows you to highlight text ==like this==
-  - pymdownx.blocks.caption
-  - abbr
-  - def_list
-  - pymdownx.tasklist:
-      custom_checkbox: true
-  - pymdownx.critic
-  - pymdownx.caret
-  - pymdownx.keys
-  - pymdownx.tilde
-  - footnotes
-  - pymdownx.superfences
-  - pymdownx.tabbed:
-      alternate_style: true
+      custom_checkbox: true 
   - pymdownx.arithmatex:
       generic: true
 
 extra:
+  generator: false
   social:
-    - icon: fontawesome/brands/youtube
-      link: https://youtube.com/@james-willett
+    - icon: fontawesome/solid/person
+      link: https://www.vikramaditya-singh.in
+    - icon: fontawesome/solid/blog
+      link: https://www.neuralcook.com/home
     - icon: fontawesome/brands/linkedin
-      link: https://linkedin.com/in/willettjames
+      link: https://www.linkedin.com/in/vikrmadityasngh/
 
 extra_javascript:
+  - javascripts/mathjax.js # NEW: The required glue code for MathJax
+  - https://polyfill.io/v3/polyfill.min.js?features=es6 # NEW: Polyfill for older browsers
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js

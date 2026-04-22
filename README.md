@@ -1,15 +1,50 @@
 # Setup
 
-Setip commands
+## Run using `docker`
+
+Spin the container up
 
 ```shell
-> which python3
-> python -m venv venv
-> source venv/bin/activate
-> pip3 install mkdocs-material
-> mkdocs new .
-> mkdocs serve
+docker-compose up --build
 ```
+
+## Run Locally
+
+Create new virtual env
+
+```shell
+python3 -m venv venv
+```
+
+activate the environment
+
+```shell
+source venv/bin/activate
+```
+
+to install the dependecy
+
+```shell
+pip3 install -r requirements.txt
+```
+
+to start the server
+
+```shell
+python3 -m mkdocs serve
+```
+
+## Add new plugin
+
+```shell
+pip3 install <plugin>
+```
+
+```shell
+pip3 freeze > requirements2.txt
+```
+
+## Config
 
 Open `settings.json` by clicking the ⚙ gear icon in the bottom left, then clicking the 📄 document icon in the top right.
 
