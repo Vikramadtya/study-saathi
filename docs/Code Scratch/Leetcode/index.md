@@ -5,4 +5,4 @@ hide:
 ---
 
 
-{{ recent_solves(10) }}
+{{ recent_solves("Leetcode", 10) }}

@@ -17,7 +17,7 @@ def define_env(env):
 """
 
     @env.macro
-    def recent_solves(location="Leetcode",limit=5):
+    def recent_solves(location="",limit=5):
         # Scan your LeetCode directory for the most recently modified files
         path = f"docs/Code Scratch/{location}"
         files = []
