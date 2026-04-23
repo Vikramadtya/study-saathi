@@ -3456,7 +3456,7 @@
   <span class="md-ellipsis">
     
   
-    Macro Syntax Error
+    Basic Docker Commands
   
 
     
@@ -11124,7 +11124,7 @@
   <a href="#notes-docker-2.%20docker%20basic%20commands" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5.1.2 Macro Syntax Error
+        5.1.2 Basic Docker Commands
       
     </span>
   </a>
@@ -15294,11 +15294,217 @@ x = K\%n
             remove_material_navigation();remove_mkdocs_theme_navigation();generate_toc();
         })
         </script>
-        </head><body><h1 id="macro-syntax-error"><em>Macro Syntax Error</em><a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-macro-syntax-error" title="Permanent link">¶</a></h1>
-<p><em>File</em>: <code>Notes/Docker/2. Docker Basic Commands.md</code></p>
-<p><em>Line 102 in Markdown file:</em> <strong>unexpected '.'</strong>
-</p><div class="language-markdown highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-0-1"></a>    docker image inspect &lt;ID&gt; --format='{{.Architecture}}'
-</span></code></pre></div><p></p></body></html></section></section>
+        </head><body><h1 id="basic-docker-commands">Basic Docker Commands<a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-basic-docker-commands" title="Permanent link">¶</a></h1>
+<h2 id="notes-docker-2.%20docker%20basic%20commands-docker-version"><code>docker version</code><a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-docker-version" title="Permanent link">¶</a></h2>
+<p>Docker follows a Client-Server architecture.</p>
+<ul>
+<li>Client: The CLI tool you're typing into.</li>
+<li>Server (Engine/Daemon): The background process that actually manages containers.</li>
+</ul>
+<p>The command displays the version information for both the <strong>Client</strong> and the <strong>Server (Daemon)</strong>.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-0-1"></a>docker<span class="w"> </span>version
+</span></code></pre></div>
+<p>Use this to verify that the Docker Engine is running and to check for API compatibility.</p>
+<details class="info">
+<summary>"Cannot connect to the Docker daemon,"</summary>
+<p>If you see an error saying "Cannot connect to the Docker daemon," the Client is working, but the Server is off.</p>
+</details>
+<h2 id="notes-docker-2.%20docker%20basic%20commands-docker-pull-imagetag-the-output-anatomy"><code>docker pull &lt;image&gt;:&lt;tag&gt;</code> &amp; The Output Anatomy<a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-docker-pull-imagetag-the-output-anatomy" title="Permanent link">¶</a></h2>
+<p>Downloads an image from a registry (default: Docker Hub).</p>
+<ul>
+<li><strong>Layers:</strong> Images are downloaded in chunks (layers). This allows for caching and faster downloads.</li>
+<li><strong>Immutability:</strong> Each layer is read-only and identified by a SHA256 hash.</li>
+</ul>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-1-1"></a>&gt;&gt;<span class="w"> </span>docker<span class="w"> </span>pull<span class="w"> </span>nginx:latest
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-1-4"></a>latest:<span class="w"> </span>Pulling<span class="w"> </span>from<span class="w"> </span>library/nginx
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-1-5"></a>f4badedbec24:<span class="w"> </span>Pull<span class="w"> </span><span class="nb">complete</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-1-6"></a>e14d31524fc8:<span class="w"> </span>Pull<span class="w"> </span><span class="nb">complete</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-1-7"></a>0a43e039475a:<span class="w"> </span>Pull<span class="w"> </span><span class="nb">complete</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-1-8"></a>5716fd893132:<span class="w"> </span>Pull<span class="w"> </span><span class="nb">complete</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-1-9"></a>0d9786b44f2a:<span class="w"> </span>Pull<span class="w"> </span><span class="nb">complete</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-1-10"></a>b1a5e9a47bf9:<span class="w"> </span>Pull<span class="w"> </span><span class="nb">complete</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-1-11"></a>881ff00f5a79:<span class="w"> </span>Pull<span class="w"> </span><span class="nb">complete</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-1-12"></a>068f82ab28b2:<span class="w"> </span>Download<span class="w"> </span><span class="nb">complete</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-1-13"></a>6be5707a6ba5:<span class="w"> </span>Download<span class="w"> </span><span class="nb">complete</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-1-14"></a>Digest:<span class="w"> </span>sha256:7150b3a39203cb5bee612ff4a9d18774f8c7caf6399d6e8985e97e28eb751c18
+</span></code></pre></div>
+<ul>
+<li>(The Hashes): These represent individual layers.</li>
+<li>Pull complete vs Already exists: If you pulled a layer earlier for another image and the current shares the same base OS layer, Docker won't download it again. It just "links" to the existing one on your disk. This is <strong>Content-Addressable Storage</strong>.</li>
+<li>The Digest is a mathematical fingerprint of the content. If the content changes, the Digest changes.</li>
+</ul>
+<h3 id="notes-docker-2.%20docker%20basic%20commands-layering">Layering<a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-layering" title="Permanent link">¶</a></h3>
+<p>Docker images use a <strong>Union File System (UnionFS)</strong>.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Layer Sharing</strong></td>
+<td style="text-align: left;">If two images use the same base OS, they share those layers on disk.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Copy-on-Write</strong></td>
+<td style="text-align: left;">When a container starts, it adds a thin "Writable Layer" on top of the read-only image layers.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Digest</strong></td>
+<td style="text-align: left;">The <code>sha256</code> fingerprint ensures the image hasn't been tampered with.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="notes-docker-2.%20docker%20basic%20commands-docker-images-or-docker-image-ls"><code>docker images</code> (or <code>docker image ls</code>)<a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-docker-images-or-docker-image-ls" title="Permanent link">¶</a></h2>
+<p>Lists all images currently stored on your local host.</p>
+<ul>
+<li><strong>Repository:</strong> The name of the image (e.g., <code>nginx</code>).</li>
+<li><strong>Tag:</strong> The version (e.g., <code>latest</code>, <code>1.21</code>).</li>
+<li><strong>Image ID:</strong> A unique identifier for the specific build of the image.</li>
+</ul>
+<h2 id="notes-docker-2.%20docker%20basic%20commands-docker-images"><code>docker images</code><a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-docker-images" title="Permanent link">¶</a></h2>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-2-1"></a>docker<span class="w"> </span>images
+</span></code></pre></div>
+<ul>
+<li><strong>Image:</strong> The <code>&lt;image&gt;:&lt;tag&gt;</code> tells you what the software is and which version you have.</li>
+<li><strong>ID:</strong> It’s the first 12 characters of the SHA-256 hash. Can rename an image, but the ID stays the same until the content changes.</li>
+<li><strong>Content Size (Compressed):</strong> The "Transport Size." This is what hits your network bandwidth when you run <code>docker pull</code>.</li>
+<li><strong>Disk Usage (Virtual Size):</strong> The "Runtime Size." The total size of all layers once they are uncompressed by the storage driver.</li>
+</ul>
+<h2 id="notes-docker-2.%20docker%20basic%20commands-docker-image-inspect"><code>docker image inspect</code><a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-docker-image-inspect" title="Permanent link">¶</a></h2>
+<p>It reveals the low-level metadata of an image—everything from how it was built to what it expects when it starts.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-3-1"></a>docker<span class="w"> </span>image<span class="w"> </span>inspect<span class="w"> </span>943d97fa7074
+</span></code></pre></div>
+<ul>
+<li>Id: The full SHA-256 fingerprint. This is the "true" ID of the image.</li>
+<li>Architecture: "arm64": This is a critical detail for your OCI practice. Since you are likely using an OCI "Always Free" Arm instance, this image is compatible. An amd64 image would fail to run on an Arm processor.</li>
+<li>Os: "linux": The kernel the image expects.</li>
+<li>Config : This section tells Docker how to behave when you run docker run.</li>
+<li>Env: A list of environment variables baked into the image. Notice NGINX_VERSION. These are available to the application inside.</li>
+<li>ExposedPorts: This is metadata only. It’s a hint to the user that the app listens on port 80. It does not actually open the port on your host (you still need -p).</li>
+<li>Entrypoint: The main executable (in this case, the Nginx startup script).</li>
+<li>Cmd: The default arguments passed to the entrypoint.</li>
+<li>GraphDriver: "overlayfs": This is the storage engine. Overlay2 is the modern standard that manages how layers are "stacked" on top of each other.</li>
+<li>RootFS.Layers: This is the actual physical stack. You see 7 hashes here, which means the Dockerfile that built this had roughly 7 instructions (like RUN, COPY, ADD) that modified the filesystem.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Title of the callout</p>
+</div>
+<p><code>docker image inspect</code> returns a JSON array. To find specific values without scrolling, use the <code>--format</code> flag (Go templates).</p>
+<div class="language-text highlight"><pre><span></span><code>```
+# Get only the Architecture
+docker image inspect &lt;ID&gt; --format=' { {.Architecture}}'
+
+# Get the default Command/Args
+docker image inspect &lt;ID&gt; --format='{ {.Config.Cmd}}'
+
+# List all Environment Variables
+docker image inspect &lt;ID&gt; --format='{ {range .Config.Env}}{ {println .}}{ {end}}'
+```
+</code></pre></div>
+<h2 id="notes-docker-2.%20docker%20basic%20commands-docker-run"><code>docker run</code><a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-docker-run" title="Permanent link">¶</a></h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-5-1"></a>docker run --name test -d -p 8080:80 nginx:latest
+</span></code></pre></div>
+<ul>
+<li><code>run</code> : creates and starts the container in one go.</li>
+<li><code>--name test</code> : assigns a human-readable name to the container.</li>
+<li><code>-d</code> : runs the container in the background.</li>
+<li><code>-p &lt;host&gt;:&lt;container&gt;</code> : maps HOST_PORT:CONTAINER_PORT.</li>
+<li><code>&lt;image&gt;:&lt;tag&gt;</code> : The image and tag to use for the container.</li>
+</ul>
+<p>When you run a container in Detached Mode (<code>-d</code>), Docker's way of saying "Mission accomplished" is to hand you the unique, 64-character SHA-256 hash that identifies that specific running instance.</p>
+<p>After running a container in detached mode, use these to see what's happening:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Command</th>
+<th style="text-align: left;">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>docker ps</code></td>
+<td style="text-align: left;">See all <strong>running</strong> containers.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>docker ps -a</code></td>
+<td style="text-align: left;">See all containers (including those that crashed/stopped).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>docker logs test</code></td>
+<td style="text-align: left;">See the output/errors from the background process.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>docker stop test</code></td>
+<td style="text-align: left;">Gracefully shut down the container.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">💡 Note</p>
+</div>
+<p>If you don't have the image locally, <code>docker run</code> will automatically perform a <code>docker pull</code> before starting. It checks your local storage first, then hits the Registry.</p>
+<h2 id="notes-docker-2.%20docker%20basic%20commands-docker-exec"><code>docker exec</code><a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-docker-exec" title="Permanent link">¶</a></h2>
+<p>Runs a process in an EXISTING container. Docker uses the Linux PID Namespace to "inject" your process into the same isolated environment where container is running. Both processes share the same network and filesystem, but they are separate processes.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-6-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>&lt;container_name_or_id&gt;<span class="w"> </span>bash
+</span></code></pre></div>
+<h3 id="notes-docker-2.%20docker%20basic%20commands-common-usecase">Common usecase<a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-common-usecase" title="Permanent link">¶</a></h3>
+<ul>
+<li>Debugging: Check if configuration files are correctly loaded.</li>
+<li>Environment Check: Run env to see if your variables passed through correctly.</li>
+<li>Logs/DBs: Manually trigger a script or check a local database inside the container.</li>
+</ul>
+<h2 id="notes-docker-2.%20docker%20basic%20commands-docker-ps"><code>docker ps</code><a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-docker-ps" title="Permanent link">¶</a></h2>
+<p>This command is your Container Inventory. While <code>docker ps</code> only shows you what is currently "alive" and running, adding the <code>-a</code> (or --all) flag reveals the "ghosts" of containers past—those that have finished their job or been stopped.</p>
+<ul>
+<li><code>CONTAINER ID</code> : the 12-character "Short ID".</li>
+<li><code>IMAGE</code> : the blueprint this container was born from.</li>
+<li><code>COMMAND</code> : the script that Nginx runs to start up.</li>
+<li><code>CREATED</code> : the wall-clock time since you ran docker run.</li>
+<li><code>STATUS</code> : the container status</li>
+<li><code>PORTS</code> : ports being listened to.</li>
+<li><code>NAMES</code> : custom name assigned.</li>
+</ul>
+<h2 id="notes-docker-2.%20docker%20basic%20commands-docker-stop"><code>docker stop</code><a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-docker-stop" title="Permanent link">¶</a></h2>
+<p>To stop the running container. It follows a two-step process:</p>
+<ol>
+<li>
+<p>The Polite Request (SIGTERM): Docker sends a "Signal 15" (Termination) to the main process (PID 1) inside the container. It’s saying, "Hey, wrap up your work, save your files, and close your connections."</p>
+</li>
+<li>
+<p>The Grace Period: Docker waits (default is 10 seconds) for the process to exit on its own.</p>
+</li>
+<li>
+<p>The Forceful End (SIGKILL): If the container is still running after 10 seconds, Docker sends a "Signal 9" (Kill). This is the digital equivalent of pulling the power cord.</p>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Customizing the Shutdown</p>
+</div>
+<p>Sometimes 10 seconds isn't enough (e.g., a heavy database saving a large state). You can override the timer:</p>
+<div class="language-text highlight"><pre><span></span><code>```bash
+    # Give the container 30 seconds to shut down gracefully
+    docker stop -t 30 &lt;container_id&gt;
+```
+</code></pre></div>
+<p>When a container stops, the process (PID 1) dies, but the Writable Layer (where you might have saved files during an exec session) remains on your hard drive. To truly get rid of it, you must Remove it (<code>docker rm</code>).</p>
+<h2 id="notes-docker-2.%20docker%20basic%20commands-docker-build-t-image_nametag"><code>docker build -t &lt;image_name&gt;:&lt;tag&gt; .</code><a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-docker-build-t-image_nametag" title="Permanent link">¶</a></h2>
+<p>Builds image using BuildKit, Docker’s modern build engine. It’s highly parallel and much faster than the old builder.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-8-1"></a>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>test:latest<span class="w"> </span>.
+</span></code></pre></div>
+<ul>
+<li><code>build</code>: The command to transform a Dockerfile into an Image.</li>
+<li><code>-t test:latest</code> : Tag the image. If you don't provide this, your image will be "nameless" (dangling) and hard to find.</li>
+<li><code>.</code> (The Dot): This is the Build Context. Everything in the context path is sent to the Docker Daemon.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title"><code>.dockerignore</code></p>
+<p>Use a <code>.dockerignore</code> file to prevent sending large, unnecessary files (like <code>node_modules</code> or <code>.git</code>) to the daemon. This makes builds faster and images smaller.</p>
+</div></body></html></section></section>
                     <section class='print-page md-section' id='section-5-2' heading-number='5.2'>
                         <h1>Misc<a class='headerlink' href='#section-5-2' title='Permanent link'></a>
                         </h1>
