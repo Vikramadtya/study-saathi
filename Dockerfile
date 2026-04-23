@@ -1,9 +1,20 @@
 # Use a lightweight Python alpine image
 FROM python:3.11-alpine
 
-# Install git (and any other system dependencies)
+# Disable MkDocs warning https://squidfunk.github.io/mkdocs-material/blog/2026/02/18/mkdocs-2.0/
+ENV NO_MKDOCS_2_WARNING=1
+
+# Install System Dependencies
+# We need build-base and dev-headers to compile some python extensions,
+# and runtime libraries (cairo, pango, etc.) for the actual rendering.
 # --no-cache keeps the Docker image small by not storing the downloaded package index
-RUN apk add --no-cache git
+RUN apk add --no-cache \
+    # Runtime libraries
+    cairo \
+    pango \
+    gdk-pixbuf \
+    libffi \
+    git
 
 # Set the working directory inside the container
 WORKDIR /app

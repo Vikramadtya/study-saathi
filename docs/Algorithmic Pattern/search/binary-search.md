@@ -74,36 +74,36 @@ public int binarySearchAnswer(int low, int high) {
 ```
 
 !!! note "Note"
-    We can use _lower_ & _upper_ bound to find the occurrence count efficiently.
+We can use _lower_ & _upper_ bound to find the occurrence count efficiently.
 
-## Binary Search: When to use `left < right`
-
-### The Rule of Thumb
+## Binary Search: When to use `left < right` (The Squeeze vs. Search)
 
 - Use `while (left <= right)` when you have an **early return** (`if nums[mid] == target return mid`).
 - Use `while (left < right)` when you are **narrowing down** to a specific index (like the minimum or a peak).
 
-### The Invariant
+## The Search Pattern (`left <= right`)
 
-For "Find Minimum," we maintain the invariant that **the minimum is always in the range $[left, right]$**.
+- **Best for:** Finding an exact value.
+- **Logic:** If `nums[mid]` isn't the target, discard it completely (`mid + 1`, `mid - 1`).
+- **Exit:** You either find it and return, or you finish with $left > right$ (not found).
 
-1. **If `nums[mid] > nums[right]`:** The "cliff" is to the right. `mid` cannot be the minimum. 
-   * New Range: $[mid + 1, right]$.
-2. **If `nums[mid] <= nums[right]`:** `mid` could be the minimum, or the minimum is to its left. 
-   * New Range: $[left, mid]$.
+## The Squeeze Pattern (`left < right`)
 
+- **Best for:** Finding a transition point, minimum, or single element.
+- **Logic:** The `right = mid` update keeps `mid` in the search space because it _could_ be the answer.
+- **Exit:** Terminate when only one element remains ($left == right$).
 
+## Critical Rule for `left < right`
 
-### Why `left < right` avoids Infinite Loops
+When using `right = mid`, you **must** ensure the loop terminates. If $left$ and $right$ are adjacent, $mid$ will always equal $left$.
 
-If `left = 0` and `right = 1`:
-
-- `mid = 0`.
-- If the logic says `right = mid`, then `right` becomes `0`.
-- Loop Condition `left < right` ($0 < 0$) is now **False**. The loop ends correctly.
-- If you used `left <= right`, the loop would continue forever.
+- If your logic moves $left$ forward (`left = mid + 1`), you are safe.
+- If your logic moves $right$ to $mid$, you are safe (because $right$ becomes $left$ and the loop ends).
 
 ### Concepts to Think About
+
+- **Lower Bound:** Finding the first element $\ge$ target always uses `left < right`.
+- **Search Space:** Does `left < right` work if the target might NOT be in the array? (Yes, but you need a final check: `if (nums[left] == target)` after the loop).
 
 - **Search Space Size:** `left < right` ensures the search space is always $\ge 2$ elements.
 - **Convergence:** The "squeeze" approach is more mathematically robust for finding transition points in functions or rotated arrays.

@@ -3,7 +3,7 @@ site_description: An elite-level knowledge base for Data Structures, Algorithms,
 site_author: Vikramaditya Singh
 repo_name: Vikramadtya/study-saathi
 repo_url: https://github.com/Vikramadtya/study-saathi
-edit_uri: edit/main/docs/ 
+edit_uri: edit/main/docs/
 
 # A professional copyright notice for the footer
 copyright: Copyright &copy; Vikramaditya Singh
@@ -11,21 +11,21 @@ copyright: Copyright &copy; Vikramaditya Singh
 theme:
   name: material
   custom_dir: overrides
-  
+
   features:
     - navigation.instant # Converts the site to an SPA
     - navigation.instant.progress # Adds a sleek loading bar at the top for heavy pages
-    - navigation.tabs 
-    - navigation.tabs.sticky 
-    - navigation.sections 
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
     - navigation.indexes # NEW: Allows folders to be clickable pages
-    - navigation.top 
-    - navigation.tracking 
-    - search.suggest 
-    - search.highlight 
-    - content.code.copy 
-    - content.code.annotate 
-    - content.tabs.link 
+    - navigation.top
+    - navigation.tracking
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
     - content.tooltips
 
   palette:
@@ -35,15 +35,15 @@ theme:
         name: Switch to light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: indigo 
+      primary: indigo
       accent: deep orange
       toggle:
         icon: material/weather-night
         name: Switch to dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: teal 
-      accent: cyan 
+      primary: teal
+      accent: cyan
       toggle:
         icon: material/weather-sunny
         name: Switch to system preference
@@ -51,7 +51,7 @@ theme:
   font:
     text: Lora
     code: Atkinson Hyperlegible
-    
+
   logo: assets/logo.svg
   favicon: assets/favicon.ico
 
@@ -66,7 +66,7 @@ plugins:
       cards_layout_options:
         font_family: Lora
   - awesome-pages:
-      collapse_single_pages: true 
+      collapse_single_pages: true
   - print-site:
       add_to_navigation: false # Forces the print icon to appear
   - macros:
@@ -74,20 +74,20 @@ plugins:
 
 markdown_extensions:
   - toc:
-      permalink: true 
-  - admonition 
+      permalink: true
+  - admonition
   - attr_list
   - md_in_html
   - abbr
   - def_list
   - footnotes
-  - pymdownx.details 
+  - pymdownx.details
   - pymdownx.blocks.caption
   - pymdownx.critic
   - pymdownx.caret
   - pymdownx.keys
   - pymdownx.tilde
-  - pymdownx.mark 
+  - pymdownx.mark
   - pymdownx.inlinehilite
   - pymdownx.snippets:
       base_path: . # The dot means "look at the root of the entire repository"
@@ -99,14 +99,14 @@ markdown_extensions:
       line_spans: __span
       pygments_lang_class: true
   - pymdownx.superfences:
-      custom_fences: 
+      custom_fences:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.tabbed:
-      alternate_style: true 
+      alternate_style: true
   - pymdownx.tasklist:
-      custom_checkbox: true 
+      custom_checkbox: true
   - pymdownx.arithmatex:
       generic: true
 
