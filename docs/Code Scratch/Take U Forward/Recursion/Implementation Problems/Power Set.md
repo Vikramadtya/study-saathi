@@ -186,6 +186,14 @@ class Solution {
 }
 ```
 
+### When to AVOID Bitmasking
+
+Even though it's "cleaner," an experienced developer knows when to stick to backtracking:
+
+- **If $n > 30$**: An `int` only has 31 usable bits. If $n = 40$, you need a `long`. If $n = 100$, bitmasking is impossible.
+- **If there are Duplicates**: Handling "Subsets II" (unique subsets from a duplicate array) is very natural in backtracking but requires complex hash-sets or logic in bitmasking.
+- **If Pruning is needed**: If the problem is "Subsets that sum to $K$," backtracking can stop early if the current sum exceeds $K$. Bitmasking **must** check all $2^n$ possibilities regardless.
+
 ### Concepts to Think About
 
 - **Power of Two**: `1 << n` is an extremely fast way to calculate $2^n$.
