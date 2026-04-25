@@ -10443,7 +10443,7 @@
   <span class="md-ellipsis">
     
   
-    Check if there exists a subsequence with sum K
+    Subsequence Sum Existence
   
 
     
@@ -13963,7 +13963,7 @@
   <a href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6.3.6.2.1 Check if there exists a subsequence with sum K
+        6.3.6.2.1 Subsequence Sum Existence
       
     </span>
   </a>
@@ -27992,6 +27992,13 @@ If we count from <span class="arithmatex">\(0\)</span> to <span class="arithmate
 </span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#code%20scratch-take%20u%20forward-recursion-implementation%20problems-power%20set-__codelineno-1-23"></a><span class="w">    </span><span class="p">}</span>
 </span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#code%20scratch-take%20u%20forward-recursion-implementation%20problems-power%20set-__codelineno-1-24"></a><span class="p">}</span>
 </span></code></pre></div>
+<h3 id="code%20scratch-take%20u%20forward-recursion-implementation%20problems-power%20set-when-to-avoid-bitmasking">When to AVOID Bitmasking<a class="headerlink" href="#code%20scratch-take%20u%20forward-recursion-implementation%20problems-power%20set-when-to-avoid-bitmasking" title="Permanent link">¶</a></h3>
+<p>Even though it's "cleaner," an experienced developer knows when to stick to backtracking:</p>
+<ul>
+<li><strong>If <span class="arithmatex">\(n &gt; 30\)</span></strong>: An <code>int</code> only has 31 usable bits. If <span class="arithmatex">\(n = 40\)</span>, you need a <code>long</code>. If <span class="arithmatex">\(n = 100\)</span>, bitmasking is impossible.</li>
+<li><strong>If there are Duplicates</strong>: Handling "Subsets II" (unique subsets from a duplicate array) is very natural in backtracking but requires complex hash-sets or logic in bitmasking.</li>
+<li><strong>If Pruning is needed</strong>: If the problem is "Subsets that sum to <span class="arithmatex">\(K\)</span>," backtracking can stop early if the current sum exceeds <span class="arithmatex">\(K\)</span>. Bitmasking <strong>must</strong> check all <span class="arithmatex">\(2^n\)</span> possibilities regardless.</li>
+</ul>
 <h3 id="code%20scratch-take%20u%20forward-recursion-implementation%20problems-power%20set-concepts-to-think-about_1">Concepts to Think About<a class="headerlink" href="#code%20scratch-take%20u%20forward-recursion-implementation%20problems-power%20set-concepts-to-think-about_1" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Power of Two</strong>: <code>1 &lt;&lt; n</code> is an extremely fast way to calculate <span class="arithmatex">\(2^n\)</span>.</li>
@@ -28008,13 +28015,159 @@ If we count from <span class="arithmatex">\(0\)</span> to <span class="arithmate
                     <section class='print-page md-section' id='section-6-3-6-2' heading-number='6.3.6.2'>
                         <h1>Subsequence Pattern Problems<a class='headerlink' href='#section-6-3-6-2' title='Permanent link'></a>
                         </h1>
-                    <section class="print-page" id="code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k" heading-number="6.3.6.2.1"><html><head>
+                    <section class="print-page" id="code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k" heading-number="6.3.6.2.1"><nav class='md-tags'><span class='md-tag'>cc</span><span class='md-tag'>dynamic-programming</span><span class='md-tag'>subset-sum</span><span class='md-tag'>optimization</span></nav><html><head>
         <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function () {
             remove_material_navigation();remove_mkdocs_theme_navigation();generate_toc();
         })
         </script>
-        </head><body></body></html></section><section class="print-page" id="code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-count%20all%20subsequences%20with%20sum%20k" heading-number="6.3.6.2.2"><html><head>
+        </head><body><h1 id="subsequence-sum-existence">Subsequence Sum Existence<a class="headerlink" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-subsequence-sum-existence" title="Permanent link">¶</a></h1>
+<h2 id="code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-question">Question<a class="headerlink" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-question" title="Permanent link">¶</a></h2>
+<p>Given an array <span class="arithmatex">\(nums\)</span> of <span class="arithmatex">\(n\)</span> integers and a target <span class="arithmatex">\(k\)</span>, return <code>true</code> if there exists a subsequence such that the sum of its elements equals <span class="arithmatex">\(k\)</span>. Otherwise, return <code>false</code>.</p>
+<h2 id="code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-solution-1-top-down-the-decision-tree">Solution 1: Top-Down (The Decision Tree)<a class="headerlink" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-solution-1-top-down-the-decision-tree" title="Permanent link">¶</a></h2>
+<p><strong>Pattern:</strong> Backtracking with Memoization.</p>
+<ul>
+<li><strong>Intuition:</strong> We simulate every possible subsequence. If we hit the same <code>(index, k)</code> twice, we return the cached result.</li>
+<li><strong>Code Logic:</strong> <code>solve(idx + 1, k) || solve(idx + 1, k - nums[idx])</code></li>
+</ul>
+<h2 id="code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-solution-2-bottom-up-the-building-blocks">Solution 2: Bottom-Up (The Building Blocks)<a class="headerlink" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-solution-2-bottom-up-the-building-blocks" title="Permanent link">¶</a></h2>
+<p><strong>Pattern:</strong> Tabulation.</p>
+<ul>
+<li><strong>Intuition:</strong> We fill a 2D grid. Each cell represents a "State" of reachability.</li>
+<li><strong>Decision:</strong> <code>dp[i][j] = dp[i-1][j] || dp[i-1][j - nums[i-1]]</code>.</li>
+</ul>
+<h2 id="code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-solution-3-space-optimized-the-collapsed-row">Solution 3: Space Optimized (The Collapsed Row)<a class="headerlink" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-solution-3-space-optimized-the-collapsed-row" title="Permanent link">¶</a></h2>
+<p><strong>Pattern:</strong> 1D DP Array.</p>
+<ul>
+<li><strong>Intuition:</strong> Since we only ever look at the "previous" row, we use one array and update it in place.</li>
+<li><strong>The Catch:</strong> You <strong>must</strong> iterate backwards through the sums to prevent a single number from being "re-used" to reach a larger sum in the same iteration.</li>
+</ul>
+<h3 id="code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-pattern">Pattern<a class="headerlink" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-pattern" title="Permanent link">¶</a></h3>
+<p><strong>Dynamic Programming (0/1 Knapsack Variation)</strong>
+This problem is a classic "Subset Sum" problem where each element can either be <strong>included</strong> or <strong>excluded</strong> to reach a target value.</p>
+<h3 id="code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-how-to-identify">How to Identify<a class="headerlink" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-how-to-identify" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Subsequence/Subset requirement:</strong> Looking for a combination of elements.</li>
+<li><strong>Fixed Target:</strong> The goal is a specific sum <span class="arithmatex">\(k\)</span>.</li>
+<li><strong>Binary Choice:</strong> At each element, the only decision is: "Do I pick this or not?"</li>
+</ul>
+<h3 id="code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-description">Description<a class="headerlink" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-description" title="Permanent link">¶</a></h3>
+<p>Step-by-step explanation:</p>
+<ol>
+<li><strong>State Definition:</strong> We use a boolean array <code>dp</code> of size <span class="arithmatex">\(k+1\)</span>, where <code>dp[i]</code> is <code>true</code> if a sum <span class="arithmatex">\(i\)</span> can be formed using a subset of elements seen so far.</li>
+<li><strong>Base Case:</strong> <code>dp[0] = true</code> because a sum of 0 is always possible using an empty subsequence.</li>
+<li><strong>Iterative Processing:</strong> For each number <code>num</code> in <code>nums</code>:<ul>
+<li>We iterate backwards through the <code>dp</code> array from <span class="arithmatex">\(k\)</span> down to <code>num</code>.</li>
+<li><strong>Backwards Loop:</strong> This is critical. By going from <span class="arithmatex">\(k \to num\)</span>, we ensure that each element is only used <strong>once</strong>. If we went forward, we would effectively solve the "Unbounded" version (reusing elements).</li>
+</ul>
+</li>
+<li><strong>Update Rule:</strong> <code>dp[i] = dp[i] || dp[i - num]</code>. If the sum <code>i - num</code> was possible, then adding the current <code>num</code> makes sum <code>i</code> possible.</li>
+<li><strong>Early Exit:</strong> If <code>dp[k]</code> becomes <code>true</code> at any point, we return immediately.</li>
+</ol>
+<h5 id="code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-the-core-dp-transition-dpi-dpi-num">The Core DP Transition: dp[i] = dp[i - num]<a class="headerlink" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-the-core-dp-transition-dpi-dpi-num" title="Permanent link">¶</a></h5>
+<h6 id="code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-the-logical-meaning">The Logical Meaning<a class="headerlink" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-the-logical-meaning" title="Permanent link">¶</a></h6>
+<p>This line represents the <strong>State Transition Equation</strong>. It connects a problem you've already solved to a slightly larger problem you're trying to solve now.</p>
+<h6 id="code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-the-components">The Components<a class="headerlink" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-the-components" title="Permanent link">¶</a></h6>
+<ol>
+<li><strong><code>i</code></strong>: The target sum we are currently considering.</li>
+<li><strong><code>num</code></strong>: The current element from the array we are "trying out."</li>
+<li><strong><code>i - num</code></strong>: The "remainder." The sum we would need to have <em>already</em> formed to make <code>i</code> possible.</li>
+<li><strong><code>dp[i - num]</code></strong>: A boolean check. "Is the remainder actually possible?"</li>
+</ol>
+<h6 id="code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-why-no-else">Why No "Else"?<a class="headerlink" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-why-no-else" title="Permanent link">¶</a></h6>
+<p>You'll notice there is no <code>else { dp[i] = false; }</code>.
+This is because if <code>dp[i]</code> was already <strong>True</strong> (found by a different combination of numbers earlier), we don't want to overwrite it with <strong>False</strong>. Once a sum is reachable, it stays reachable.</p>
+<h6 id="code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-concepts-to-think-about">Concepts to Think About<a class="headerlink" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-concepts-to-think-about" title="Permanent link">¶</a></h6>
+<ul>
+<li><strong>Space Optimization:</strong> We only look at <code>i - num</code>, which is always a smaller index than <code>i</code>. This is why we can get away with a 1D array.</li>
+<li><strong>The "Take" Decision:</strong> This <code>if</code> statement represents the "Take" branch of your recursion. The "Don't Take" branch is handled automatically because if we don't enter the <code>if</code>, <code>dp[i]</code> simply keeps its previous value.</li>
+</ul>
+<h3 id="code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-the-intuition">The Intuition<a class="headerlink" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-the-intuition" title="Permanent link">¶</a></h3>
+<p>Think of the <code>dp</code> array as a <strong>reachability map</strong>. Initially, only position 0 is reachable. When you encounter a number (e.g., 5), you look at all currently reachable spots and "jump" 5 units forward from them to mark new reachable spots. Repeating this for all numbers eventually tells you if position <span class="arithmatex">\(k\)</span> is reachable.</p>
+<h3 id="code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-complexity">Complexity<a class="headerlink" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-complexity" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Label</th>
+<th style="text-align: left;">Worst</th>
+<th style="text-align: left;">Average</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Time Complexity</td>
+<td style="text-align: left;"><span class="arithmatex">\(O(N \cdot K)\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(N \cdot K)\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;">Space Complexity</td>
+<td style="text-align: left;"><span class="arithmatex">\(O(K)\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(K)\)</span></td>
+</tr>
+</tbody>
+</table>
+<h4 id="code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-time-complexity">Time Complexity<a class="headerlink" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-time-complexity" title="Permanent link">¶</a></h4>
+<p>We iterate through <span class="arithmatex">\(N\)</span> elements, and for each, we scan up to <span class="arithmatex">\(K\)</span> values in the <code>dp</code> array. Total operations <span class="arithmatex">\(\approx N \times K\)</span>.</p>
+<h4 id="code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-space-complexity">Space Complexity<a class="headerlink" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-space-complexity" title="Permanent link">¶</a></h4>
+<p>We only maintain a single 1D array of size <span class="arithmatex">\(K+1\)</span>. No recursion stack is used.</p>
+<h3 id="code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-code">Code<a class="headerlink" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-code" title="Permanent link">¶</a></h3>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-__codelineno-0-1"></a><span class="kd">class</span> <span class="nc">Solution</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-__codelineno-0-2"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">checkSubsequenceSum</span><span class="p">(</span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">nums</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-__codelineno-0-3"></a><span class="w">        </span><span class="c1">// dp[i] represents if sum 'i' is achievable</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-__codelineno-0-4"></a><span class="w">        </span><span class="kt">boolean</span><span class="o">[]</span><span class="w"> </span><span class="n">dp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">boolean</span><span class="o">[</span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="o">]</span><span class="p">;</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-__codelineno-0-5"></a>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-__codelineno-0-6"></a><span class="w">        </span><span class="c1">// Base case: sum 0 is always possible</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-__codelineno-0-7"></a><span class="w">        </span><span class="n">dp</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-__codelineno-0-9"></a><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">num</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">nums</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-__codelineno-0-10"></a><span class="w">            </span><span class="c1">// Optimization: if num &gt; k, it cannot contribute to sum k (assuming positive nums)</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-__codelineno-0-11"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">num</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="k">continue</span><span class="p">;</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-__codelineno-0-12"></a>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-__codelineno-0-13"></a><span class="w">            </span><span class="c1">// Update dp table backwards to prevent using same element multiple times</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-__codelineno-0-14"></a><span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">num</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">--</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-__codelineno-0-15"></a><span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">num</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-__codelineno-0-16"></a><span class="w">                    </span><span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-__codelineno-0-17"></a><span class="w">                </span><span class="p">}</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-__codelineno-0-18"></a><span class="w">            </span><span class="p">}</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-__codelineno-0-19"></a>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-__codelineno-0-20"></a><span class="w">            </span><span class="c1">// Early exit</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-__codelineno-0-21"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dp</span><span class="o">[</span><span class="n">k</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-__codelineno-0-22"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-__codelineno-0-23"></a>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-__codelineno-0-24"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">dp</span><span class="o">[</span><span class="n">k</span><span class="o">]</span><span class="p">;</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-__codelineno-0-25"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-__codelineno-0-26"></a><span class="p">}</span>
+</span></code></pre></div>
+<h2 id="code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-caveats">Caveats<a class="headerlink" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-caveats" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Negative Values:</strong> If the array contains negative numbers, the target <span class="arithmatex">\(k\)</span> is no longer a strict upper bound for the DP array. You would need to shift the range or use a <code>HashSet</code> to store possible sums.</li>
+<li><strong>Large <span class="arithmatex">\(K\)</span>:</strong> If <span class="arithmatex">\(K\)</span> is very large (e.g., <span class="arithmatex">\(10^9\)</span>), but <span class="arithmatex">\(N\)</span> is small (<span class="arithmatex">\(\le 40\)</span>), DP will fail due to memory. Use <strong>Meet-in-the-middle</strong> instead.</li>
+</ul>
+<h2 id="code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-concepts-to-think-about_1">Concepts to Think About<a class="headerlink" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-concepts-to-think-about_1" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>0/1 Knapsack:</strong> This is exactly the same logic as the knapsack problem, where "weight" and "value" are the same.</li>
+<li><strong>Bit Manipulation (Ultimate Optimization):</strong> In Java, you can use <code>java.util.BitSet</code>. The update becomes <code>bitset.or(bitset.shiftLeft(num))</code>. This uses bitwise parallelism to speed up the <span class="arithmatex">\(O(K)\)</span> loop by a factor of 64.</li>
+<li><strong>Reconstructing the Solution:</strong> To find <em>which</em> numbers form the sum, you would need the <span class="arithmatex">\(O(N \cdot K)\)</span> 2D matrix to backtrack.</li>
+<li><strong>Space Optimization:</strong> Why backward? If you go forward: <span class="arithmatex">\(dp[5]\)</span> becomes true from <span class="arithmatex">\(dp[0]\)</span>, then <span class="arithmatex">\(dp[10]\)</span> becomes true from <span class="arithmatex">\(dp[5]\)</span> in the <em>same</em> iteration, effectively using the number '5' twice.</li>
+</ul>
+<h3 id="code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-why-bottom-up-works-the-snapshot-rule">Why Bottom-Up Works (The Snapshot Rule)<a class="headerlink" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-why-bottom-up-works-the-snapshot-rule" title="Permanent link">¶</a></h3>
+<h4 id="code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-the-logic">The Logic<a class="headerlink" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-the-logic" title="Permanent link">¶</a></h4>
+<p>Bottom-Up DP is just a way of saying: "If I have a set of possible sums, and I get a new number <span class="arithmatex">\(x\)</span>, my new set of possible sums is (Old Sums) <span class="arithmatex">\(\cup\)</span> (Old Sums + <span class="arithmatex">\(x\)</span>)."</p>
+<h4 id="code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-why-the-backward-loop-is-mandatory">Why the Backward Loop is Mandatory<a class="headerlink" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-why-the-backward-loop-is-mandatory" title="Permanent link">¶</a></h4>
+<ul>
+<li><strong>0/1 Knapsack (Use each once):</strong> We must update the array using only the "Old" information. By moving backwards (<span class="arithmatex">\(k \to num\)</span>), we ensure that when we check <code>dp[i-num]</code>, it hasn't been touched by the current number yet. It is a "clean" value from the previous iteration.</li>
+<li><strong>Unbounded Knapsack (Use many times):</strong> If the problem allowed you to use the same number infinitely, you would move <strong>forwards</strong>.</li>
+</ul>
+<h4 id="code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-decision-choice">Decision Choice<a class="headerlink" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-decision-choice" title="Permanent link">¶</a></h4>
+<ul>
+<li><strong>Recursive (Top-Down):</strong> Starts at the goal and asks "What do I need to get here?"</li>
+<li><strong>Iterative (Bottom-Up):</strong> Starts at 0 and asks "What can I reach from here?"</li>
+</ul>
+<h2 id="code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-logical-follow-up">Logical Follow-up<a class="headerlink" href="#code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-check%20if%20there%20exists%20a%20subsequence%20with%20sum%20k-logical-follow-up" title="Permanent link">¶</a></h2>
+<p>Question: What if <span class="arithmatex">\(K\)</span> is <span class="arithmatex">\(10^9\)</span> and <span class="arithmatex">\(N\)</span> is 30?
+Solution: Use <strong>Meet-in-the-middle</strong>. Split the array into two halves of size 15. Generate all possible <span class="arithmatex">\(2^{15}\)</span> sums for each half (Total <span class="arithmatex">\(\approx 32,768\)</span> sums each). Sort one set and for each sum <span class="arithmatex">\(s\)</span> in the other set, binary search for <span class="arithmatex">\(k-s\)</span>. Total time: <span class="arithmatex">\(O(2^{n/2} \cdot n)\)</span>.</p>
+<p>Question: What if you can use each number an <strong>infinite</strong> number of times?
+Solution: This is the <strong>Coin Change</strong> variation. Change the inner loop to run <strong>forward</strong> from <code>num</code> to <span class="arithmatex">\(k\)</span>. This allows the current number to be added repeatedly to previously formed sums in the same pass.</p></body></html></section><section class="print-page" id="code%20scratch-take%20u%20forward-recursion-subsequence%20pattern%20problems-count%20all%20subsequences%20with%20sum%20k" heading-number="6.3.6.2.2"><html><head>
         <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function () {
             remove_material_navigation();remove_mkdocs_theme_navigation();generate_toc();
