@@ -107,3 +107,9 @@ When using `right = mid`, you **must** ensure the loop terminates. If $left$ and
 
 - **Search Space Size:** `left < right` ensures the search space is always $\ge 2$ elements.
 - **Convergence:** The "squeeze" approach is more mathematically robust for finding transition points in functions or rotated arrays.
+
+# Identifying Binary Search
+
+1. **Search Space:** Can I define a `low` and `high` for the final answer?
+2. **The Predicate:** Can I write a `boolean isPossible(x)` function that runs in $O(N)$?
+3. **The Flip:** Does `isPossible(x)` go from `false, false, false...` to `true, true, true...`?
