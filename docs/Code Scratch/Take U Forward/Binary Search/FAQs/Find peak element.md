@@ -23,11 +23,15 @@ Typically, Binary Search requires a sorted array. However, it can be applied to 
 
 ### Description
 Step-by-step explanation:
+
 1.  Initialize `left = 0` and `right = n - 1`.
+
 2.  Calculate `mid`.
+
 3.  **Compare `mid` with the next element (`mid + 1`):**
     - If `arr[mid] < arr[mid + 1]`: You are currently on an **upward slope**. Because the array ends at $-\infty$, there must eventually be a peak to the right. Set `left = mid + 1`.
     - If `arr[mid] > arr[mid + 1]`: You are on a **downward slope** or at a **peak**. There must be a peak to the left (potentially `mid` itself). Set `right = mid`.
+
 4.  When `left == right`, the search space has converged to a peak.
 
 
@@ -93,9 +97,11 @@ class Solution {
 ## Logical Follow-up
 
 Question: How would you find a peak in a **2D Matrix** where a peak is greater than its top, bottom, left, and right neighbors?
+
 Solution: Use a modified Binary Search. Find the maximum element in the middle column ($O(M)$). Compare it to its left and right neighbors. If it's smaller than the right neighbor, search the right half of the matrix. This yields $O(M \log N)$ complexity.
 
 
 
 Question: What if there are **multiple peaks** and you need to find the **highest** one?
+
 Solution: Binary Search will no longer work. You must perform a linear scan $O(n)$ because a local peak found by binary search could be much lower than the global maximum.

@@ -15,7 +15,7 @@ Create new virtual env
 ```shell
 python3 -m venv venv
 ```
-
+3
 activate the environment
 
 ```shell

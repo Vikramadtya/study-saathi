@@ -107,9 +107,7 @@ class SmtpMassMailer implements MassMailerInterface
   * As a substitute of the base class MassMailerInterface, it’s supposed to work with _any_ mail transport, as long as it’s an object of type TransportInterface.
 * The only way to fix this is to make sure that the contract of the base class reflects the needs of derived classes in a better way
 
-{% hint style="info" %}
 Whenever we reason about class design like this, we need to keep an eye on phrases like: not every … is a … not every … can be used as a … They usually indicate that there is something wrong with the type hierarchy of our classes.
-{% endhint %}
 
 * Redefining our class hierarchy, we might define a generic `TransportInterface` and one specialized `TransportWithMassMailSupportInterface` that extends `TransportInterface`
 * we can change the expected type of the `transport` argument to `TransportWithMassMailSupportInterface` to prevent the wrong type of transport from being provided to the `sendMail()` method

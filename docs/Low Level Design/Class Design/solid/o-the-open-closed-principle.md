@@ -5,9 +5,7 @@ _You should be able to extend a class’s behavior without modifying it._
 * A unit of code can be considered “open for extension” when i<mark style="background-color:yellow;">ts behaviour can be easily changed</mark> _<mark style="background-color:yellow;">without</mark>_ <mark style="background-color:yellow;">modifying it</mark>.
 * The fact that <mark style="background-color:yellow;">no actual modification is needed to change the behaviour of a unit of code</mark> makes it “closed” for modification.
 
-{% hint style="info" %}
 Being able to extend a class’s behaviour doesn’t mean to actually extend that class by creating a subclass for it. Extension of a class means to influence its behavior from the outside and leave the class, or the entire class hierarchy, untouched.
-{% endhint %}
 
 #### Example
 
@@ -34,7 +32,6 @@ class GenericEncoder
 * to use the `GenericEncoder` to encode data to the Yaml format, an obious solution would be to create a `YamlEncoder` class for this purpose and then add an extra condition inside the existing `encodeToFormat()` method
 * each time to add another format-specific encoder, the `GenericEncoder` class itself needs to be modified. We cannot change behaviour without modifying code. This is why the `GenericEncoder` class cannot be considered _open for extension_ and _closed for modification_.
 
-{% hint style="info" %}
 **Recognising Classes that Violate the Open/Closed Principle**
 
 * It contains conditions to determine a strategy.
@@ -42,7 +39,6 @@ class GenericEncoder
 * The class contains hard-coded references to other classes or class names.
 * Inside the class, objects are being created using the new operator.
 * The class has protected properties or methods, to allow changing its behavior by overriding state or behavior.
-{% endhint %}
 
 #### Refactoring: Abstract Factory
 
@@ -144,7 +140,6 @@ class EncoderFactory implements EncoderFactoryInterface
   * This dynamic and extensible implementation allows to add as many format-specific encoders as needed.
 * Introducing **callable factories**, have relieved the `EncoderFactory` from the responsibility of providing the right constructor arguments for each encoder.
 
-{% hint style="info" %}
 **Prefer Immutable Services**
 
 * `EncoderFactory` became a mutable service on adding `addEncoderFactory()` method to it.
@@ -157,7 +152,6 @@ Apply the following rule to achieve this:
 * It will be fully configured before its first usage.
 * It will be impossible to somehow get different results upon subsequent calls.
 * If still prefer having separate methods to configure an object, make sure to not make these methods part of the published interface for the class. They are there only for clients that need to configure the object, not for clients actually using the objects.
-{% endhint %}
 
 #### Refactoring: Polymorphism
 

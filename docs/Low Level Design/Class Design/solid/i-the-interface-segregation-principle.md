@@ -36,9 +36,7 @@ $serviceContainer->set(
 $mailer = $serviceContainer->get('mailer');
 ```
 
-{% hint style="info" %}
 The creation logic is all handled by the dependency injection container. This is why such a container is often called an _Inversion of Control (IoC) container_ .
-{% endhint %}
 
 * any client that depends on `ServiceContainerInterface` can both _fetch_ previously defined services and _define_ new services.
 * Most clients of `ServiceContainerInterface` only perform one of these tasks. A client either
@@ -120,9 +118,7 @@ class Query
 
 One day we refactor the `Query` class and remove its dependency on the `EntityManager` class. Since none of the classes need the public `getUnitOfWork()` method anymore, make that method private again. Suddenly all the clients that use the previously public `getUnitOfWork()` method will break.
 
-{% hint style="info" %}
 Adding methods to the implicit interface of a class is also bound to cause backward compatibility problems.
-{% endhint %}
 
 **Refactoring: Add Header and Role Interfaces**
 

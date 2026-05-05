@@ -10,7 +10,6 @@ _A class should have one, and only one, reason to change._
   * This would minimise the chance that the class has to be opened for modification.
 * A class with no responsibilities is a useless class so reduce it to one.
 
-{% hint style="info" %}
 **Recognising Violations of the&#x20;**_**Single Responsibility**_**&#x20;Principle**
 
 * Symptoms of a class violating the _Single Responsibility_ principle:
@@ -20,7 +19,6 @@ _A class should have one, and only one, reason to change._
   * Specific tasks are delegated to private methods.
   * it is likely to have many _dependencies_ .
     * It probably gets many objects injected as constructor arguments to be able to fulfill its goal.
-{% endhint %}
 
 #### Refactoring: Using Collaborator Classes
 

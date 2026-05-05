@@ -6,9 +6,7 @@ Focuses on class dependencies
 
 without following this principle we would depend on concretions, not on abstractions. The principle tells us to invert that direction: we should always depend on abstractions.
 
-{% hint style="info" %}
 “Abstraction” means “taking away the details” what remains is a concept that can we can use to group all the specific things from which the abstraction has been created, and a name for what’s essential to all these specific things, ignoring the little differences.
-{% endhint %}
 
 **Making the FizzBuzz Class Open for Extension**
 
@@ -136,9 +134,7 @@ The initial implementation of the `FizzBuzz` class, had an abstract task to gene
 
 By introducing the `RuleInterface` and adding specific rule classes that implemented this interface, we fixed the dependency direction. The `FizzBuzz` class started to depend on more abstract things, called “rules” .
 
-{% hint style="info" %}
 _Abstractions should not depend upon details. Details should depend upon abstractions._
-{% endhint %}
 
 ### Violation: A High-Level Class Depends on a Low-Level Class
 
@@ -193,7 +189,6 @@ class Authentication
 * the high-level class `Authentication` does not depend on low-level, concrete classes like `Connection` anymore.
   * Instead, it depends on another high-level, abstract thing `UserProviderInterface` . Both are conceptually on more or less the same level. Lower-level operations like reading from a file and fetching data from a database are performed by lower-level classes—the concrete user providers. This completely conforms to the Dependency Inversion principle, which states that: High-level modules should not depend upon low-level modules. Both should depend upon abstractions
 
-{% hint style="info" %}
 ### Simply Depending on an Interface is not enough
 
 Adding an interface to a class is not always sufficient to fix all problems related to dependencies.\\
@@ -213,7 +208,6 @@ This is not a helpful interface at all, not all classes that implement this inte
 * `UserProviderInterface` mixes different levels of abstraction and combines something high-level like “finding a user” with something low-level like “the name of a database table”.
 
 even if we would introduce this interface to make the Authentication class depend on an abstraction instead of concretion, that goal won’t be reached. In fact, the Authentication class will still depend on something concrete and low-level: a user provider that is table-based.\\
-{% endhint %}
 
 ### Violation: Vendor Lock-In
 
@@ -240,9 +234,7 @@ An example to use interface to decouple from 3rd part implementation
 
 **In which cases should we allow ourselves to depend on third-party code and which cases definitely call for dependency inversion ?**
 
-{% hint style="info" %}
 Frameworks follow the _Hollywood_ principle “Don’t call us, we’ll call you”.
-{% endhint %}
 
 To extract part of the user-land code and publish it as a package, should only take out the part of the code that isn’t coupled to the framework. \\
 
@@ -277,9 +269,7 @@ which classes actually need an interface, not every class needs an interface som
 * The advantage of this approach is that can always switch to a different library, without changing the bulk of the code.
   * Only the adapter class needs to be rewritten to use that other library.
 
-{% hint style="info" %}
 A good old _Façade_ might be an option here too since it would hide the use of the third-party implementation.
-{% endhint %}
 
 **If You Want to Introduce an Abstraction for Multiple Specific Things**
 
