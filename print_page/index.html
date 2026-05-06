@@ -954,7 +954,7 @@
   <span class="md-ellipsis">
     
   
-    Boyer Moore majority vote algorithm
+    Boyer-Moore Majority Vote Algorithm
   
 
     
@@ -9705,7 +9705,7 @@
   <span class="md-ellipsis">
     
   
-    Majority Element II
+    Majority Element II (\(&gt; n/3\) elements)
   
 
     
@@ -11753,7 +11753,7 @@
   <a href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2.4.2 Boyer Moore majority vote algorithm
+        2.4.2 Boyer-Moore Majority Vote Algorithm
       
     </span>
   </a>
@@ -14782,7 +14782,7 @@
   <a href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6.3.3.4.3 Majority Element II
+        6.3.3.4.3 Majority Element II (\(&gt; n/3\) elements)
       
     </span>
   </a>
@@ -15941,90 +15941,204 @@
             remove_material_navigation();remove_mkdocs_theme_navigation();generate_toc();
         })
         </script>
-        </head><body><h1 id="boyer-moore-majority-vote-algorithm">Boyer Moore majority vote algorithm<a class="headerlink" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-boyer-moore-majority-vote-algorithm" title="Permanent link">¶</a></h1>
-<p>An optimum algorithm for determining the majority element among elements with more than $<span class="arithmatex">\(\frac{N}{2}\)</span>$ occurrences</p>
-<h2 id="algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-algorithm">Algorithm<a class="headerlink" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-algorithm" title="Permanent link">¶</a></h2>
+        </head><body><h1 id="boyer-moore-majority-vote-algorithm">Boyer-Moore Majority Vote Algorithm<a class="headerlink" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-boyer-moore-majority-vote-algorithm" title="Permanent link">¶</a></h1>
+<p>The Boyer-Moore Majority Vote Algorithm is an <strong>online streaming algorithm</strong> designed to find the majority element in a sequence using linear time and constant space. It was published in 1981 by Robert S. Boyer and J Strother Moore.</p>
+<hr>
+<h2 id="algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-1-core-concept-definitions">1. Core Concept &amp; Definitions<a class="headerlink" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-1-core-concept-definitions" title="Permanent link">¶</a></h2>
+<h3 id="algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-what-is-a-majority-element">What is a Majority Element?<a class="headerlink" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-what-is-a-majority-element" title="Permanent link">¶</a></h3>
+<p>A majority element in an array of size <span class="arithmatex">\(N\)</span> is an element that appears <strong>strictly more than <span class="arithmatex">\(\lfloor \frac{N}{2} \rfloor\)</span> times</strong>.</p>
 <blockquote>
-<p>A majority element is one that appears more than half of the time in the input elements.</p>
+<p><strong>Important:</strong> There can be at most <strong>one</strong> such element in any given array. If an element appears exactly <span class="arithmatex">\(N/2\)</span> times, it is technically NOT a majority element by this definition.</p>
 </blockquote>
-<p>The algorithm seeks out a majority element if one exists. However, if there is no majority, the algorithm will not recognise this and will continue to output one of the items.</p>
-<p>So to fix the issue algorithm is divided into two parts.</p>
-<ul>
-<li>A first pass identifies an element as a majority</li>
-<li>A second pass confirms that the element identified in the first pass is indeed a majority.</li>
-</ul>
-<p>The method will not identify the majority element if it does not exist, and will thus return an arbitrary element.</p>
-<h3 id="algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-steps">Steps<a class="headerlink" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-steps" title="Permanent link">¶</a></h3>
+<h3 id="algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-the-problem-of-validation">The Problem of Validation<a class="headerlink" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-the-problem-of-validation" title="Permanent link">¶</a></h3>
+<p>The algorithm works by process of elimination. It is guaranteed to find the majority element <strong>if it exists</strong>. If a majority element does not exist, the algorithm will still output one of the elements as a candidate. Therefore, the algorithm is traditionally divided into two passes:</p>
 <ol>
-<li>Begin by initializing two variables, num and a counter count, both of which are set to 0.</li>
-<li>Now we’ll begin iterating over the number and for each element x.</li>
-<li>We first check to see if the count is 0, and then we assign num to x.</li>
-<li>Then we check to see if the current num is equal to x, if not, we decrease the count by one, else we increment it by one.</li>
-<li>Reset the counter to zero.</li>
-<li>Find the frequency of the num variable by looping through the nums array.</li>
-<li>Now, if the count is larger than N/2, we return num; otherwise we return -1.</li>
+<li><strong>Pass 1 (Find Candidate):</strong> Identify a potential majority element.</li>
+<li><strong>Pass 2 (Verify Candidate):</strong> Confirm the candidate appears <span class="arithmatex">\(&gt; \frac{N}{2}\)</span> times.</li>
 </ol>
-<h2 id="algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-code">Code <a class="headerlink" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-code" title="Permanent link">¶</a></h2>
-<h3 id="algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-complexity">Complexity<a class="headerlink" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-complexity" title="Permanent link">¶</a></h3>
-<p><strong>Time complexity:</strong> O(n), we make only two iterations through the array.\
-<strong>Space complexity:</strong> O(1), only two variables.</p>
-<h2 id="algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-preactice-problems">Preactice Problems<a class="headerlink" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-preactice-problems" title="Permanent link">¶</a></h2>
+<hr>
+<h2 id="algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-2-the-stack-analogy-intuition">2. The Stack Analogy (Intuition)<a class="headerlink" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-2-the-stack-analogy-intuition" title="Permanent link">¶</a></h2>
+<p>Imagine you have a physical stack. This stack has a very strange rule:</p>
+<blockquote>
+<p>It can only hold <strong>one type of item at a time</strong>.</p>
+</blockquote>
+<hr>
+<h3 id="algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-the-rules">The Rules<a class="headerlink" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-the-rules" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p><strong>If the stack is empty</strong></p>
+<ul>
+<li>Put the current item into the stack.</li>
+<li>It becomes the current <strong>Candidate</strong>.</li>
+</ul>
+</li>
+<li>
+<p><strong>If the item matches the Candidate</strong></p>
+<ul>
+<li>Push it onto the stack.</li>
+<li>This reinforces the candidate.</li>
+</ul>
+</li>
+<li>
+<p><strong>If the item is different from the Candidate</strong></p>
+<ul>
+<li>Pop one item from the stack.</li>
+<li>The two elements effectively <strong>cancel each other out</strong>.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-why-the-majority-wins">Why the Majority Wins<a class="headerlink" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-why-the-majority-wins" title="Permanent link">¶</a></h3>
+<p>Because the majority element appears more than <code>n/2</code> times, it has more occurrences than <strong>all other elements combined</strong>.</p>
+<ul>
+<li>In the worst-case scenario, every non-majority element tries to cancel out one majority element.</li>
+<li>Even if all minority elements work together perfectly, they still do <strong>not</strong> have enough occurrences to completely eliminate the majority.</li>
+<li>Therefore, after all cancellations:<ul>
+<li>The remaining element in the stack must be the <strong>majority element</strong> (if one exists).</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-3-algorithm-steps-n2-case">3. Algorithm Steps (<span class="arithmatex">\(N/2\)</span> Case)<a class="headerlink" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-3-algorithm-steps-n2-case" title="Permanent link">¶</a></h2>
+<h3 id="algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-pass-1-candidate-selection">Pass 1: Candidate Selection<a class="headerlink" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-pass-1-candidate-selection" title="Permanent link">¶</a></h3>
+<ol>
+<li>Initialize a variable <code>candidate</code> (can be null/empty) and a <code>count = 0</code>.</li>
+<li>Iterate through every element <code>x</code> in the array:<ul>
+<li>If <code>count == 0</code>:<ul>
+<li>Set <code>candidate = x</code>.</li>
+<li>Set <code>count = 1</code>.</li>
+</ul>
+</li>
+<li>Else if <code>x == candidate</code>:<ul>
+<li><code>count++</code></li>
+</ul>
+</li>
+<li>Else:<ul>
+<li><code>count--</code> (This represents a "pairing" where two different elements cancel each other out).</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-pass-2-verification">Pass 2: Verification<a class="headerlink" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-pass-2-verification" title="Permanent link">¶</a></h3>
+<ol>
+<li>Reset <code>count = 0</code>.</li>
+<li>Iterate through the array again.</li>
+<li>Every time the element matches <code>candidate</code>, increment <code>count</code>.</li>
+<li>If <code>count &gt; N/2</code>, return <code>candidate</code>.</li>
+<li>Otherwise, the array has no majority element (return -1 or null).</li>
+</ol>
+<hr>
+<h2 id="algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-4-implementation-python">4. Implementation (Python)<a class="headerlink" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-4-implementation-python" title="Permanent link">¶</a></h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-__codelineno-0-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">find_majority_element</span><span class="p">(</span><span class="n">nums</span><span class="p">):</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-__codelineno-0-2"></a>    <span class="c1"># Pass 1: Find Candidate</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-__codelineno-0-3"></a>    <span class="n">candidate</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-__codelineno-0-4"></a>    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-__codelineno-0-5"></a>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-__codelineno-0-6"></a>    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">:</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-__codelineno-0-7"></a>        <span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-__codelineno-0-8"></a>            <span class="n">candidate</span> <span class="o">=</span> <span class="n">x</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-__codelineno-0-9"></a>            <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-__codelineno-0-10"></a>        <span class="k">elif</span> <span class="n">x</span> <span class="o">==</span> <span class="n">candidate</span><span class="p">:</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-__codelineno-0-11"></a>            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-__codelineno-0-12"></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-__codelineno-0-13"></a>            <span class="n">count</span> <span class="o">-=</span> <span class="mi">1</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-__codelineno-0-14"></a>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-__codelineno-0-15"></a>    <span class="c1"># Pass 2: Verification</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-__codelineno-0-16"></a>    <span class="n">actual_count</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-__codelineno-0-17"></a>    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">:</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-__codelineno-0-18"></a>        <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="n">candidate</span><span class="p">:</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-__codelineno-0-19"></a>            <span class="n">actual_count</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-__codelineno-0-20"></a>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-__codelineno-0-21"></a>    <span class="k">if</span> <span class="n">actual_count</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">:</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-__codelineno-0-22"></a>        <span class="k">return</span> <span class="n">candidate</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-__codelineno-0-23"></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-__codelineno-0-24"></a>        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span> <span class="c1"># Or raise Exception</span>
+</span></code></pre></div>
+<h2 id="algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-5-complexity-analysis">5. Complexity Analysis<a class="headerlink" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-5-complexity-analysis" title="Permanent link">¶</a></h2>
+<ul>
+<li>
+<p><strong>Time Complexity:</strong> <code>O(n)</code><br>
+  We perform exactly two linear scans of the input array.</p>
+</li>
+<li>
+<p><strong>Space Complexity:</strong> <code>O(1)</code><br>
+  We only maintain two variables (<code>candidate</code> and <code>count</code>), regardless of the input size.</p>
+</li>
+</ul>
+<hr>
+<h2 id="algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-6-extension-finding-elements-with-frequency-n3">6. Extension: Finding Elements with Frequency &gt; n/3<a class="headerlink" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-6-extension-finding-elements-with-frequency-n3" title="Permanent link">¶</a></h2>
+<p>This is the generalized version, often referred to as the <strong>Misra-Gries Heavy Hitters Algorithm</strong>.</p>
+<h3 id="algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-the-logic-n3-example">The Logic (<code>n/3</code> example)<a class="headerlink" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-the-logic-n3-example" title="Permanent link">¶</a></h3>
+<p>If we want to find all elements that appear more than <code>n/3</code> times, there can be at most <strong>two</strong> such elements because:</p>
+<div class="arithmatex">\[
+\left\lfloor \frac{n}{3} \right\rfloor + 
+\left\lfloor \frac{n}{3} \right\rfloor + 
+\left\lfloor \frac{n}{3} \right\rfloor &gt; n
+\]</div>
+<p>would be impossible.</p>
+<p>So, we maintain:</p>
+<ul>
+<li><strong>2 candidates</strong></li>
+<li><strong>2 counters</strong></li>
+</ul>
+<hr>
+<h3 id="algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-generalized-algorithm-steps-nk">Generalized Algorithm Steps (<code>n/k</code>)<a class="headerlink" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-generalized-algorithm-steps-nk" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Maintain <code>k - 1</code> candidates and <code>k - 1</code> counters.</p>
+</li>
+<li>
+<p>For each element <code>x</code>:</p>
+</li>
+<li>
+<p>If <code>x</code> matches any existing candidate, increment its corresponding counter.</p>
+</li>
+<li>Else if any counter is <code>0</code>, replace that candidate with <code>x</code> and set its counter to <code>1</code>.</li>
+<li>
+<p>Else:</p>
+<ul>
+<li>Decrement all <code>k - 1</code> counters by <code>1</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Verification Pass</strong></p>
+</li>
+</ol>
+<p>You <strong>must</strong> perform a second pass to count the actual occurrences of the remaining candidates, because the first pass only identifies the most likely heavy hitters.</p>
+<hr>
+<h2 id="algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-7-practice-problems">7. Practice Problems<a class="headerlink" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-7-practice-problems" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
-<th></th>
-<th></th>
-<th></th>
+<th>Problem</th>
+<th>Difficulty</th>
+<th>Key Constraint</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Majority Element</td>
-<td></td>
-<td></td>
+<td>LeetCode 169: Majority Element</td>
+<td>Easy</td>
+<td>Guaranteed majority element (Pass 1 only)</td>
 </tr>
 <tr>
-<td>Majority Element II</td>
-<td></td>
-<td></td>
+<td>LeetCode 229: Majority Element II</td>
+<td>Medium</td>
+<td>Find all elements &gt; <code>n/3</code> (two-candidate version)</td>
+</tr>
+<tr>
+<td>Check for Majority in Sorted Array</td>
+<td>Easy</td>
+<td>Can be solved in <code>O(log n)</code> using Binary Search</td>
+</tr>
+<tr>
+<td>Stream of Characters</td>
+<td>Hard</td>
+<td>Finding the heavy hitter in an infinite stream</td>
 </tr>
 </tbody>
-</table>
-<h2 id="algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-extension">Extension<a class="headerlink" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-extension" title="Permanent link">¶</a></h2>
-<h4 id="algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-find-all-elements-that-appear-more-than-a-certain-fraction-of-the-time-such-as-n3">Find all elements that appear more than a certain fraction of the time, such as <code>n/3</code>.<a class="headerlink" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-find-all-elements-that-appear-more-than-a-certain-fraction-of-the-time-such-as-n3" title="Permanent link">¶</a></h4>
-<p>In the algorithm, two candidates and their counters are used to handle the case where there might be more than one element that appears more than <code>n/3</code> times in the array. \</p>
-<p><strong>Two Candidates</strong></p>
-<ul>
-<li><strong>Candidate 1</strong>: Represents one potential majority element.</li>
-<li><strong>Candidate 2</strong>: Represents another potential majority element.</li>
-</ul>
-<blockquote>
-<p>This is necessary because in an array, there can be at most two elements that appear more than <code>n/3</code> times. If there were three such elements, their combined count would exceed <code>n</code>, which is impossible.</p>
-</blockquote>
-<p><strong>Counters</strong></p>
-<ul>
-<li><strong>Count 1</strong>: Tracks the count of occurrences for Candidate 1.</li>
-<li><strong>Count 2</strong>: Tracks the count of occurrences for Candidate 2.</li>
-</ul>
-<p>These counters help in determining whether the current candidate should be replaced or if its count should be incremented.</p>
-<p><strong>First Pass</strong></p>
-<ul>
-<li>Iterate through the array to find the two most frequent candidates.</li>
-<li>Adjust the candidates and their counts based on the current element.</li>
-<li>If the current element matches one of the candidates, increment the corresponding count.</li>
-<li>If the current element does not match either candidate and one of the counts is zero, replace that candidate with the current element and reset the count.</li>
-<li>If the current element does not match either candidate and both counts are non-zero, decrement both counts.</li>
-</ul>
-<p><strong>Second Pass</strong></p>
-<ul>
-<li>Verify the counts of the two candidates by iterating through the array again.</li>
-<li>Only include candidates that appear more than <code>n/3</code> times in the final result.</li>
-</ul>
-<h2 id="algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-reference">Reference <a class="headerlink" href="#algorithmic%20pattern-arrays-boyer-moore-majority-vote-algorithm-reference" title="Permanent link">¶</a></h2>
-<ul>
-<li><a href="https://www.topcoder.com/thrive/articles/boyer-moore-majority-vote-algorithm">Boyer moore majority vote algorithm</a></li>
-<li><a href="https://utkarsh1504.github.io/DSA-Java/bmmv-algorithm">Boyer-Moore Majority Voting Algorithm</a></li>
-</ul></body></html></section><section class="print-page" id="algorithmic%20pattern-arrays-kadane-algorithm" heading-number="2.4.3"><html><head>
+</table></body></html></section><section class="print-page" id="algorithmic%20pattern-arrays-kadane-algorithm" heading-number="2.4.3"><html><head>
         <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function () {
             remove_material_navigation();remove_mkdocs_theme_navigation();generate_toc();
@@ -21330,10 +21444,6 @@ Otherwise, , where the insertion point is defined as the point at which the key 
 <td>2026-05-06</td>
 </tr>
 <tr>
-<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-875.-koko-eating-bananas">875. Koko Eating Bananas</a></td>
-<td>2026-05-06</td>
-</tr>
-<tr>
 <td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-3169.-count-days-without-meetings">3169. Count Days Without Meetings</a></td>
 <td>2026-05-06</td>
 </tr>
@@ -21343,6 +21453,10 @@ Otherwise, , where the insertion point is defined as the point at which the key 
 </tr>
 <tr>
 <td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-56.-merge-intervals">56. Merge Intervals</a></td>
+<td>2026-05-06</td>
+</tr>
+<tr>
+<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-49.-group-anagrams">49. Group Anagrams</a></td>
 <td>2026-05-06</td>
 </tr>
 </tbody>
@@ -29635,13 +29749,130 @@ In a sorted array, the inversion count is 0. In Merge Sort, we are constantly "f
             remove_material_navigation();remove_mkdocs_theme_navigation();generate_toc();
         })
         </script>
-        </head><body></body></html></section><section class="print-page" id="code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii" heading-number="6.3.3.4.3"><html><head>
+        </head><body></body></html></section><section class="print-page" id="code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii" heading-number="6.3.3.4.3"><nav class='md-tags'><span class='md-tag'>cc</span><span class='md-tag'>bms</span><span class='md-tag'>arrays</span></nav><html><head>
         <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function () {
             remove_material_navigation();remove_mkdocs_theme_navigation();generate_toc();
         })
         </script>
-        </head><body></body></html></section><section class="print-page" id="code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-maximum%20product%20subarray%20in%20an%20array" heading-number="6.3.3.4.4"><nav class='md-tags'><span class='md-tag'>cc</span><span class='md-tag'>dynamic-programming</span><span class='md-tag'>greedy</span></nav><html><head>
+        </head><body><h1 id="majority-element-ii-n3-elements">Majority Element II (<span class="arithmatex">\(&gt; n/3\)</span> elements)<a class="headerlink" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-majority-element-ii-n3-elements" title="Permanent link">¶</a></h1>
+<h2 id="code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-question">Question<a class="headerlink" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-question" title="Permanent link">¶</a></h2>
+<p>Given an integer array <span class="arithmatex">\(nums\)</span> of size <span class="arithmatex">\(n\)</span>, find all elements that appear more than <span class="arithmatex">\(\lfloor n/3 \rfloor\)</span> times. 
+- <strong>Constraints:</strong> <span class="arithmatex">\(O(n)\)</span> time complexity and <span class="arithmatex">\(O(1)\)</span> space complexity.
+- <strong>Fact:</strong> In any array, there can be at most <strong>two</strong> such elements.</p>
+<h2 id="code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-solution">Solution<a class="headerlink" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-solution" title="Permanent link">¶</a></h2>
+<h3 id="code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-pattern">Pattern<a class="headerlink" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-pattern" title="Permanent link">¶</a></h3>
+<p><strong>Boyer-Moore Voting Algorithm (Extended)</strong>
+A generalization of the majority element algorithm. It uses "cancellation" logic where <span class="arithmatex">\(k\)</span> distinct elements are removed from the dataset simultaneously. For the <span class="arithmatex">\(n/3\)</span> case, we track two candidates.</p>
+<h3 id="code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-how-to-identify">How to Identify<a class="headerlink" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-how-to-identify" title="Permanent link">¶</a></h3>
+<ul>
+<li>The problem asks for elements appearing more than <span class="arithmatex">\(n/k\)</span> times.</li>
+<li>Requirements demand linear time and constant auxiliary space.</li>
+<li>The output size is strictly bounded (at most <span class="arithmatex">\(k-1\)</span> elements).</li>
+</ul>
+<h3 id="code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-description">Description<a class="headerlink" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-description" title="Permanent link">¶</a></h3>
+<p>Step-by-step explanation:</p>
+<ul>
+<li><strong>Step 1: The Voting Phase.</strong> Initialize two candidates and two counters to 0. </li>
+<li><strong>Step 2: Process Elements.</strong> Iterate through the array:<ol>
+<li>If the element matches <code>candidate1</code>, increment <code>count1</code>.</li>
+<li>Else if it matches <code>candidate2</code>, increment <code>count2</code>.</li>
+<li>Else if <code>count1</code> is 0, assign the element to <code>candidate1</code> and set <code>count1</code> to 1.</li>
+<li>Else if <code>count2</code> is 0, assign the element to <code>candidate2</code> and set <code>count2</code> to 1.</li>
+<li><strong>The Cancellation:</strong> If the element matches neither and both counters are <span class="arithmatex">\(&gt; 0\)</span>, decrement both <code>count1</code> and <code>count2</code>.</li>
+</ol>
+</li>
+<li><strong>Step 3: The Verification Phase.</strong> Boyer-Moore only guarantees that <em>if</em> majority elements exist, they will be among the candidates. We must loop through the array again to count the actual occurrences of our two candidates.</li>
+<li><strong>Step 4: Filter.</strong> Add to the result list only those candidates whose actual count is <span class="arithmatex">\(&gt; n/3\)</span>.</li>
+</ul>
+<h3 id="code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-the-intuition">The Intuition<a class="headerlink" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-the-intuition" title="Permanent link">¶</a></h3>
+<p>Think of this as <strong>"The Triplet Elimination Game."</strong> If we are looking for elements appearing <span class="arithmatex">\(&gt; n/3\)</span> times, we can conceptually group three <em>distinct</em> elements together and discard them. Since we only discard triplets of different numbers, any number that appears more than <span class="arithmatex">\(1/3\)</span> of the time is mathematically guaranteed to remain after all possible triplets are removed. </p>
+<p>We use two counters to represent our "survivors." When we find a third distinct number, we effectively "cancel" one instance of each of our two survivors along with that third number.</p>
+<h3 id="code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-complexity">Complexity<a class="headerlink" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-complexity" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Label</th>
+<th style="text-align: left;">Worst</th>
+<th style="text-align: left;">Average</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Time Complexity</td>
+<td style="text-align: left;"><span class="arithmatex">\(O(n)\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(n)\)</span></td>
+</tr>
+<tr>
+<td style="text-align: left;">Space Complexity</td>
+<td style="text-align: left;"><span class="arithmatex">\(O(1)\)</span></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(1)\)</span></td>
+</tr>
+</tbody>
+</table>
+<h4 id="code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-time-complexity">Time Complexity<a class="headerlink" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-time-complexity" title="Permanent link">¶</a></h4>
+<p>We perform exactly two linear passes over the array. <span class="arithmatex">\(O(2n) \approx O(n)\)</span>.</p>
+<h4 id="code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-space-complexity">Space Complexity<a class="headerlink" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-space-complexity" title="Permanent link">¶</a></h4>
+<p>The algorithm uses a fixed number of variables (<code>cand1</code>, <code>cand2</code>, <code>cnt1</code>, <code>cnt2</code>) regardless of input size. The output list does not count toward auxiliary space in standard interview contexts.</p>
+<h3 id="code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-code">Code<a class="headerlink" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-code" title="Permanent link">¶</a></h3>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-1"></a><span class="kd">class</span> <span class="nc">Solution</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-2"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">majorityElement</span><span class="p">(</span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">nums</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-3"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nums</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">nums</span><span class="p">.</span><span class="na">length</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-4"></a>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-5"></a><span class="w">        </span><span class="c1">// Phase 1: Finding potential candidates</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-6"></a><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">cand1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">cand2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">count1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">count2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-7"></a>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-8"></a><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">num</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">nums</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-9"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">num</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">cand1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-10"></a><span class="w">                </span><span class="n">count1</span><span class="o">++</span><span class="p">;</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-11"></a><span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">num</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">cand2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-12"></a><span class="w">                </span><span class="n">count2</span><span class="o">++</span><span class="p">;</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-13"></a><span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">count1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-14"></a><span class="w">                </span><span class="n">cand1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">num</span><span class="p">;</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-15"></a><span class="w">                </span><span class="n">count1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-16"></a><span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">count2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-17"></a><span class="w">                </span><span class="n">cand2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">num</span><span class="p">;</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-18"></a><span class="w">                </span><span class="n">count2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-19"></a><span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-20"></a><span class="w">                </span><span class="c1">// Triplet cancellation</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-21"></a><span class="w">                </span><span class="n">count1</span><span class="o">--</span><span class="p">;</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-22"></a><span class="w">                </span><span class="n">count2</span><span class="o">--</span><span class="p">;</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-23"></a><span class="w">            </span><span class="p">}</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-24"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-25"></a>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-26"></a><span class="w">        </span><span class="c1">// Phase 2: Verification</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-27"></a><span class="w">        </span><span class="n">count1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-28"></a><span class="w">        </span><span class="n">count2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-29"></a><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">num</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">nums</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-30"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">num</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">cand1</span><span class="p">)</span><span class="w"> </span><span class="n">count1</span><span class="o">++</span><span class="p">;</span>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-31"></a><span class="w">            </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">num</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">cand2</span><span class="p">)</span><span class="w"> </span><span class="n">count2</span><span class="o">++</span><span class="p">;</span>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-32"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-33"></a>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-34"></a><span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-35"></a><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nums</span><span class="p">.</span><span class="na">length</span><span class="p">;</span>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-36"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">count1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">cand1</span><span class="p">);</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-37"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">count2</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">cand2</span><span class="p">);</span>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-38"></a>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-39"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">result</span><span class="p">;</span>
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-40"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-__codelineno-0-41"></a><span class="p">}</span>
+</span></code></pre></div>
+<h2 id="code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-caveats">Caveats<a class="headerlink" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-caveats" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Order of Conditions:</strong> You <strong>must</strong> check <code>num == cand</code> before <code>count == 0</code>. Otherwise, you might assign the same number to both <code>cand1</code> and <code>cand2</code>.</li>
+<li><strong>Verification is Mandatory:</strong> Boyer-Moore is a heuristic for potential candidates. For <span class="arithmatex">\(n/2\)</span>, it works without verification <em>if</em> a majority is guaranteed. For <span class="arithmatex">\(n/3\)</span>, you must always verify.</li>
+<li><strong>Empty Arrays:</strong> Always handle null/empty cases to prevent runtime exceptions.</li>
+</ul>
+<h2 id="code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-concepts-to-think-about">Concepts to Think About<a class="headerlink" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-concepts-to-think-about" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Generalization:</strong> This approach can be generalized to <span class="arithmatex">\(n/k\)</span> by using <span class="arithmatex">\(k-1\)</span> candidates and <span class="arithmatex">\(k-1\)</span> counters (using a Hash Map for the "voting" part to keep space <span class="arithmatex">\(O(k)\)</span>).</li>
+<li><strong>Misunderstandings:</strong> This is not a "frequency" problem (which would be <span class="arithmatex">\(O(n)\)</span> space). This is a "relative frequency" problem.</li>
+<li><strong>Stable vs Unstable:</strong> This algorithm is stable in its candidate selection but order-dependent in how counters fluctuate.</li>
+<li><strong>Streaming Data:</strong> This algorithm is perfect for streaming data where you cannot store the entire dataset.</li>
+</ul>
+<h2 id="code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-logical-follow-up">Logical Follow-up<a class="headerlink" href="#code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-majority%20element-ii-logical-follow-up" title="Permanent link">¶</a></h2>
+<p>Question: How would you find all elements appearing more than <span class="arithmatex">\(n/k\)</span> times?</p>
+<p>Solution: Use a <code>HashMap&lt;Integer, Integer&gt;</code> to keep track of <span class="arithmatex">\(k-1\)</span> candidates. When you encounter a new element and the map size is <span class="arithmatex">\(k-1\)</span>, decrement all counts in the map. If a count reaches zero, remove the key. Finally, verify the remaining keys in a second pass.</p></body></html></section><section class="print-page" id="code%20scratch-take%20u%20forward-arrays-faqs%20%28hard%29-maximum%20product%20subarray%20in%20an%20array" heading-number="6.3.3.4.4"><nav class='md-tags'><span class='md-tag'>cc</span><span class='md-tag'>dynamic-programming</span><span class='md-tag'>greedy</span></nav><html><head>
         <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function () {
             remove_material_navigation();remove_mkdocs_theme_navigation();generate_toc();
