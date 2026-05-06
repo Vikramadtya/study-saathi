@@ -1,86 +1,166 @@
-# Boyer Moore majority vote algorithm
+# Boyer-Moore Majority Vote Algorithm
 
-An optimum algorithm for determining the majority element among elements with more than $$\frac{N}{2}$$ occurrences
+The Boyer-Moore Majority Vote Algorithm is an **online streaming algorithm** designed to find the majority element in a sequence using linear time and constant space. It was published in 1981 by Robert S. Boyer and J Strother Moore.
 
-## Algorithm
+---
 
-> A majority element is one that appears more than half of the time in the input elements.
+## 1. Core Concept & Definitions
 
-The algorithm seeks out a majority element if one exists. However, if there is no majority, the algorithm will not recognise this and will continue to output one of the items.
+### What is a Majority Element?
+A majority element in an array of size $N$ is an element that appears **strictly more than $\lfloor \frac{N}{2} \rfloor$ times**.
+> **Important:** There can be at most **one** such element in any given array. If an element appears exactly $N/2$ times, it is technically NOT a majority element by this definition.
 
-So to fix the issue algorithm is divided into two parts.
+### The Problem of Validation
+The algorithm works by process of elimination. It is guaranteed to find the majority element **if it exists**. If a majority element does not exist, the algorithm will still output one of the elements as a candidate. Therefore, the algorithm is traditionally divided into two passes:
 
-* A first pass identifies an element as a majority
-* A second pass confirms that the element identified in the first pass is indeed a majority.
+1.  **Pass 1 (Find Candidate):** Identify a potential majority element.
+2.  **Pass 2 (Verify Candidate):** Confirm the candidate appears $> \frac{N}{2}$ times.
 
-The method will not identify the majority element if it does not exist, and will thus return an arbitrary element.
+---
 
-### Steps
+## 2. The Stack Analogy (Intuition)
 
-1. Begin by initializing two variables, num and a counter count, both of which are set to 0.
-2. Now we’ll begin iterating over the number and for each element x.
-3. We first check to see if the count is 0, and then we assign num to x.
-4. Then we check to see if the current num is equal to x, if not, we decrease the count by one, else we increment it by one.
-5. Reset the counter to zero.
-6. Find the frequency of the num variable by looping through the nums array.
-7. Now, if the count is larger than N/2, we return num; otherwise we return -1.
+Imagine you have a physical stack. This stack has a very strange rule:
 
-## Code&#x20;
+> It can only hold **one type of item at a time**.
 
+---
 
+### The Rules
 
-### Complexity
+1. **If the stack is empty**
+      - Put the current item into the stack.
+      - It becomes the current **Candidate**.
 
-**Time complexity:** O(n), we make only two iterations through the array.\
-**Space complexity:** O(1), only two variables.
+2. **If the item matches the Candidate**
 
-## Preactice Problems
+      - Push it onto the stack.
+      - This reinforces the candidate.
 
-|                     |   |   |
-| ------------------- | - | - |
-| Majority Element    |   |   |
-| Majority Element II |   |   |
+3. **If the item is different from the Candidate**
 
+      - Pop one item from the stack.
+      - The two elements effectively **cancel each other out**.
 
+---
 
-## Extension
+### Why the Majority Wins
 
-#### Find all elements that appear more than a certain fraction of the time, such as `n/3`.
-
-In the algorithm, two candidates and their counters are used to handle the case where there might be more than one element that appears more than `n/3` times in the array. \
-
-
-**Two Candidates**
-
-* **Candidate 1**: Represents one potential majority element.
-* **Candidate 2**: Represents another potential majority element.
-
-> This is necessary because in an array, there can be at most two elements that appear more than `n/3` times. If there were three such elements, their combined count would exceed `n`, which is impossible.
-
-**Counters**
-
-* **Count 1**: Tracks the count of occurrences for Candidate 1.
-* **Count 2**: Tracks the count of occurrences for Candidate 2.
-
-These counters help in determining whether the current candidate should be replaced or if its count should be incremented.
-
-**First Pass**
-
-* Iterate through the array to find the two most frequent candidates.
-* Adjust the candidates and their counts based on the current element.
-* If the current element matches one of the candidates, increment the corresponding count.
-* If the current element does not match either candidate and one of the counts is zero, replace that candidate with the current element and reset the count.
-* If the current element does not match either candidate and both counts are non-zero, decrement both counts.
-
-**Second Pass**
-
-* Verify the counts of the two candidates by iterating through the array again.
-* Only include candidates that appear more than `n/3` times in the final result.
-
-## Reference&#x20;
-
-* [Boyer moore majority vote algorithm](https://www.topcoder.com/thrive/articles/boyer-moore-majority-vote-algorithm)
-* [Boyer-Moore Majority Voting Algorithm](https://utkarsh1504.github.io/DSA-Java/bmmv-algorithm)
+Because the majority element appears more than `n/2` times, it has more occurrences than **all other elements combined**.
 
 
+- In the worst-case scenario, every non-majority element tries to cancel out one majority element.
+- Even if all minority elements work together perfectly, they still do **not** have enough occurrences to completely eliminate the majority.
+- Therefore, after all cancellations:
+    - The remaining element in the stack must be the **majority element** (if one exists).
 
+---
+
+## 3. Algorithm Steps ($N/2$ Case)
+
+### Pass 1: Candidate Selection
+1.  Initialize a variable `candidate` (can be null/empty) and a `count = 0`.
+2.  Iterate through every element `x` in the array:
+    * If `count == 0`:
+        * Set `candidate = x`.
+        * Set `count = 1`.
+    * Else if `x == candidate`:
+        * `count++`
+    * Else:
+        * `count--` (This represents a "pairing" where two different elements cancel each other out).
+
+### Pass 2: Verification
+1.  Reset `count = 0`.
+2.  Iterate through the array again.
+3.  Every time the element matches `candidate`, increment `count`.
+4.  If `count > N/2`, return `candidate`.
+5.  Otherwise, the array has no majority element (return -1 or null).
+
+---
+
+## 4. Implementation (Python)
+
+```python
+def find_majority_element(nums):
+    # Pass 1: Find Candidate
+    candidate = None
+    count = 0
+    
+    for x in nums:
+        if count == 0:
+            candidate = x
+            count = 1
+        elif x == candidate:
+            count += 1
+        else:
+            count -= 1
+            
+    # Pass 2: Verification
+    actual_count = 0
+    for x in nums:
+        if x == candidate:
+            actual_count += 1
+            
+    if actual_count > len(nums) // 2:
+        return candidate
+    else:
+        return -1 # Or raise Exception
+```
+## 5. Complexity Analysis
+
+- **Time Complexity:** `O(n)`  
+  We perform exactly two linear scans of the input array.
+
+- **Space Complexity:** `O(1)`  
+  We only maintain two variables (`candidate` and `count`), regardless of the input size.
+
+---
+
+## 6. Extension: Finding Elements with Frequency > n/3
+
+This is the generalized version, often referred to as the **Misra-Gries Heavy Hitters Algorithm**.
+
+### The Logic (`n/3` example)
+
+If we want to find all elements that appear more than `n/3` times, there can be at most **two** such elements because:
+
+\[
+\left\lfloor \frac{n}{3} \right\rfloor + 
+\left\lfloor \frac{n}{3} \right\rfloor + 
+\left\lfloor \frac{n}{3} \right\rfloor > n
+\]
+
+would be impossible.
+
+So, we maintain:
+
+- **2 candidates**
+- **2 counters**
+
+---
+
+### Generalized Algorithm Steps (`n/k`)
+
+1. Maintain `k - 1` candidates and `k - 1` counters.
+
+2. For each element `x`:
+
+   - If `x` matches any existing candidate, increment its corresponding counter.
+   - Else if any counter is `0`, replace that candidate with `x` and set its counter to `1`.
+   - Else:
+     - Decrement all `k - 1` counters by `1`.
+
+3. **Verification Pass**
+   
+   You **must** perform a second pass to count the actual occurrences of the remaining candidates, because the first pass only identifies the most likely heavy hitters.
+
+---
+
+## 7. Practice Problems
+
+| Problem                            | Difficulty | Key Constraint                                    |
+| ---------------------------------- | ---------- | ------------------------------------------------- |
+| LeetCode 169: Majority Element     | Easy       | Guaranteed majority element (Pass 1 only)         |
+| LeetCode 229: Majority Element II  | Medium     | Find all elements > `n/3` (two-candidate version) |
+| Check for Majority in Sorted Array | Easy       | Can be solved in `O(log n)` using Binary Search   |
+| Stream of Characters               | Hard       | Finding the heavy hitter in an infinite stream    |
