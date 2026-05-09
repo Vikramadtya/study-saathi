@@ -5,3 +5,6 @@ nav:
   - Chapter 1. Introduction.md
   - Chapter 2. Identifier Design with URIs.md
   - Chapter 3. Interaction Design with HTTP.md
+  - Chapter 4. Metadata Design.md
+  - Chapter 5. Representation Design.md
+  - Chapter 6. Client Concerns.md
