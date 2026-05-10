@@ -3779,7 +3779,7 @@
   <span class="md-ellipsis">
     
   
-    Basic Docker Commands
+    🐳 The Definitive Guide to Basic Docker Commands
   
 
     
@@ -12987,7 +12987,7 @@
   <a href="#notes-docker-2.%20docker%20basic%20commands" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5.1.2 Basic Docker Commands
+        5.1.2 🐳 The Definitive Guide to Basic Docker Commands
       
     </span>
   </a>
@@ -19071,24 +19071,49 @@ x = K\%n
         })
         </script>
         </head><body><h1 id="docker-foundation-concepts-architecture">🐳 Docker Foundation: Concepts &amp; Architecture<a class="headerlink" href="#notes-docker-1.%20docker%20intro-docker-foundation-concepts-architecture" title="Permanent link">¶</a></h1>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/images/Notes/Docker/1.%20Docker%20Intro/summary.jpg" data-desc-position="bottom"><img alt="image" src="../assets/images/Notes/Docker/1.%20Docker%20Intro/summary.jpg"></a></p>
 <blockquote>
-<p>These notes cover the core pillars from <em>Docker Deep Dive</em> and <em>Docker: Up &amp; Running</em> to build a foundation for the <strong>CKAD</strong> exam.</p>
+<p>These notes provide a high-fidelity foundation for container orchestration, specifically tailored for <strong>CKAD (Certified Kubernetes Application Developer)</strong> preparation.</p>
 </blockquote>
-<h2 id="notes-docker-1.%20docker%20intro-1-the-core-architecture">🏗️ 1. The Core Architecture<a class="headerlink" href="#notes-docker-1.%20docker%20intro-1-the-core-architecture" title="Permanent link">¶</a></h2>
-<p>Docker operates on a Client-Server model.</p>
+<hr>
+<h2 id="notes-docker-1.%20docker%20intro-1-modern-docker-architecture">🏗️ 1. Modern Docker Architecture<a class="headerlink" href="#notes-docker-1.%20docker%20intro-1-modern-docker-architecture" title="Permanent link">¶</a></h2>
+<p>Docker has evolved from a monolithic daemon into a modular, decoupled set of tools. It follows the <strong>OCI (Open Container Initiative)</strong> standards to ensure interoperability.</p>
+<h3 id="notes-docker-1.%20docker%20intro-the-component-breakdown">The Component Breakdown<a class="headerlink" href="#notes-docker-1.%20docker%20intro-the-component-breakdown" title="Permanent link">¶</a></h3>
 <ul>
-<li><strong>Docker Client:</strong> The CLI tool where you run commands.  </li>
-<li><strong>Docker Host (Engine):</strong> The daemon (<code>dockerd</code>) that does the heavy lifting.</li>
-<li><strong>Registry:</strong> Where images live (Docker Hub, or Oracle Cloud OCIR).</li>
+<li><strong>Docker Client:</strong> The CLI (<code>docker</code>) that converts your commands into REST API calls.</li>
+<li><strong>Docker Daemon (<code>dockerd</code>):</strong> The persistent background process that manages Docker objects. It no longer runs containers directly; it delegates to the runtime.</li>
+<li><strong>containerd:</strong> A CNCF graduated project. It manages the full container lifecycle: image transfer, execution, and storage. </li>
+<li><strong>runc:</strong> The "low-level" runtime. It is a lightweight CLI tool for spawning and running containers according to the OCI specification.</li>
+<li><strong>Registry:</strong> A centralized or distributed store (Docker Hub, GitHub Packages, Amazon ECR) where images are pushed and pulled.</li>
 </ul>
-<h3 id="notes-docker-1.%20docker%20intro-the-big-three-linux-techs">⚙️ The "Big Three" Linux Techs<a class="headerlink" href="#notes-docker-1.%20docker%20intro-the-big-three-linux-techs" title="Permanent link">¶</a></h3>
-<p>Docker isn't magic; it's just three Linux kernel features wrapped in a nice UI:</p>
-<ol>
-<li><strong>Namespaces:</strong> Provides <strong>Isolation</strong> (Process, Network, Mount).</li>
-<li><strong>Control Groups (cgroups):</strong> Provides <strong>Resource Limiting</strong> (CPU, RAM).</li>
-<li><strong>Union File Systems:</strong> Provides <strong>Layering</strong> (Efficiency).</li>
-</ol>
-<h2 id="notes-docker-1.%20docker%20intro-2-images-vs-containers">📦 2. Images vs. Containers<a class="headerlink" href="#notes-docker-1.%20docker%20intro-2-images-vs-containers" title="Permanent link">¶</a></h2>
+<hr>
+<h2 id="notes-docker-1.%20docker%20intro-2-the-linux-kernel-mechanics-the-magic">⚙️ 2. The Linux Kernel Mechanics (The Magic)<a class="headerlink" href="#notes-docker-1.%20docker%20intro-2-the-linux-kernel-mechanics-the-magic" title="Permanent link">¶</a></h2>
+<p>Docker is often called "chroot on steroids." It relies on three primary kernel features to create the illusion of a standalone OS:</p>
+<h3 id="notes-docker-1.%20docker%20intro-i-namespaces-isolation">I. Namespaces (Isolation)<a class="headerlink" href="#notes-docker-1.%20docker%20intro-i-namespaces-isolation" title="Permanent link">¶</a></h3>
+<p>Namespaces determine what a container can <strong>see</strong>.</p>
+<ul>
+<li><strong>PID:</strong> Isolates process IDs (Container PID 1 is not Host PID 1).</li>
+<li><strong>NET:</strong> Isolates network interfaces.</li>
+<li><strong>MNT:</strong> Isolates mount points (Filesystem).</li>
+<li><strong>UTS:</strong> Isolates hostnames and NIS domain names.</li>
+<li><strong>IPC:</strong> Isolates Inter-Process Communication resources.</li>
+<li><strong>USER:</strong> Isolates User and Group IDs.</li>
+</ul>
+<h3 id="notes-docker-1.%20docker%20intro-ii-control-groups-cgroups-resource-limits">II. Control Groups / cgroups (Resource Limits)<a class="headerlink" href="#notes-docker-1.%20docker%20intro-ii-control-groups-cgroups-resource-limits" title="Permanent link">¶</a></h3>
+<p>cgroups determine how much a container can <strong>use</strong>. </p>
+<ul>
+<li>They prevent a "noisy neighbor" container from consuming all CPU, RAM, or I/O bandwidth. </li>
+<li><strong>Modern Note:</strong> Linux now uses <strong>cgroups v2</strong>, which provides a unified hierarchy and better resource management for modern workloads.</li>
+</ul>
+<h3 id="notes-docker-1.%20docker%20intro-iii-union-file-systems-overlayfs-efficiency">III. Union File Systems / OverlayFS (Efficiency)<a class="headerlink" href="#notes-docker-1.%20docker%20intro-iii-union-file-systems-overlayfs-efficiency" title="Permanent link">¶</a></h3>
+<p>This allows Docker to "stack" filesystems. </p>
+<ul>
+<li><strong>Layering:</strong> Each instruction in a <code>Dockerfile</code> creates a new layer.</li>
+<li><strong>Storage Driver:</strong> Most modern systems use <code>overlay2</code>. It allows multiple containers to share the same base image layers, saving massive amounts of disk space.</li>
+</ul>
+<hr>
+<h2 id="notes-docker-1.%20docker%20intro-3-images-vs-containers">📦 3. Images vs. Containers<a class="headerlink" href="#notes-docker-1.%20docker%20intro-3-images-vs-containers" title="Permanent link">¶</a></h2>
+<p>The relationship between an image and a container is the same as the relationship between a <strong>Class</strong> and an <strong>Instance</strong> in OOP.</p>
 <table>
 <thead>
 <tr>
@@ -19100,28 +19125,51 @@ x = K\%n
 <tbody>
 <tr>
 <td style="text-align: left;"><strong>State</strong></td>
-<td style="text-align: left;">Read-Only (Immutable)</td>
-<td style="text-align: left;">Read-Write (Disposable)</td>
+<td style="text-align: left;"><strong>Immutable:</strong> It never changes once built.</td>
+<td style="text-align: left;"><strong>Mutable:</strong> Changes exist in the writable layer.</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Storage</strong></td>
-<td style="text-align: left;">Layered (Shared)</td>
-<td style="text-align: left;">Writable Layer on top</td>
+<td style="text-align: left;"><strong>Layered:</strong> Read-only snapshots of the FS.</td>
+<td style="text-align: left;"><strong>Top-Layer:</strong> A thin, ephemeral "Writable Layer."</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Persistence</strong></td>
+<td style="text-align: left;">Temporary. Use <strong>Volumes</strong> for data.</td>
+<td style="text-align: left;">Ephemeral. Data dies with the container.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Strategy</strong></td>
+<td style="text-align: left;"><strong>Copy-on-Write (CoW):</strong> Shared layers.</td>
+<td style="text-align: left;">Unique runtime process.</td>
 </tr>
 </tbody>
 </table>
-<h2 id="notes-docker-1.%20docker%20intro-commands">Commands<a class="headerlink" href="#notes-docker-1.%20docker%20intro-commands" title="Permanent link">¶</a></h2></body></html></section><section class="print-page" id="notes-docker-2.%20docker%20basic%20commands" heading-number="5.1.2"><html><head>
+<hr>
+<h2 id="notes-docker-1.%20docker%20intro-4-the-container-lifecycle-for-ckad">🔄 4. The Container Lifecycle (For CKAD)<a class="headerlink" href="#notes-docker-1.%20docker%20intro-4-the-container-lifecycle-for-ckad" title="Permanent link">¶</a></h2>
+<p>Understanding the state of a container is vital for debugging Kubernetes Pods later:</p>
+<ol>
+<li><strong>Created:</strong> The container exists but hasn't started.</li>
+<li><strong>Running:</strong> The main process (<code>ENTRYPOINT</code> or <code>CMD</code>) is active.</li>
+<li><strong>Paused:</strong> The process is suspended.</li>
+<li><strong>Exited (Stopped):</strong> The process finished (Exit 0) or crashed (Non-zero exit).</li>
+<li><strong>Deleted:</strong> The writable layer and the process metadata are purged.</li>
+</ol>
+<hr>
+<h2 id="notes-docker-1.%20docker%20intro-5-pro-tip-the-docker-to-cri-shift">💡 5. Pro-Tip: The "Docker" to "CRI" Shift<a class="headerlink" href="#notes-docker-1.%20docker%20intro-5-pro-tip-the-docker-to-cri-shift" title="Permanent link">¶</a></h2>
+<p>For the CKAD, remember that Kubernetes uses the <strong>CRI (Container Runtime Interface)</strong>. While you might use Docker to <em>build</em> images, Kubernetes often uses <code>containerd</code> or <code>CRI-O</code> directly to <em>run</em> them. The knowledge of Namespaces and cgroups applies universally across all of them!</p></body></html></section><section class="print-page" id="notes-docker-2.%20docker%20basic%20commands" heading-number="5.1.2"><html><head>
         <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function () {
             remove_material_navigation();remove_mkdocs_theme_navigation();generate_toc();
         })
         </script>
-        </head><body><h1 id="basic-docker-commands">Basic Docker Commands<a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-basic-docker-commands" title="Permanent link">¶</a></h1>
-<h2 id="notes-docker-2.%20docker%20basic%20commands-docker-version"><code>docker version</code><a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-docker-version" title="Permanent link">¶</a></h2>
-<p>Docker follows a Client-Server architecture.</p>
+        </head><body><h1 id="the-definitive-guide-to-basic-docker-commands">🐳 The Definitive Guide to Basic Docker Commands<a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-the-definitive-guide-to-basic-docker-commands" title="Permanent link">¶</a></h1>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/images/Notes/Docker/2.%20Docker%20Basic%20Commands/docker%20summary.jpg" data-desc-position="bottom"><img alt="image" src="../assets/images/Notes/Docker/2.%20Docker%20Basic%20Commands/docker%20summary.jpg"></a></p>
+<h2 id="notes-docker-2.%20docker%20basic%20commands-1-docker-version-the-handshake">1. <code>docker version</code> (The Handshake)<a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-1-docker-version-the-handshake" title="Permanent link">¶</a></h2>
+<p>Docker operates on a <strong>Client-Server</strong> architecture. This command is the best way to verify that both sides of the "brain" are talking to each other.</p>
 <ul>
-<li>Client: The CLI tool you're typing into.</li>
-<li>Server (Engine/Daemon): The background process that actually manages containers.</li>
+<li><strong>Client:</strong> The CLI tool (the "messenger") that receives your commands.</li>
+<li><strong>Server (Daemon/Engine):</strong> The <code>dockerd</code> process (the "worker") that manages images, containers, and volumes.</li>
 </ul>
 <p>The command displays the version information for both the <strong>Client</strong> and the <strong>Server (Daemon)</strong>.</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-0-1"></a>docker<span class="w"> </span>version
@@ -19129,10 +19177,11 @@ x = K\%n
 <p>Use this to verify that the Docker Engine is running and to check for API compatibility.</p>
 <details class="info">
 <summary>"Cannot connect to the Docker daemon,"</summary>
-<p>If you see an error saying "Cannot connect to the Docker daemon," the Client is working, but the Server is off.</p>
+<p>If you see "Cannot connect to the Docker daemon," it usually means the service isn't started or your user lacks permissions.</p>
 </details>
 <h2 id="notes-docker-2.%20docker%20basic%20commands-docker-pull-imagetag-the-output-anatomy"><code>docker pull &lt;image&gt;:&lt;tag&gt;</code> &amp; The Output Anatomy<a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-docker-pull-imagetag-the-output-anatomy" title="Permanent link">¶</a></h2>
-<p>Downloads an image from a registry (default: Docker Hub).</p>
+<p>Downloads a specific version of an image from a registry (defaulting to <strong>Docker Hub</strong>).</p>
+<p>Docker doesn't just store files; it stores layers identified by SHA256 hashes. If two images share the same base layer (like a specific Ubuntu version), Docker only stores it <strong>once</strong>.</p>
 <ul>
 <li><strong>Layers:</strong> Images are downloaded in chunks (layers). This allows for caching and faster downloads.</li>
 <li><strong>Immutability:</strong> Each layer is read-only and identified by a SHA256 hash.</li>
@@ -19155,7 +19204,7 @@ x = K\%n
 <ul>
 <li>(The Hashes): These represent individual layers.</li>
 <li>Pull complete vs Already exists: If you pulled a layer earlier for another image and the current shares the same base OS layer, Docker won't download it again. It just "links" to the existing one on your disk. This is <strong>Content-Addressable Storage</strong>.</li>
-<li>The Digest is a mathematical fingerprint of the content. If the content changes, the Digest changes.</li>
+<li>The Digest is a mathematical fingerprint of the content it is a "content hash." Even if a developer pushes a new image with the same tag (like <code>latest</code>), the Digest will change, allowing you to pin specific versions for absolute stability.</li>
 </ul>
 <h3 id="notes-docker-2.%20docker%20basic%20commands-layering">Layering<a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-layering" title="Permanent link">¶</a></h3>
 <p>Docker images use a <strong>Union File System (UnionFS)</strong>.</p>
@@ -19181,41 +19230,46 @@ x = K\%n
 </tr>
 </tbody>
 </table>
-<h2 id="notes-docker-2.%20docker%20basic%20commands-docker-images-or-docker-image-ls"><code>docker images</code> (or <code>docker image ls</code>)<a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-docker-images-or-docker-image-ls" title="Permanent link">¶</a></h2>
+<h2 id="notes-docker-2.%20docker%20basic%20commands-3-docker-image-ls-the-inventory">3. <code>docker image ls</code> (The Inventory)<a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-3-docker-image-ls-the-inventory" title="Permanent link">¶</a></h2>
+<p><em>Formally <code>docker images</code>.</em></p>
 <p>Lists all images currently stored on your local host.</p>
-<ul>
-<li><strong>Repository:</strong> The name of the image (e.g., <code>nginx</code>).</li>
-<li><strong>Tag:</strong> The version (e.g., <code>latest</code>, <code>1.21</code>).</li>
-<li><strong>Image ID:</strong> A unique identifier for the specific build of the image.</li>
-</ul>
-<h2 id="notes-docker-2.%20docker%20basic%20commands-docker-images"><code>docker images</code><a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-docker-images" title="Permanent link">¶</a></h2>
-<div class="language-shell highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-2-1"></a>docker<span class="w"> </span>images
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-2-1"></a>docker<span class="w"> </span>image<span class="w"> </span>ls
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-2-4"></a>IMAGE<span class="w">                               </span>ID<span class="w">             </span>DISK<span class="w"> </span>USAGE<span class="w">   </span>CONTENT<span class="w"> </span>SIZE<span class="w">   </span>EXTRA
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-2-5"></a>debian:bullseye<span class="w">                     </span>943d97fa7074<span class="w">        </span>192MB<span class="w">         </span><span class="m">56</span>.3MB<span class="w">        </span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-2-6"></a>debian:bullseye-slim<span class="w">                </span>95a3884fee36<span class="w">        </span>118MB<span class="w">         </span><span class="m">31</span>.4MB<span class="w">        </span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-2-7"></a>ghcr.io/orbstack/dmigrate-agent:1<span class="w">   </span>e59e7a5dfee1<span class="w">       </span><span class="m">9</span>.65MB<span class="w">         </span><span class="m">2</span>.85MB<span class="w">        </span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-2-8"></a>nginx:latest<span class="w">                        </span>7150b3a39203<span class="w">        </span>258MB<span class="w">         </span><span class="m">64</span>.1MB<span class="w">  </span>
 </span></code></pre></div>
 <ul>
-<li><strong>Image:</strong> The <code>&lt;image&gt;:&lt;tag&gt;</code> tells you what the software is and which version you have.</li>
+<li><strong>Image:</strong> The <code>&lt;image&gt;:&lt;tag&gt;</code> tells you what the software is and which version you have.<ul>
+<li><strong>Repository:</strong> The name of the software (e.g., <code>nginx</code>, <code>python</code>).  </li>
+<li><strong>Tag:</strong> The version label. <strong>Avoid using <code>latest</code> in production</strong>—it's a moving target!</li>
+</ul>
+</li>
 <li><strong>ID:</strong> It’s the first 12 characters of the SHA-256 hash. Can rename an image, but the ID stays the same until the content changes.</li>
 <li><strong>Content Size (Compressed):</strong> The "Transport Size." This is what hits your network bandwidth when you run <code>docker pull</code>.</li>
 <li><strong>Disk Usage (Virtual Size):</strong> The "Runtime Size." The total size of all layers once they are uncompressed by the storage driver.</li>
 </ul>
 <h2 id="notes-docker-2.%20docker%20basic%20commands-docker-image-inspect"><code>docker image inspect</code><a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-docker-image-inspect" title="Permanent link">¶</a></h2>
-<p>It reveals the low-level metadata of an image—everything from how it was built to what it expects when it starts.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-3-1"></a>docker<span class="w"> </span>image<span class="w"> </span>inspect<span class="w"> </span>943d97fa7074
+<p>It reveals the low-level metadata of an image—everything from how it was built to what it expects when it starts. It returns a JSON array containing every configuration detail.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-3-1"></a>docker<span class="w"> </span>image<span class="w"> </span>inspect<span class="w"> </span>&lt;IMAGE_ID_OR_NAME&gt;
 </span></code></pre></div>
 <ul>
 <li>Id: The full SHA-256 fingerprint. This is the "true" ID of the image.</li>
-<li>Architecture: "arm64": This is a critical detail for your OCI practice. Since you are likely using an OCI "Always Free" Arm instance, this image is compatible. An amd64 image would fail to run on an Arm processor.</li>
+<li>Architecture: "arm64": (e.g., <code>arm64</code> vs <code>amd64</code>) An amd64 image would fail to run on an Arm processor.</li>
 <li>Os: "linux": The kernel the image expects.</li>
 <li>Config : This section tells Docker how to behave when you run docker run.</li>
 <li>Env: A list of environment variables baked into the image. Notice NGINX_VERSION. These are available to the application inside.</li>
-<li>ExposedPorts: This is metadata only. It’s a hint to the user that the app listens on port 80. It does not actually open the port on your host (you still need -p).</li>
-<li>Entrypoint: The main executable (in this case, the Nginx startup script).</li>
+<li>ExposedPorts: Metadata indicating which ports the app <em>expects</em> to use. It does not actually open the port on your host (you still need <code>-p</code>). </li>
+<li>Entrypoint: The primary instruction that starts the application.</li>
 <li>Cmd: The default arguments passed to the entrypoint.</li>
 <li>GraphDriver: "overlayfs": This is the storage engine. Overlay2 is the modern standard that manages how layers are "stacked" on top of each other.</li>
 <li>RootFS.Layers: This is the actual physical stack. You see 7 hashes here, which means the Dockerfile that built this had roughly 7 instructions (like RUN, COPY, ADD) that modified the filesystem.</li>
 </ul>
 <div class="admonition note">
-<p class="admonition-title">Title of the callout</p>
-</div>
+<p class="admonition-title">Find specific info</p>
 <p><code>docker image inspect</code> returns a JSON array. To find specific values without scrolling, use the <code>--format</code> flag (Go templates).</p>
 <div class="language-text highlight"><pre><span></span><code>```
 # Get only the Architecture
@@ -19228,68 +19282,57 @@ docker image inspect &lt;ID&gt; --format='{ {.Config.Cmd}}'
 docker image inspect &lt;ID&gt; --format='{ {range .Config.Env}}{ {println .}}{ {end}}'
 ```
 </code></pre></div>
+</div>
 <h2 id="notes-docker-2.%20docker%20basic%20commands-docker-run"><code>docker run</code><a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-docker-run" title="Permanent link">¶</a></h2>
+<p>It handles <code>create</code> and <code>start</code> in one motion.</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-5-1"></a>docker run --name test -d -p 8080:80 nginx:latest
 </span></code></pre></div>
 <ul>
 <li><code>run</code> : creates and starts the container in one go.</li>
 <li><code>--name test</code> : assigns a human-readable name to the container.</li>
-<li><code>-d</code> : runs the container in the background.</li>
-<li><code>-p &lt;host&gt;:&lt;container&gt;</code> : maps HOST_PORT:CONTAINER_PORT.</li>
+<li><code>-d</code> : runs the container in the background and prints the long ID. When you run a container in Detached Mode (<code>-d</code>), Docker's way of saying "Mission accomplished" is to hand you the unique, 64-character SHA-256 hash that identifies that specific running instance.</li>
+<li><code>-p &lt;host&gt;:&lt;container&gt;</code> : maps HOST_PORT:CONTAINER_PORT (for e.g 8080:80 maps port 8080 on your <strong>Host</strong> to port 80 inside the <strong>Container</strong>.)</li>
 <li><code>&lt;image&gt;:&lt;tag&gt;</code> : The image and tag to use for the container.</li>
+<li><code>--rm</code> :(Added Standard) Automatically removes the container's writable layer when it stops. Excellent for keeping your environment clean.</li>
+<li><code>--env</code> / <code>-e</code> : Injects environment variables.</li>
 </ul>
-<p>When you run a container in Detached Mode (<code>-d</code>), Docker's way of saying "Mission accomplished" is to hand you the unique, 64-character SHA-256 hash that identifies that specific running instance.</p>
-<p>After running a container in detached mode, use these to see what's happening:</p>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">Command</th>
-<th style="text-align: left;">Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;"><code>docker ps</code></td>
-<td style="text-align: left;">See all <strong>running</strong> containers.</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>docker ps -a</code></td>
-<td style="text-align: left;">See all containers (including those that crashed/stopped).</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>docker logs test</code></td>
-<td style="text-align: left;">See the output/errors from the background process.</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>docker stop test</code></td>
-<td style="text-align: left;">Gracefully shut down the container.</td>
-</tr>
-</tbody>
-</table>
 <div class="admonition note">
 <p class="admonition-title">💡 Note</p>
-</div>
 <p>If you don't have the image locally, <code>docker run</code> will automatically perform a <code>docker pull</code> before starting. It checks your local storage first, then hits the Registry.</p>
-<h2 id="notes-docker-2.%20docker%20basic%20commands-docker-exec"><code>docker exec</code><a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-docker-exec" title="Permanent link">¶</a></h2>
-<p>Runs a process in an EXISTING container. Docker uses the Linux PID Namespace to "inject" your process into the same isolated environment where container is running. Both processes share the same network and filesystem, but they are separate processes.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-6-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>&lt;container_name_or_id&gt;<span class="w"> </span>bash
-</span></code></pre></div>
-<h3 id="notes-docker-2.%20docker%20basic%20commands-common-usecase">Common usecase<a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-common-usecase" title="Permanent link">¶</a></h3>
-<ul>
-<li>Debugging: Check if configuration files are correctly loaded.</li>
-<li>Environment Check: Run env to see if your variables passed through correctly.</li>
-<li>Logs/DBs: Manually trigger a script or check a local database inside the container.</li>
-</ul>
-<h2 id="notes-docker-2.%20docker%20basic%20commands-docker-ps"><code>docker ps</code><a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-docker-ps" title="Permanent link">¶</a></h2>
+</div>
+<p>After running a container in detached mode to see what's happening, use the <code>docker logs test</code> to See the output/errors from the background process.</p>
+<h2 id="notes-docker-2.%20docker%20basic%20commands-6-docker-ps-the-status-report">6. <code>docker ps</code> (The Status Report)<a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-6-docker-ps-the-status-report" title="Permanent link">¶</a></h2>
+<p><em>Formally <code>docker container ls</code>.</em></p>
 <p>This command is your Container Inventory. While <code>docker ps</code> only shows you what is currently "alive" and running, adding the <code>-a</code> (or --all) flag reveals the "ghosts" of containers past—those that have finished their job or been stopped.</p>
 <ul>
-<li><code>CONTAINER ID</code> : the 12-character "Short ID".</li>
+<li><strong><code>docker ps</code>:</strong> Lists only running containers.</li>
+<li><strong><code>docker ps -a</code>:</strong> Lists all containers, including those that have exited.</li>
+<li>
+<p><strong><code>docker stats</code>:</strong> Shows a live stream of CPU, memory, and network usage—vital for spotting "leaky" apps.</p>
+</li>
+<li>
+<p><code>CONTAINER ID</code> : the 12-character "Short ID".</p>
+</li>
 <li><code>IMAGE</code> : the blueprint this container was born from.</li>
 <li><code>COMMAND</code> : the script that Nginx runs to start up.</li>
 <li><code>CREATED</code> : the wall-clock time since you ran docker run.</li>
 <li><code>STATUS</code> : the container status</li>
 <li><code>PORTS</code> : ports being listened to.</li>
 <li><code>NAMES</code> : custom name assigned.</li>
+</ul>
+<h2 id="notes-docker-2.%20docker%20basic%20commands-docker-exec"><code>docker exec</code><a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-docker-exec" title="Permanent link">¶</a></h2>
+<p>Runs a process in an EXISTING container. Docker uses the Linux PID Namespace to "inject" your process into the same isolated environment where container is running. Both processes share the same network and filesystem, but they are separate processes.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-6-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>&lt;container_name_or_id&gt;<span class="w"> </span>bash
+</span></code></pre></div>
+<ul>
+<li><strong><code>-i</code> (Interactive):</strong> Keeps STDIN open.</li>
+<li><strong><code>-t</code> (TTY):</strong> Allocates a pseudo-terminal (makes it look like a real shell).</li>
+</ul>
+<h3 id="notes-docker-2.%20docker%20basic%20commands-common-usecase">Common usecase<a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-common-usecase" title="Permanent link">¶</a></h3>
+<ul>
+<li>Debugging: Check if configuration files are correctly loaded.</li>
+<li>Environment Check: Run env to see if your variables passed through correctly.</li>
+<li>Logs/DBs: Manually trigger a script or check a local database inside the container.</li>
 </ul>
 <h2 id="notes-docker-2.%20docker%20basic%20commands-docker-stop"><code>docker stop</code><a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-docker-stop" title="Permanent link">¶</a></h2>
 <p>To stop the running container. It follows a two-step process:</p>
@@ -19314,19 +19357,32 @@ docker image inspect &lt;ID&gt; --format='{ {range .Config.Env}}{ {println .}}{ 
 ```
 </code></pre></div>
 <p>When a container stops, the process (PID 1) dies, but the Writable Layer (where you might have saved files during an exec session) remains on your hard drive. To truly get rid of it, you must Remove it (<code>docker rm</code>).</p>
-<h2 id="notes-docker-2.%20docker%20basic%20commands-docker-build-t-image_nametag"><code>docker build -t &lt;image_name&gt;:&lt;tag&gt; .</code><a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-docker-build-t-image_nametag" title="Permanent link">¶</a></h2>
-<p>Builds image using BuildKit, Docker’s modern build engine. It’s highly parallel and much faster than the old builder.</p>
+<div class="admonition note">
+<p class="admonition-title"><code>docker stop</code> vs <code>docker kill</code></p>
+<ul>
+<li><strong><code>docker stop</code>:</strong> Sends a <code>SIGTERM</code>. The app gets a 10-second grace period to save state and close connections.</li>
+<li><strong><code>docker kill</code>:</strong> Sends a <code>SIGKILL</code>. The app is terminated instantly by the kernel. No grace period.</li>
+</ul>
+</div>
+<h2 id="notes-docker-2.%20docker%20basic%20commands-docker-build"><code>docker build</code><a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-docker-build" title="Permanent link">¶</a></h2>
+<p>Transforms a <code>Dockerfile</code> into an image using <strong>BuildKit</strong> (the modern default). BuildKit is Docker’s modern build engine. It’s highly parallel and much faster than the old builder.</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-8-1"></a>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>test:latest<span class="w"> </span>.
 </span></code></pre></div>
 <ul>
 <li><code>build</code>: The command to transform a Dockerfile into an Image.</li>
 <li><code>-t test:latest</code> : Tag the image. If you don't provide this, your image will be "nameless" (dangling) and hard to find.</li>
 <li><code>.</code> (The Dot): This is the Build Context. Everything in the context path is sent to the Docker Daemon.</li>
+<li><strong>Caching:</strong> BuildKit caches layers. If you haven't changed a line in your Dockerfile, that layer won't be rebuilt, making subsequent builds near-instant.</li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title"><code>.dockerignore</code></p>
 <p>Use a <code>.dockerignore</code> file to prevent sending large, unnecessary files (like <code>node_modules</code> or <code>.git</code>) to the daemon. This makes builds faster and images smaller.</p>
-</div></body></html></section></section>
+</div>
+<h2 id="notes-docker-2.%20docker%20basic%20commands-docker-system-prune-the-janitor"><code>docker system prune</code> (The Janitor)<a class="headerlink" href="#notes-docker-2.%20docker%20basic%20commands-docker-system-prune-the-janitor" title="Permanent link">¶</a></h2>
+<p><strong>New Addition:</strong> Essential for health. Docker can eat up disk space quickly with unused layers and stopped containers.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-9-1"></a><span class="c1"># Cleans up stopped containers, unused networks, and dangling images</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#notes-docker-2.%20docker%20basic%20commands-__codelineno-9-2"></a>docker<span class="w"> </span>system<span class="w"> </span>prune
+</span></code></pre></div></body></html></section></section>
                     <section class='print-page md-section' id='section-5-2' heading-number='5.2'>
                         <h1>Misc<a class='headerlink' href='#section-5-2' title='Permanent link'></a>
                         </h1>
@@ -22252,43 +22308,43 @@ Otherwise, , where the insertion point is defined as the point at which the key 
 <tbody>
 <tr>
 <td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-misc-implement-upper-bound">Implement Upper Bound</a></td>
-<td>2026-05-09</td>
+<td>2026-05-10</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-misc-flatten-a-linked-list">Flatten A Linked List</a></td>
-<td>2026-05-09</td>
+<td>2026-05-10</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-misc-find-nth-root-of-m">Find Nth Root Of M</a></td>
-<td>2026-05-09</td>
+<td>2026-05-10</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-misc-number-of-occurrence">Number Of Occurrence</a></td>
-<td>2026-05-09</td>
+<td>2026-05-10</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-misc-implement-lower-bound">Implement Lower Bound</a></td>
-<td>2026-05-09</td>
+<td>2026-05-10</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-misc-calculate-floor-and-ceiling">Calculate Floor And Ceiling</a></td>
-<td>2026-05-09</td>
+<td>2026-05-10</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-56.-merge-intervals">56. Merge Intervals</a></td>
-<td>2026-05-09</td>
+<td>2026-05-10</td>
+</tr>
+<tr>
+<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-49.-group-anagrams">49. Group Anagrams</a></td>
+<td>2026-05-10</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-560.-subarray-sum-equals-k">560. Subarray Sum Equals K</a></td>
-<td>2026-05-09</td>
+<td>2026-05-10</td>
 </tr>
 <tr>
-<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-75.-sort-colors">75. Sort Colors</a></td>
-<td>2026-05-09</td>
-</tr>
-<tr>
-<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-636.-exclusive-time-of-functions">636. Exclusive Time Of Functions</a></td>
-<td>2026-05-09</td>
+<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-54.-spiral-matrix">54. Spiral Matrix</a></td>
+<td>2026-05-10</td>
 </tr>
 </tbody>
 </table></body></html></section>
@@ -27796,43 +27852,43 @@ To count how many times <code>x</code> appears, we can:</p>
 <tbody>
 <tr>
 <td><a href="#code%20scratch-take%20u%20forward-nonecode scratch-take u forward-index">Index</a></td>
-<td>2026-05-09</td>
+<td>2026-05-10</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-take%20u%20forward-nonecode scratch-take u forward-sorting-selection sort">Selection Sort</a></td>
-<td>2026-05-09</td>
+<td>2026-05-10</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-take%20u%20forward-nonecode scratch-take u forward-sorting-quick sort">Quick Sort</a></td>
-<td>2026-05-09</td>
+<td>2026-05-10</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-take%20u%20forward-nonecode scratch-take u forward-sorting-insertion sort">Insertion Sort</a></td>
-<td>2026-05-09</td>
+<td>2026-05-10</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-take%20u%20forward-nonecode scratch-take u forward-sorting-merge sort">Merge Sort</a></td>
-<td>2026-05-09</td>
-</tr>
-<tr>
-<td><a href="#code%20scratch-take%20u%20forward-nonecode scratch-take u forward-recursion-subsequence pattern problems-check if there exists a subsequence with sum k">Check If There Exists A Subsequence With Sum K</a></td>
-<td>2026-05-09</td>
-</tr>
-<tr>
-<td><a href="#code%20scratch-take%20u%20forward-nonecode scratch-take u forward-recursion-subsequence pattern problems-count all subsequences with sum k">Count All Subsequences With Sum K</a></td>
-<td>2026-05-09</td>
+<td>2026-05-10</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-take%20u%20forward-nonecode scratch-take u forward-sorting-bubble sort">Bubble Sort</a></td>
-<td>2026-05-09</td>
+<td>2026-05-10</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-take%20u%20forward-nonecode scratch-take u forward-recursion-implementation problems-power set">Power Set</a></td>
-<td>2026-05-09</td>
+<td>2026-05-10</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-take%20u%20forward-nonecode scratch-take u forward-recursion-implementation problems-pow(x,n)">Pow(X,N)</a></td>
-<td>2026-05-09</td>
+<td>2026-05-10</td>
+</tr>
+<tr>
+<td><a href="#code%20scratch-take%20u%20forward-nonecode scratch-take u forward-recursion-subsequence pattern problems-check if there exists a subsequence with sum k">Check If There Exists A Subsequence With Sum K</a></td>
+<td>2026-05-10</td>
+</tr>
+<tr>
+<td><a href="#code%20scratch-take%20u%20forward-nonecode scratch-take u forward-recursion-subsequence pattern problems-count all subsequences with sum k">Count All Subsequences With Sum K</a></td>
+<td>2026-05-10</td>
 </tr>
 </tbody>
 </table>
