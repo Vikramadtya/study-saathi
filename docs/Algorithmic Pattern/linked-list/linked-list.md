@@ -113,9 +113,8 @@ The node have links that point to both the `next` and `previous` cells in the li
 
 
 
-{% hint style="info" %}
-It is convenient to have both top and bottom sentinels for doubly linked lists so that the program can easily manipulate the list from either end.
-{% endhint %}
+!!! info
+    It is convenient to have both top and bottom sentinels for doubly linked lists so that the program can easily manipulate the list from either end.
 
 
 
@@ -131,9 +130,8 @@ When adding a new item to the list, search through the list to find the position
 
 A _self-organizing linked list_ is a list that uses some sort of heuristic to rearrange its items to improve expected access times.
 
-{% hint style="info" %}
-A _heuristic_ is an algorithm that is likely but not guaranteed to produce a good result.
-{% endhint %}
+!!! info
+    A _heuristic_ is an algorithm that is likely but not guaranteed to produce a good result.
 
 
 
@@ -193,17 +191,15 @@ Drawback to this method are
 * it requires extra storage to hold the item counts.&#x20;
 * It also takes more work to move an item several positions through the list than it does simply to move it to the front of the list or to swap it with one neighboring item.
 
-{% hint style="info" %}
-Use a doubly linked list to easily swap the found item toward the front of the list as far as necessary.
-{% endhint %}
+!!! info
+    Use a doubly linked list to easily swap the found item toward the front of the list as far as necessary.
 
 ### Hybrid
 
-{% hint style="info" %}
-* the MTF method makes large adjustments to the items' order relatively quickly, but later searches for less commonly accessed items can mess up the arrangement.&#x20;
-* Swapping produces a better arrangement but is slower.&#x20;
-* Counting produces a very good arrangement but requires extra storage.
-{% endhint %}
+!!! info
+    * the MTF method makes large adjustments to the items' order relatively quickly, but later searches for less commonly accessed items can mess up the arrangement.&#x20;
+    * Swapping produces a better arrangement but is slower.&#x20;
+    * Counting produces a very good arrangement but requires extra storage.
 
 Use a combination of techniques to produce a better overall result.
 

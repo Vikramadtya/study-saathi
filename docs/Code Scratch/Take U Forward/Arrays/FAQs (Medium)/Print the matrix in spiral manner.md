@@ -94,5 +94,5 @@ class Solution {
 - Matrix Transpose: Is there a way to solve this by repeatedly "rotating" the matrix? (Look up the Pythonic one-liner: matrix.pop(0) + spiralOrder(zip(*matrix)[::-1])). While cool, why is this inefficient in Java?
 - The Single-Row/Column Case: How does your code handle a 1×5 matrix? (The if(top <= bottom) check prevents the "Move Left" loop from re-processing the only row already processed by "Move Right").
 - Spiral Matrix II: A common follow-up is being given an integer n and having to generate an n×n matrix filled with elements from 1 to $n^2$ in spiral order. Could you adapt this logic to write instead of read?
-- Directional Vectors: In more complex simulations (like a 3D spiral), we use a directions array: int[][] dirs = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}}. This allows you to handle the "turn" with a simple (dirIndex + 1) % 4.
+- Directional Vectors: In more complex simulations (like a 3D spiral), we use a directions array: `int[][] dirs = {% raw %}{{0, 1}, {1, 0}, {0, -1}, {-1, 0}}{% endraw %}`. This allows you to handle the "turn" with a simple (dirIndex + 1) % 4.
 - Layer-by-layer Recursion: Could this be solved recursively? What would the base case be? (Usually when left > right or top > bottom).

@@ -12,11 +12,10 @@
 
 
 
-{% hint style="info" %}
-## Sink Vertex
-
-Sink vertex is the vertex which has no outbound edges.&#x20;
-{% endhint %}
+!!! info
+    ## Sink Vertex
+    
+    Sink vertex is the vertex which has no outbound edges.&#x20;
 
 
 
@@ -24,9 +23,8 @@ Sink vertex is the vertex which has no outbound edges.&#x20;
 
 
 
-{% hint style="info" %}
-A directed graph with no sink vertex must have cycle.
-{% endhint %}
+!!! info
+    A directed graph with no sink vertex must have cycle.
 
 
 

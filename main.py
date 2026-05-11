@@ -1,4 +1,5 @@
 import os
+import re
 from datetime import datetime
 
 def define_env(env):
@@ -39,3 +40,13 @@ def define_env(env):
             lines.append(f"| [{name}]({env.conf['site_url']}{url}) | {date} |")
             
         return "\n".join(lines)
+
+def on_pre_page(env):
+    """
+    Pre-process the markdown to:
+    Protect Java/C-style array initializations {{...}} from Jinja2 parsing.
+    """
+    # Protect Java/C-style array initializations {{0,1}, ...}
+    # This regex looks for double braces containing digits, commas, spaces, or nested braces
+    # which is characteristic of array literals but not macro calls.
+    env.raw_markdown = re.sub(r'\{\{([0-9\s,\-\{\}]+)\}\}', r'{% raw %}{{\1}}{% endraw %}', env.raw_markdown)

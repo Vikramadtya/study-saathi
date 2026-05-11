@@ -145,19 +145,19 @@ hide:
 
 -   :material-xml:{ .lg .middle } __Algorithmic Patterns__
     The structural core of software. BFS, DFS, and DP.
-    [:octicons-arrow-right-24: Entry](algorithms/)
+    [:octicons-arrow-right-24: Entry](Algorithmic Pattern/index.md)
 
 -   :material-layers-search-outline:{ .lg .middle } __Design Patterns__
     Architectural blueprints for clean, scalable code.
-    [:octicons-arrow-right-24: Entry](patterns/)
+    [:octicons-arrow-right-24: Entry](Low Level Design/index.md)
 
 -   :material-server-network:{ .lg .middle } __System Design__
     Distributed systems, sharding, and high availability.
-    [:octicons-arrow-right-24: Entry](system-design/)
+    [:octicons-arrow-right-24: Entry](System Design/0. About.md)
 
 -   :material-head-cog-outline:{ .lg .middle } __Coding Solutions__
     Practical problem solving for real-world scenarios.
-    [:octicons-arrow-right-24: Entry](solutions/)
+    [:octicons-arrow-right-24: Entry](Code Scratch/index.md)
 
 </div>
 

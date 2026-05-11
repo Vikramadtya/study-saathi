@@ -53,9 +53,8 @@ If the array is already sorted no swap will occur and we will break out from the
 
 
 
-{% hint style="info" %}
-The best case occurs if the given array is already sorted due to the chaeck we find this in single iteration thus leading to best case complexity of $$\text{O}(n)$$
-{% endhint %}
+!!! info
+    The best case occurs if the given array is already sorted due to the chaeck we find this in single iteration thus leading to best case complexity of $$\text{O}(n)$$
 
 
 

@@ -28,9 +28,8 @@ With an array-based stack, `Push` and `Pop` have $$\text{O}(1)$$ run times.&#x20
 
 
 
-{% hint style="info" %}
-Setting and getting a value from an array generally is faster than creating a new cell in a linked list, so this method may be slightly faster than using a linked list.
-{% endhint %}
+!!! info
+    Setting and getting a value from an array generally is faster than creating a new cell in a linked list, so this method may be slightly faster than using a linked list.
 
 
 

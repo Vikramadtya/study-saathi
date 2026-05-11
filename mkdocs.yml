@@ -59,7 +59,9 @@ plugins:
   - search
   - tags
   - glightbox
-  - git-revision-date-localized
+  - git-revision-date-localized:
+      enable_parallel_processing: false
+      fallback_to_build_date: true
   - minify: # NEW: Compresses your site for faster loading
       minify_html: true
   - social: # ENHANCED: Generates beautiful sharing cards
@@ -67,10 +69,10 @@ plugins:
         font_family: Lora
   - awesome-pages:
       collapse_single_pages: true
-  - print-site:
-      add_to_navigation: false # Forces the print icon to appear
   - macros:
       module_name: main
+  - print-site:
+      add_to_navigation: false # Forces the print icon to appear
 
 markdown_extensions:
   - toc:

@@ -6,9 +6,8 @@ description: only for case where majority has more than n/2  occurrences
 
 The Boyer-Moore voting method determines the majority element i.e with more than $$N/2$$ occurrences  among other elements.
 
-{% hint style="info" %}
-If there is no majority, the algorithm will not recognise this and will continue to output one of the items. To avoid this we can add a check
-{% endhint %}
+!!! info
+    If there is no majority, the algorithm will not recognise this and will continue to output one of the items. To avoid this we can add a check
 
 
 

@@ -14,9 +14,8 @@ description: >-
 
 
 
-{% hint style="info" %}
-&#x20;Sometimes reverse traversals also helps to solve several binary tree coding problems.
-{% endhint %}
+!!! info
+    &#x20;Sometimes reverse traversals also helps to solve several binary tree coding problems.
 
 ## Morris In-order Traversal  (root second)&#x20;
 

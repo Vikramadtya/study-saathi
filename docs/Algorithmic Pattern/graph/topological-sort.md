@@ -24,9 +24,8 @@ Topological sort is a technique used in graph theory to order the vertices of a 
 \
 
 
-{% hint style="danger" %}
-<mark style="color:orange;">The topological sort is not necessarily unique.</mark>
-{% endhint %}
+!!! danger
+    <mark style="color:orange;">The topological sort is not necessarily unique.</mark>
 
 
 
@@ -45,9 +44,8 @@ Topological sort is a technique used in graph theory to order the vertices of a 
 
 
 
-{% hint style="info" %}
-Sink vertices are the only candidates for the final/last vertex position in the topological ordering.
-{% endhint %}
+!!! info
+    Sink vertices are the only candidates for the final/last vertex position in the topological ordering.
 
 
 
@@ -58,12 +56,11 @@ Sink vertices are the only candidates for the final/last vertex position in the 
 
 
 
-{% hint style="info" %}
-In DFS we print the nodes as we see them, which means when we print a node, it has just been discovered but not yet processed, which means it is in the _**Visiting**_ state.&#x20;
-
-* So DFS gives the order in which the nodes enter the _**Visiting**_ state and not the _**Visited**_ state.
-* For topological sorting we need to have the order in which the nodes are completely processed, i.e, the order in which the nodes are marked as _**Visited**_. Because when a node is marked _**Visited**_ then all of its child node have already been processed&#x20;
-{% endhint %}
+!!! info
+    In DFS we print the nodes as we see them, which means when we print a node, it has just been discovered but not yet processed, which means it is in the _**Visiting**_ state.&#x20;
+    
+    * So DFS gives the order in which the nodes enter the _**Visiting**_ state and not the _**Visited**_ state.
+    * For topological sorting we need to have the order in which the nodes are completely processed, i.e, the order in which the nodes are marked as _**Visited**_. Because when a node is marked _**Visited**_ then all of its child node have already been processed&#x20;
 
 *   At any point during the DFS traversal of a graph we can divide the nodes in 3 groups
 
@@ -94,9 +91,8 @@ In DFS we print the nodes as we see them, which means when we print a node, it h
 
 * The BFS version for topological sort is known as **Kahn's Algorithm**.
 
-{% hint style="info" %}
-&#x20;The **indegree** of a node represents the number of arcs coming into a node. The **outdegree** represents the number of arcs going from a node.
-{% endhint %}
+!!! info
+    &#x20;The **indegree** of a node represents the number of arcs coming into a node. The **outdegree** represents the number of arcs going from a node.
 
 *   The first node in a topological sorting should have the indegree equal to 0.&#x20;
 
@@ -118,9 +114,8 @@ In DFS we print the nodes as we see them, which means when we print a node, it h
 
 
 
-{% hint style="info" %}
-We can also use Kahn's algorithm to extract the lexicographically minimum topological sort by breaking ties lexographically. One can simply replace the `queue` with a `priority_queue` to implement this extension.
-{% endhint %}
+!!! info
+    We can also use Kahn's algorithm to extract the lexicographically minimum topological sort by breaking ties lexographically. One can simply replace the `queue` with a `priority_queue` to implement this extension.
 
 
 

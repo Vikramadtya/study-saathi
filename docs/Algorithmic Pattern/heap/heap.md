@@ -23,9 +23,8 @@ Since a heap is a complete binary tree, it has a smallest possible height - a he
 
 
 
-{% hint style="info" %}
-A heap is useful data structure when to remove the object with the highest (or lowest) priority and a common use of a heap is to implement a priority queue.
-{% endhint %}
+!!! info
+    A heap is useful data structure when to remove the object with the highest (or lowest) priority and a common use of a heap is to implement a priority queue.
 
 \
 

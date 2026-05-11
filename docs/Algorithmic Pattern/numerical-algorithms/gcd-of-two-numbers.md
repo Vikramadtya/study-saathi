@@ -20,9 +20,8 @@ int gcd(int m, int n) {
 
 
 
-{% hint style="info" %}
-The GCD is always positive irrespective of the sign of the input numbers. If the given number is negative, we will simply ignore its `-` sign using the `abs()` function
-{% endhint %}
+!!! info
+    The GCD is always positive irrespective of the sign of the input numbers. If the given number is negative, we will simply ignore its `-` sign using the `abs()` function
 
 To find the GCD of two numbers using recursion, we will be using the principle $$\text{GCD}(a,b) = \text{GCD}(a,b−a)$$
 

@@ -55,9 +55,8 @@ This prime factoring algorithm has run time $$\text{O}(\sqrt{n})$$
 
 
 
-{% hint style="info" %}
-The method of trying all the possible factors smaller than a number is called _trial division_. There are other factoring methods, such as _wheel factorization_ and various field sieves.
-{% endhint %}
+!!! info
+    The method of trying all the possible factors smaller than a number is called _trial division_. There are other factoring methods, such as _wheel factorization_ and various field sieves.
 
 
 
@@ -100,9 +99,8 @@ for a natural number , at least half of the numbers between 1 and $$p$$ are Ferm
 
 
 
-{% hint style="info" %}
-This is an example of a probabilistic algorithm—one that produces a correct result with a certain probability.
-{% endhint %}
+!!! info
+    This is an example of a probabilistic algorithm—one that produces a correct result with a certain probability.
 
 
 

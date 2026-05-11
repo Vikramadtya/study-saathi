@@ -8,11 +8,10 @@
 * because _true random-number generators_ (TRNGs) are relatively complicated and slow, most applications use a faster _pseudorandom number generator_ (PRNG) instead.
   * for many applications, if the numbers are in some sense “random enough,” a program can still make use of them and get good results.
 
-{% hint style="info" %}
-To get truly unpredictable randomness,  need to use a source other than a computer program.
-
-For example, use a radiation detector that measures particles coming out of a radioactive sample to generate random numbers. Because no one can predict exactly when the particles will emerge, this is truly random.
-{% endhint %}
+!!! info
+    To get truly unpredictable randomness,  need to use a source other than a computer program.
+    
+    For example, use a radiation detector that measures particles coming out of a radioactive sample to generate random numbers. Because no one can predict exactly when the particles will emerge, this is truly random.
 
 
 
@@ -31,12 +30,11 @@ $$
 
 
 
-{% hint style="info" %}
-* Any linear congruential generator has a period over which it repeats making it unusable for cryptographic purposes.
-* A _cryptographically secure pseudorandom number generator_ (CSPRNG) uses more complicated algorithms to generate numbers that are harder to predict and to produce much longer sequences without entering a loop.&#x20;
-  * They typically have much larger seed values.
-  * They are complicated so slower than simpler algorithms.
-{% endhint %}
+!!! info
+    * Any linear congruential generator has a period over which it repeats making it unusable for cryptographic purposes.
+    * A _cryptographically secure pseudorandom number generator_ (CSPRNG) uses more complicated algorithms to generate numbers that are harder to predict and to produce much longer sequences without entering a loop.&#x20;
+      * They typically have much larger seed values.
+      * They are complicated so slower than simpler algorithms.
 
 _**Ensuring Fairness**_
 
@@ -73,12 +71,11 @@ RandomizeArray(String: array[])
     Next i
 ```
 
-{% hint style="danger" %}
-A task similar to randomizing an array is picking a certain number of random items from an array without duplication
-
-* Can use the _linear congruential generator to get the indices_
-* Iterate over the array and select based on the random fraction generated $$\gt\ 0.5$$
-{% endhint %}
+!!! danger
+    A task similar to randomizing an array is picking a certain number of random items from an array without duplication
+    
+    * Can use the _linear congruential generator to get the indices_
+    * Iterate over the array and select based on the random fraction generated $$\gt\ 0.5$$
 
 
 

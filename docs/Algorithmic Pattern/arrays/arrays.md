@@ -10,16 +10,15 @@ An array is a chunk of contiguous memory that a program can access by using indi
 
 
 
-{% hint style="info" %}
-Behind the scenes, the program allocates enough contiguous memory to hold the array's data.
-
-* For one-dimensional arrays, the mapping from array indices to memory entries is simple: index i maps to entry i.&#x20;
-* For two-dimensional arrays, the program can map the array entries in one of two ways:&#x20;
-  * In row-major order, the program maps the first row of array entries to the first set of memory locations. It then maps the second row to the set of memory locations after the first and so on..&#x20;
-  * In column-major order, the program maps the first column of array entries to the first set of memory locations. It then maps the second column to the second set of memory locations, and so forth.
-
-Normally, how a program maps array entries to memory locations is irrelevant to how a program works,
-{% endhint %}
+!!! info
+    Behind the scenes, the program allocates enough contiguous memory to hold the array's data.
+    
+    * For one-dimensional arrays, the mapping from array indices to memory entries is simple: index i maps to entry i.&#x20;
+    * For two-dimensional arrays, the program can map the array entries in one of two ways:&#x20;
+      * In row-major order, the program maps the first row of array entries to the first set of memory locations. It then maps the second row to the set of memory locations after the first and so on..&#x20;
+      * In column-major order, the program maps the first column of array entries to the first set of memory locations. It then maps the second column to the second set of memory locations, and so forth.
+    
+    Normally, how a program maps array entries to memory locations is irrelevant to how a program works,
 
 
 
@@ -90,15 +89,14 @@ For inserting anywhere
 
 Removing the item with index `k` from an array means moving the items that come after position `k` one position closer to the beginning of the array.&#x20;
 
-{% hint style="info" %}
-In some cases, it may be possible to flag an entry as unused instead of actually removing it.&#x20;
-
-This technique can be particularly useful in hash tables, where resizing the array and rebuilding the hash table would be time-consuming.
-
-If flagging many entries as unused, the array could eventually fill up with unused entries. Then, to find an item, would need to examine a lot of empty positions.&#x20;
-
-At some point, may want to compress the array to remove the empty entries.
-{% endhint %}
+!!! info
+    In some cases, it may be possible to flag an entry as unused instead of actually removing it.&#x20;
+    
+    This technique can be particularly useful in hash tables, where resizing the array and rebuilding the hash table would be time-consuming.
+    
+    If flagging many entries as unused, the array could eventually fill up with unused entries. Then, to find an item, would need to examine a lot of empty positions.&#x20;
+    
+    At some point, may want to compress the array to remove the empty entries.
 
 ## Nonzero Lower Bounds <a href="#head-2-76" id="head-2-76"></a>
 
@@ -135,17 +133,16 @@ $$
 
 
 
-{% hint style="info" %}
-Some applications can save space by using triangular arrays instead of normal rectangular arrays.
-
-
-
-For example, a _connectivity matrix_ represents the connections between points in some sort of network.
-
-> The array's entry `connected[i, j]` is set to true if there is a flight from airport `i` to airport `j`. If you assume that there is a flight from airport `j` to airport `i` whenever there is a flight from airport `i` to airport `j`, then `connected[i, j] = connected[j, i]`. In that case, there's no need to store both `connected[i, j]` and `connected[j, i]` because they are the same.
-
-it's probably not worth making a $$100*100$$ triangular array because you would save only $$4,960$$ entries, which still isn't all that much memory, and working with the array would be harder than using a normal array. However, a $$10000*10000$$ triangular array would save about $$50$$million entries, which begins to add up to real memory savings, so it may be worth making it into a triangular array.
-{% endhint %}
+!!! info
+    Some applications can save space by using triangular arrays instead of normal rectangular arrays.
+    
+    
+    
+    For example, a _connectivity matrix_ represents the connections between points in some sort of network.
+    
+    > The array's entry `connected[i, j]` is set to true if there is a flight from airport `i` to airport `j`. If you assume that there is a flight from airport `j` to airport `i` whenever there is a flight from airport `i` to airport `j`, then `connected[i, j] = connected[j, i]`. In that case, there's no need to store both `connected[i, j]` and `connected[j, i]` because they are the same.
+    
+    it's probably not worth making a $$100*100$$ triangular array because you would save only $$4,960$$ entries, which still isn't all that much memory, and working with the array would be harder than using a normal array. However, a $$10000*10000$$ triangular array would save about $$50$$million entries, which begins to add up to real memory savings, so it may be worth making it into a triangular array.
 
 To build a triangular array simply pack the array's values into a one-dimensional array, skipping the entries that should not be included.&#x20;
 
