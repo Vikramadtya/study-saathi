@@ -3841,7 +3841,7 @@
   <span class="md-ellipsis">
     
   
-    Working with Images
+    🐳 Mastering Docker Images: The Comprehensive Guide
   
 
     
@@ -3869,7 +3869,7 @@
   <span class="md-ellipsis">
     
   
-    7. Working with containers
+    Working with containers
   
 
     
@@ -13099,7 +13099,7 @@
   <a href="#notes-docker-6.%20working%20with%20images" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5.1.4 Working with Images
+        5.1.4 🐳 Mastering Docker Images: The Comprehensive Guide
       
     </span>
   </a>
@@ -13110,7 +13110,7 @@
   <a href="#notes-docker-7.%20working%20with%20containers" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5.1.5 7. Working with containers
+        5.1.5 Working with containers
       
     </span>
   </a>
@@ -20414,14 +20414,216 @@ docker image inspect &lt;ID&gt; --format='{ {range .Config.Env}}{ {println .}}{ 
             remove_material_navigation();remove_mkdocs_theme_navigation();generate_toc();
         })
         </script>
-        </head><body><h1 id="working-with-images">Working with Images<a class="headerlink" href="#notes-docker-6.%20working%20with%20images-working-with-images" title="Permanent link">¶</a></h1>
-<h2 id="notes-docker-6.%20working%20with%20images-docker-images-the-tldr">Docker images – The TLDR<a class="headerlink" href="#notes-docker-6.%20working%20with%20images-docker-images-the-tldr" title="Permanent link">¶</a></h2></body></html></section><section class="print-page" id="notes-docker-7.%20working%20with%20containers" heading-number="5.1.5"><html><head>
+        </head><body><h1 id="mastering-docker-images-the-comprehensive-guide">🐳 Mastering Docker Images: The Comprehensive Guide<a class="headerlink" href="#notes-docker-6.%20working%20with%20images-mastering-docker-images-the-comprehensive-guide" title="Permanent link">¶</a></h1>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/images/Notes/Docker/6.%20Working%20with%20Images/summary.jpg" data-desc-position="bottom"><img alt="image" src="../assets/images/Notes/Docker/6.%20Working%20with%20Images/summary.jpg"></a></p>
+<h2 id="notes-docker-6.%20working%20with%20images-the-image-concept-blueprints-for-runtime">The Image Concept: Blueprints for Runtime<a class="headerlink" href="#notes-docker-6.%20working%20with%20images-the-image-concept-blueprints-for-runtime" title="Permanent link">¶</a></h2>
+<p>A Docker image is a <strong>read-only, immutable package</strong> containing everything required to run an application: code, runtime, system libraries, environment variables, and config files.</p>
+<h3 id="notes-docker-6.%20working%20with%20images-the-build-time-vs-run-time-distinction">The Build-Time vs. Run-Time Distinction<a class="headerlink" href="#notes-docker-6.%20working%20with%20images-the-build-time-vs-run-time-distinction" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Image (Build-Time):</strong> A static blueprint stored on disk.</li>
+<li><strong>Container (Run-Time):</strong> A dynamic, living instance of an image.</li>
+<li><strong>Relationship:</strong> You can instantiate multiple containers from a single image. Once a container is running, it is "bound" to its parent image. You cannot delete an image while containers (even stopped ones) are still referencing it.</li>
+</ul>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/images/Notes/Docker/6.%20Working%20with%20Images/figure6-1.png" data-desc-position="bottom"><img alt="image" src="../assets/images/Notes/Docker/6.%20Working%20with%20Images/figure6-1.png"></a></p>
+<h3 id="notes-docker-6.%20working%20with%20images-the-no-kernel-architecture">The "No Kernel" Architecture<a class="headerlink" href="#notes-docker-6.%20working%20with%20images-the-no-kernel-architecture" title="Permanent link">¶</a></h3>
+<p>Images are remarkably small because they <strong>lack an OS Kernel</strong>. </p>
+<ul>
+<li>Containers share the <strong>Host OS Kernel</strong> (Linux or the lightweight utility VM on Windows/macOS).</li>
+<li>The only OS-related components in an image are <strong>Filesystem objects</strong> (bins, libs, configs).</li>
+</ul>
+<h3 id="notes-docker-6.%20working%20with%20images-immutability">Immutability<a class="headerlink" href="#notes-docker-6.%20working%20with%20images-immutability" title="Permanent link">¶</a></h3>
+<p>Once an image is created, it cannot be changed. Updates are made by creating a <em>new</em> image with a new version tag or digest.</p>
+<h2 id="notes-docker-6.%20working%20with%20images-image-anatomy-and-layering">Image Anatomy and Layering<a class="headerlink" href="#notes-docker-6.%20working%20with%20images-image-anatomy-and-layering" title="Permanent link">¶</a></h2>
+<p>Docker creates images by stacking independent, read-only layers. This "stack" is presented as a single, unified object through a <strong>Union File System (UnionFS)</strong>.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/images/Notes/Docker/6.%20Working%20with%20Images/figure6-6.png" data-desc-position="bottom"><img alt="image" src="../assets/images/Notes/Docker/6.%20Working%20with%20Images/figure6-6.png"></a></p>
+<ul>
+<li><strong>Efficiency through Sharing:</strong> If multiple images share a base layer (e.g., <code>alpine</code>), Docker only stores and pulls that layer once.</li>
+<li><strong>Layer Composition:</strong> Every command in a <code>Dockerfile</code> (like <code>RUN</code>, <code>COPY</code>, <code>ADD</code>) creates a new layer.</li>
+<li><strong>Copy-on-Write (CoW):</strong> When a container starts, Docker adds a thin <strong>Writable Layer</strong> on top of the image. Any changes made during execution are stored here, leaving the underlying image pristine.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Component</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Base Layer</strong></td>
+<td style="text-align: left;">Usually a minimal OS (e.g., Alpine, Ubuntu). All images start here.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Stacked Layers</strong></td>
+<td style="text-align: left;">Each instruction in a <code>Dockerfile</code> (RUN, COPY, ADD) creates a new layer.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Layer Sharing</strong></td>
+<td style="text-align: left;">Docker uses <strong>Content-Addressable Storage</strong>. If two images use the same base layer, Docker only stores one copy on disk.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Copy-on-Write (CoW)</strong></td>
+<td style="text-align: left;">When a container starts, Docker adds a thin <strong>Writable Layer</strong> on top. Changes are written here, while the underlying image layers remain untouched.</td>
+</tr>
+</tbody>
+</table>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/images/Notes/Docker/6.%20Working%20with%20Images/figure6-12.png" data-desc-position="bottom"><img alt="image" src="../assets/images/Notes/Docker/6.%20Working%20with%20Images/figure6-12.png"></a></p>
+<h3 id="notes-docker-6.%20working%20with%20images-the-storage-driver-filesystem-abstraction">The Storage Driver &amp; Filesystem Abstraction<a class="headerlink" href="#notes-docker-6.%20working%20with%20images-the-storage-driver-filesystem-abstraction" title="Permanent link">¶</a></h3>
+<p>Docker uses <strong>storage drivers</strong> to stack these layers and present them as a unified filesystem.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/images/Notes/Docker/6.%20Working%20with%20Images/figure6-9.png" data-desc-position="bottom"><img alt="image" src="../assets/images/Notes/Docker/6.%20Working%20with%20Images/figure6-9.png"></a></p>
+<ul>
+<li><strong>The Industry Standard:</strong> Almost all modern Docker setups use the <strong><code>overlay2</code></strong> driver.</li>
+<li><strong>Alternative Options:</strong> Depending on the host OS and requirements, Docker also supports <strong><code>zfs</code></strong>, <strong><code>btrfs</code></strong>, and <strong><code>vfs</code></strong>.</li>
+<li><strong>The Abstraction Layer:</strong> Regardless of which storage driver is used (the "how"), the <strong>developer and user experience remain identical</strong> (the "what"). The driver handles the complexity of merging layers into a single file tree seamlessly.</li>
+</ul>
+<h2 id="notes-docker-6.%20working%20with%20images-storage-and-registries">Storage and Registries<a class="headerlink" href="#notes-docker-6.%20working%20with%20images-storage-and-registries" title="Permanent link">¶</a></h2>
+<h3 id="notes-docker-6.%20working%20with%20images-the-local-repository-image-cache">The Local Repository (Image Cache)<a class="headerlink" href="#notes-docker-6.%20working%20with%20images-the-local-repository-image-cache" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Linux:</strong> Typically found at <code>/var/lib/docker/&lt;storage-driver&gt;</code> (usually <code>overlay2</code>).</li>
+<li><strong>Desktop:</strong> Stored within the managed Docker Desktop VM.</li>
+<li><strong>Mechanics:</strong> Pulling an image checks your local cache first. Docker only downloads layers that are missing from your local repository.</li>
+</ul>
+<h3 id="notes-docker-6.%20working%20with%20images-image-registries">Image Registries<a class="headerlink" href="#notes-docker-6.%20working%20with%20images-image-registries" title="Permanent link">¶</a></h3>
+<p>Registries are centralized warehouses for images.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/images/Notes/Docker/6.%20Working%20with%20Images/figure6-3.png" data-desc-position="bottom"><img alt="image" src="../assets/images/Notes/Docker/6.%20Working%20with%20Images/figure6-3.png"></a></p>
+<ul>
+<li>
+<p><strong>OCI Compliance:</strong> Modern registries implement the <strong>OCI Distribution-Spec</strong>, ensuring interoperability across different container engines.</p>
+</li>
+<li>
+<p><strong>Official vs. Unofficial:</strong> </p>
+<ul>
+<li><strong>Official:</strong> Curated and vetted by Docker and vendors (e.g., <code>redis</code>, <code>nginx</code>). They reside at the root of the Docker Hub namespace.</li>
+<li><strong>Unofficial:</strong> User-contributed. They require a prefix: <code>username/repository</code>.</li>
+</ul>
+</li>
+</ul>
+<h2 id="notes-docker-6.%20working%20with%20images-naming-and-tagging">Naming and Tagging<a class="headerlink" href="#notes-docker-6.%20working%20with%20images-naming-and-tagging" title="Permanent link">¶</a></h2>
+<h3 id="notes-docker-6.%20working%20with%20images-naming-convention">Naming Convention<a class="headerlink" href="#notes-docker-6.%20working%20with%20images-naming-convention" title="Permanent link">¶</a></h3>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/images/Notes/Docker/6.%20Working%20with%20Images/figure6-5.png" data-desc-position="bottom"><img alt="image" src="../assets/images/Notes/Docker/6.%20Working%20with%20Images/figure6-5.png"></a></p>
+<p>A fully qualified image name follows this structure:
+<code>[REGISTRY_HOST]/[ORG_OR_USER]/[REPOSITORY]:[TAG]</code></p>
+<ul>
+<li><strong>Default Registry:</strong> <code>docker.io</code> (Docker Hub).</li>
+<li><strong>Default Tag:</strong> <code>latest</code>.</li>
+<li><strong>Official Repos:</strong> These live in the top-level namespace (e.g., <code>redis</code>, <code>nginx</code>, <code>alpine</code>) and are vetted for security.</li>
+</ul>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#notes-docker-6.%20working%20with%20images-__codelineno-0-1"></a><span class="c1"># Pulling from a custom registry (GitHub Container Registry)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#notes-docker-6.%20working%20with%20images-__codelineno-0-2"></a>docker<span class="w"> </span>pull<span class="w"> </span>ghcr.io/username/app-name:v1.2.0
+</span></code></pre></div>
+<blockquote>
+<p>[!WARNING]
+<strong>The <code>latest</code> Tag Trap:</strong> The <code>latest</code> tag is just a default label. It is <strong>mutable</strong>, meaning the image it points to can change. In production, always use specific version tags or digests for reproducibility.</p>
+</blockquote>
+<h2 id="notes-docker-6.%20working%20with%20images-image-inspection-and-history">Image Inspection and History<a class="headerlink" href="#notes-docker-6.%20working%20with%20images-image-inspection-and-history" title="Permanent link">¶</a></h2>
+<h3 id="notes-docker-6.%20working%20with%20images-docker-image-inspect"><code>docker image inspect</code><a class="headerlink" href="#notes-docker-6.%20working%20with%20images-docker-image-inspect" title="Permanent link">¶</a></h3>
+<p>Provides the full JSON metadata of an image, including the <strong>RootFS</strong> (a list of all layer SHA256 hashes). Shows high-level metadata (Architecture, OS, Config, Environment variables).</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#notes-docker-6.%20working%20with%20images-__codelineno-1-1"></a>docker<span class="w"> </span>image<span class="w"> </span>inspect<span class="w"> </span>&lt;IMAGE_ID&gt;
+</span></code></pre></div>
+<h2 id="notes-docker-6.%20working%20with%20images-docker-history"><code>docker history</code><a class="headerlink" href="#notes-docker-6.%20working%20with%20images-docker-history" title="Permanent link">¶</a></h2>
+<p>Shows how the image was built.</p>
+<ul>
+<li>Metadata Instructions: Commands like ENV, EXPOSE, and CMD add metadata but create 0B layers.</li>
+<li>Filesystem Instructions: RUN, COPY, and ADD create layers that consume disk space.</li>
+</ul>
+<p><strong>Note:</strong> In 2026, many layers in <code>docker history</code> appear as <code>&lt;missing&gt;</code>. This is normal; it simply means those layers were built on a different machine (e.g., the official build server) and are not individually manageable on your local host.</p>
+<h2 id="notes-docker-6.%20working%20with%20images-immutability-via-digests">Immutability via Digests<a class="headerlink" href="#notes-docker-6.%20working%20with%20images-immutability-via-digests" title="Permanent link">¶</a></h2>
+<p>Tags are "pointers" and can be changed. <strong>Digests</strong> are cryptographic SHA256 hashes of the image's content.</p>
+<ul>
+<li><strong>Content-Addressable Storage:</strong> If the content of an image changes, its digest <em>must</em> change.</li>
+<li><strong>Pulling by Digest:</strong> For maximum security (preventing "Tag Poisoning"), pull images by digest to ensure you get the exact bits you tested.</li>
+</ul>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#notes-docker-6.%20working%20with%20images-__codelineno-2-1"></a>docker<span class="w"> </span>pull<span class="w"> </span>alpine@sha256:5b10f432ef3da1b8d4c7eb6c487f2f5a8f096bc91145e68878dd4a5019afde11
+</span></code></pre></div>
+<h3 id="notes-docker-6.%20working%20with%20images-distribution-vs-content-hashes">Distribution vs. Content Hashes<a class="headerlink" href="#notes-docker-6.%20working%20with%20images-distribution-vs-content-hashes" title="Permanent link">¶</a></h3>
+<p>To save bandwidth, Docker compresses images during transport.</p>
+<ol>
+<li><strong>Distribution Hash:</strong>  The hash of the compressed layer data (checked during pull/push) used during transport to ensure no tampering occurred.</li>
+<li><strong>Content Hash:</strong> The hash of the uncompressed layer data (used by the storage driver).</li>
+</ol>
+<h2 id="notes-docker-6.%20working%20with%20images-multi-architecture-images">Multi-Architecture Images<a class="headerlink" href="#notes-docker-6.%20working%20with%20images-multi-architecture-images" title="Permanent link">¶</a></h2>
+<p>The modern web runs on <code>amd64</code> (Intel/AMD) and <code>arm64</code> (Apple Silicon, AWS Graviton). Docker uses <strong>Manifest Lists</strong> to hide multiple architectures behind a single tag.</p>
+<ol>
+<li>Manifest List (or Index): A high-level list of which architectures an image supports.</li>
+<li>Manifest: The specific blueprint for a specific architecture.</li>
+</ol>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/images/Notes/Docker/6.%20Working%20with%20Images/figure6-13.png" data-desc-position="bottom"><img alt="image" src="../assets/images/Notes/Docker/6.%20Working%20with%20Images/figure6-13.png"></a></p>
+<p><strong>The Workflow:</strong> When you <code>docker pull</code>, the Docker Engine checks your local CPU architecture, looks at the Registry's <strong>Manifest List</strong>, and automatically pulls the correct binary for your system.</p>
+<h3 id="notes-docker-6.%20working%20with%20images-creating-multi-arch-images-with-buildx">Creating Multi-Arch Images with Buildx<a class="headerlink" href="#notes-docker-6.%20working%20with%20images-creating-multi-arch-images-with-buildx" title="Permanent link">¶</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#notes-docker-6.%20working%20with%20images-__codelineno-3-1"></a>docker<span class="w"> </span>buildx<span class="w"> </span>build<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#notes-docker-6.%20working%20with%20images-__codelineno-3-2"></a><span class="w">  </span>--platform<span class="w"> </span>linux/amd64,linux/arm64<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#notes-docker-6.%20working%20with%20images-__codelineno-3-3"></a><span class="w">  </span>-t<span class="w"> </span>username/app:v1<span class="w"> </span>--push<span class="w"> </span>.
+</span></code></pre></div>
+<ul>
+<li><strong>Emulation (QEMU):</strong> Slow, runs target architecture in a VM.</li>
+<li><strong>Build Cloud:</strong> Uses native cloud hardware; significantly faster and provides a shared cache for teams.</li>
+</ul>
+<h2 id="notes-docker-6.%20working%20with%20images-security-vulnerability-scanning">Security: Vulnerability Scanning<a class="headerlink" href="#notes-docker-6.%20working%20with%20images-security-vulnerability-scanning" title="Permanent link">¶</a></h2>
+<p>Docker Scout is the current industry standard for supply chain security, replacing legacy scanning tools.</p>
+<ul>
+<li><strong>Quickview:</strong> <code>docker scout quickview</code> gives an instant risk assessment.</li>
+<li><strong>CVES:</strong> <code>docker scout cves</code> provides deep analysis and remediation advice (e.g., "Upgrade base image from Python 3.11-alpine to 3.14-alpine").</li>
+<li><strong>Policy Evaluation:</strong> Can block images from being pushed if they contain critical vulnerabilities.</li>
+</ul>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#notes-docker-6.%20working%20with%20images-__codelineno-4-1"></a>docker<span class="w"> </span>scout<span class="w"> </span>quickview<span class="w"> </span>&lt;image_name&gt;
+</span></code></pre></div>
+<h2 id="notes-docker-6.%20working%20with%20images-maintenance-and-deletion">Maintenance and Deletion<a class="headerlink" href="#notes-docker-6.%20working%20with%20images-maintenance-and-deletion" title="Permanent link">¶</a></h2>
+<h3 id="notes-docker-6.%20working%20with%20images-removing-images-rmi">Removing Images (rmi)<a class="headerlink" href="#notes-docker-6.%20working%20with%20images-removing-images-rmi" title="Permanent link">¶</a></h3>
+<p>Use docker rmi to remove images by Name, ID, or Digest.</p>
+<ul>
+<li>Dangling Images: Images with no tags (result of a new build using an existing tag). Clean them using docker image prune.</li>
+<li>Shared Layers: Docker won't delete the actual layer files until the last image referencing them is removed.</li>
+</ul>
+<h3 id="notes-docker-6.%20working%20with%20images-bulk-deletion">Bulk Deletion<a class="headerlink" href="#notes-docker-6.%20working%20with%20images-bulk-deletion" title="Permanent link">¶</a></h3>
+<p>To purge all local images (use with extreme caution):</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#notes-docker-6.%20working%20with%20images-__codelineno-5-1"></a># Force delete all local images (Use with caution!)
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#notes-docker-6.%20working%20with%20images-__codelineno-5-2"></a>docker rmi $(docker images -q) -f
+</span></code></pre></div>
+<p>Note: The -f (force) flag should be avoided if possible. Forcing deletion of an image in use by a container creates a "dangling" image state where the tag is removed but the data remains.</p>
+<h2 id="notes-docker-6.%20working%20with%20images-managing-the-lifecycle">Managing the Lifecycle<a class="headerlink" href="#notes-docker-6.%20working%20with%20images-managing-the-lifecycle" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>List Images:</strong> <code>docker image ls</code> (or <code>docker images</code>). Use <code>--digests</code> to see SHA hashes.</li>
+<li><strong>Remove Image:</strong> <code>docker rmi &lt;ID_or_Name&gt;</code>. <ul>
+<li>Docker won't delete a layer if it's still being used by another image.</li>
+<li>You cannot delete an image used by a running (or stopped) container.</li>
+</ul>
+</li>
+<li><strong>Cleanup:</strong> <code>docker image prune</code> removes "dangling" images (images with no tags). <code>docker system prune -a</code> is the "nuclear" option to clean all unused images.</li>
+</ul></body></html></section><section class="print-page" id="notes-docker-7.%20working%20with%20containers" heading-number="5.1.5"><html><head>
         <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function () {
             remove_material_navigation();remove_mkdocs_theme_navigation();generate_toc();
         })
         </script>
-        </head><body></body></html></section></section>
+        </head><body><h1 id="working-with-containers">Working with containers<a class="headerlink" href="#notes-docker-7.%20working%20with%20containers-working-with-containers" title="Permanent link">¶</a></h1>
+<p>Docker implements the Open Container Initiative (OCI) specifications.</p>
+<h2 id="notes-docker-7.%20working%20with%20containers-containers-the-tldr">Containers – The TLDR<a class="headerlink" href="#notes-docker-7.%20working%20with%20containers-containers-the-tldr" title="Permanent link">¶</a></h2>
+<p>Containers are run-time instances of images, and you can start one or more containers from a single image.</p>
+<p>The shared image is read-only, but you can write to the containers. 
+You can start, stop, restart, and delete containers They’re also designed to be stateless and ephemeral.</p>
+<p>Containers are also designed to be immutable. This means you shouldn’t change them after you’ve deployed them — if a container fails, you replace it with a new one instead of connecting to it and making a live fix.</p>
+<p>Containers should only run a single process and we use them to build microservices apps. </p>
+<h2 id="notes-docker-7.%20working%20with%20containers-containers-vs-vms">Containers vs VMs<a class="headerlink" href="#notes-docker-7.%20working%20with%20containers-containers-vs-vms" title="Permanent link">¶</a></h2>
+<ul>
+<li>VMs virtualize hardware</li>
+<li>Containers virtualize operating systems</li>
+</ul>
+<p>In the VM model, you power on a server and a hypervisor boots. When the hypervisor boots, it claims all hardware resources such as CPU, RAM, storage, and network adapters. To deploy an app, you ask the hypervisor to create a virtual machine. It does this by carving up the hardware resources into virtual versions, such as virtual CPUs and Virtual RAM, and packaging them into a VM that looks exactly like a physical server. Once you have the VM, you install an OS and then an app.</p>
+<p>In the container model, you power on the same server and an OS boots and claims all hardware resources. You then install a container runtime such as Docker. To deploy an app, you ask Docker to create a container. It does this by carving up OS resources such as process trees and filesystems into virtual versions and then packaging them as a container that looks exactly like a regular OS. You then tell Docker to run the app inside the container.</p>
+<p>hypervisors perform hardware virtualization where they divide hardware resources into virtual versions and package them as VMs. Container runtimes perform OS virtualization where they divide OS resources into virtual versions and package them as containers. </p>
+<h3 id="notes-docker-7.%20working%20with%20containers-the-vm-tax">The VM tax<a class="headerlink" href="#notes-docker-7.%20working%20with%20containers-the-vm-tax" title="Permanent link">¶</a></h3>
+<p>the biggest problems with the virtual machine model is that you need to install an OS on every VM — every OS consumes CPU, RAM, and storage and takes a relatively long time to boot.</p>
+<p>Containers get around all of this by sharing a single OS on the host they’re running on. </p>
+<div class="admonition note">
+<p>Most container engines and platforms implement sensible defaults for security-related technologies such as SELinux, AppArmor, seccomp, capabilities, and more. You can even configure these to make containers more secure than VMs</p>
+</div>
+<h2 id="notes-docker-7.%20working%20with%20containers-images-and-containers">Images and Containers<a class="headerlink" href="#notes-docker-7.%20working%20with%20containers-images-and-containers" title="Permanent link">¶</a></h2>
+<p>The image is read-only, but each container is read-write. Docker accomplishes this by creating a thin read-write layer for each container and placing it on top of the shared image. </p>
+<p>The containers can see and access the files and apps in the image through their own R/W layer, and if they make any changes, these get written to their R/W layer. When you stop a container, Docker keeps the R/W layer and restores it when you restart the container. However, when you delete a container, Docker deletes its R/W layer. This way, each container can make and keep its own changes without requiring write access to the shared image.</p>
+<div class="admonition info">
+<p>If you’re running on Linux, you’ll need to ensure your user account is a member of the local docker Unix group. If it isn’t, you can add it by running usermod -aG docker <username> and restarting your shell. Alternatively, you can prefix all docker commands with sudo. Your account needs to be a member of the docker group so it can access the API, which is exposed on a privileged local Unix socket at /var/run/docker.sock. It’s also possible to expose the API over the network.</username></p>
+</div>
+<h2 id="notes-docker-7.%20working%20with%20containers-how-containers-start-apps">How containers start apps<a class="headerlink" href="#notes-docker-7.%20working%20with%20containers-how-containers-start-apps" title="Permanent link">¶</a></h2></body></html></section></section>
                     <section class='print-page md-section' id='section-5-2' heading-number='5.2'>
                         <h1>Misc<a class='headerlink' href='#section-5-2' title='Permanent link'></a>
                         </h1>
@@ -23370,19 +23572,19 @@ Otherwise, , where the insertion point is defined as the point at which the key 
 <td>2026-05-11</td>
 </tr>
 <tr>
-<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-75.-sort-colors">75. Sort Colors</a></td>
+<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-3169.-count-days-without-meetings">3169. Count Days Without Meetings</a></td>
 <td>2026-05-11</td>
 </tr>
 <tr>
-<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-875.-koko-eating-bananas">875. Koko Eating Bananas</a></td>
+<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-34.-find-first-and-last-position-of-element-in-sorted-array">34. Find First And Last Position Of Element In Sorted Array</a></td>
 <td>2026-05-11</td>
 </tr>
 <tr>
-<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-78.-subsets">78. Subsets</a></td>
+<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-56.-merge-intervals">56. Merge Intervals</a></td>
 <td>2026-05-11</td>
 </tr>
 <tr>
-<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-8.-string-to-integer-atoi">8. String To Integer Atoi</a></td>
+<td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-49.-group-anagrams">49. Group Anagrams</a></td>
 <td>2026-05-11</td>
 </tr>
 </tbody>
