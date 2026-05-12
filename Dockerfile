@@ -1,5 +1,6 @@
+ARG PYTHON_VERSION=3.11
 # Use a lightweight Python alpine image
-FROM python:3.11-alpine
+FROM python:${PYTHON_VERSION}-alpine
 
 # Disable MkDocs warning https://squidfunk.github.io/mkdocs-material/blog/2026/02/18/mkdocs-2.0/
 ENV NO_MKDOCS_2_WARNING=1

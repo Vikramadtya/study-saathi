@@ -6,3 +6,4 @@ nav:
   - 5. The Docker Engine.md
   - 6. Working with Images.md
   - 7. Working with containers.md
+  - 8. Containerizing an app.md
