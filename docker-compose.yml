@@ -3,7 +3,7 @@ services:
   mkdocs:
     build: .
     container_name: mkdocs_live
-    user: "${UID:-1000}:${GID:-1000}"
+    user: "appuser"
     ports:
       - "8000:8000"
     volumes:

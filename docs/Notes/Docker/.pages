@@ -7,3 +7,4 @@ nav:
   - 6. Working with Images.md
   - 7. Working with containers.md
   - 8. Containerizing an app.md
+  - 9. Multi-container apps with Compose.md
