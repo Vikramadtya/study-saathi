@@ -3948,6 +3948,8 @@
       
         
       
+        
+      
     
     
     
@@ -4147,7 +4149,35 @@
   <span class="md-ellipsis">
     
   
-    Containerizing an app
+    Containerizing an Application
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Notes/Docker/9.%20Multi-container%20apps%20with%20Compose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Container Orchestration with Docker Compose
   
 
     
@@ -13477,7 +13507,18 @@
   <a href="#notes-docker-8.%20containerizing%20an%20app" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5.3.6 Containerizing an app
+        5.3.6 Containerizing an Application
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notes-docker-9.%20multi-container%20apps%20with%20compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3.7 Multi-Container Orchestration with Docker Compose
       
     </span>
   </a>
@@ -21396,79 +21437,558 @@ docker image inspect &lt;ID&gt; --format='{ {range .Config.Env}}{ {println .}}{ 
             remove_material_navigation();remove_mkdocs_theme_navigation();generate_toc();
         })
         </script>
-        </head><body><h1 id="containerizing-an-app">Containerizing an app<a class="headerlink" href="#notes-docker-8.%20containerizing%20an%20app-containerizing-an-app" title="Permanent link">¶</a></h1>
-<h1 id="notes-docker-8.%20containerizing%20an%20app-containerizing-an-app-the-tldr">Containerizing an app – The TLDR<a class="headerlink" href="#notes-docker-8.%20containerizing%20an%20app-containerizing-an-app-the-tldr" title="Permanent link">¶</a></h1>
-<p>Docker aims to make it easy to build, share, and run applications. We call this containerization and the process looks like this:</p>
-<p>Write your applications and create the list of dependencies
-Create a Dockerfile that tells Docker how to build and run the app
-Build the app into an image
-Push the image to a registry (optional)
-Run a container from the image</p>
-<h2 id="notes-docker-8.%20containerizing%20an%20app-containerize-a-single-container-app">Containerize a single-container app<a class="headerlink" href="#notes-docker-8.%20containerizing%20an%20app-containerize-a-single-container-app" title="Permanent link">¶</a></h2>
-<p>Change into the app directory. This directory is your build context because it contains the application source code and the files listing dependencies.</p>
-<p>For Docker to containerize it, it needs a Dockerfile with build instructions.</p>
-<p>Create the Dockerfile</p>
-<p>newer versions of Docker support the <code>docker init</code> command that reads your build context, analyzes your application, and automatically creates a Dockerfile implementing good practices.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-0-1"></a>$ docker init
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-0-2"></a>Welcome to the Docker Init CLI!
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-0-3"></a>&lt;Snip&gt;
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-0-4"></a>? What application platform does your project use? Node
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-0-5"></a>? What version of Node do you want to use? 23.3.0    &lt;&lt;---- Newer versions are OK
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-0-6"></a>? Which package manager do you want to use? npm
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-0-7"></a>? What command do you want to use to start the app? node app.js
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-0-8"></a>? What port does your server listen on? 8080
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-0-9"></a>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-0-10"></a>CREATED: .dockerignore
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-0-11"></a>CREATED: Dockerfile
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-0-12"></a>CREATED: compose.yaml
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-0-13"></a>CREATED: README.Docker.md
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-0-14"></a>
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-0-15"></a>✔ Your Docker files are ready!
+        </head><body><h1 id="containerizing-an-application">Containerizing an Application<a class="headerlink" href="#notes-docker-8.%20containerizing%20an%20app-containerizing-an-application" title="Permanent link">¶</a></h1>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/images/Notes/Docker/8.%20Containerizing%20an%20app/summary.jpg" data-desc-position="bottom"><img alt="summary" src="../assets/images/Notes/Docker/8.%20Containerizing%20an%20app/summary.jpg"></a></p>
+<p>This guide covers the end-to-end process of transforming source code into a portable, secure, and production-ready container image. It is specifically designed to align with <strong>CKAD (Certified Kubernetes Application Developer)</strong> competencies.</p>
+<hr>
+<h2 id="notes-docker-8.%20containerizing%20an%20app-1-overview-the-containerization-lifecycle">1. Overview: The Containerization Lifecycle<a class="headerlink" href="#notes-docker-8.%20containerizing%20an%20app-1-overview-the-containerization-lifecycle" title="Permanent link">¶</a></h2>
+<p>Docker simplifies the lifecycle of an application through a standardized process often referred to as "build, share, run."</p>
+<pre class="mermaid"><code>graph LR
+    A[Source Code] --&gt; B[Dockerfile]
+    B --&gt; C{Docker Build}
+    C --&gt; D[OCI Image]
+    D --&gt; E[Registry / Docker Hub]
+    E --&gt; F[Container Run]</code></pre>
+<h3 id="notes-docker-8.%20containerizing%20an%20app-the-tldr-process">The "TLDR" Process<a class="headerlink" href="#notes-docker-8.%20containerizing%20an%20app-the-tldr-process" title="Permanent link">¶</a></h3>
+<ol>
+<li><strong>Develop:</strong> Write your application and define its dependency list (e.g., <code>requirements.txt</code>, <code>package.json</code>).</li>
+<li><strong>Define:</strong> Create a <code>Dockerfile</code> containing instructions for the build engine.</li>
+<li><strong>Build:</strong> Compile the application and its environment into an <strong>Immutable Image</strong>.</li>
+<li><strong>Distribute:</strong> Push the image to an OCI-compliant registry (optional but standard).</li>
+<li><strong>Execute:</strong> Start a container instance from the image.</li>
+</ol>
+<hr>
+<h2 id="notes-docker-8.%20containerizing%20an%20app-2-bootstrapping-with-docker-init">2. Bootstrapping with <code>docker init</code><a class="headerlink" href="#notes-docker-8.%20containerizing%20an%20app-2-bootstrapping-with-docker-init" title="Permanent link">¶</a></h2>
+<p>Modern Docker versions (Desktop 4.27.0+) provide a powerful utility to jumpstart containerization while following industry best practices.</p>
+<h3 id="notes-docker-8.%20containerizing%20an%20app-using-the-init-cli">Using the Init CLI<a class="headerlink" href="#notes-docker-8.%20containerizing%20an%20app-using-the-init-cli" title="Permanent link">¶</a></h3>
+<p>The <code>docker init</code> command analyzes your build context and generates necessary templates automatically.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-0-1"></a>$<span class="w"> </span>docker<span class="w"> </span>init
 </span></code></pre></div>
-<p>The process created a new Dockerfile and placed it in your current directory.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-1"></a>ARG PYTHON_VERSION=3.11
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-2"></a># Use a lightweight Python alpine image
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-3"></a>FROM python:${PYTHON_VERSION}-alpine
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-4"></a>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-5"></a># Disable MkDocs warning https://squidfunk.github.io/mkdocs-material/blog/2026/02/18/mkdocs-2.0/
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-6"></a>ENV NO_MKDOCS_2_WARNING=1
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-7"></a>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-8"></a># Install System Dependencies
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-9"></a># We need build-base and dev-headers to compile some python extensions,
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-10"></a># and runtime libraries (cairo, pango, etc.) for the actual rendering.
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-11"></a># --no-cache keeps the Docker image small by not storing the downloaded package index
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-12"></a>RUN apk add --no-cache \
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-13"></a>    # Runtime libraries
-</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-14"></a>    cairo \
-</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-15"></a>    pango \
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-16"></a>    gdk-pixbuf \
-</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-17"></a>    libffi \
-</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-18"></a>    git
-</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-19"></a>
-</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-20"></a># Set the working directory inside the container
-</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-21"></a>WORKDIR /app
+<div class="admonition example">
+<p class="admonition-title">Interactive Walkthrough</p>
+<ol>
+<li><strong>Platform:</strong> Select your language (e.g., Node, Python, Go).</li>
+<li><strong>Version:</strong> Choose the specific runtime version (e.g., Node 23.3.0).</li>
+<li><strong>Package Manager:</strong> (e.g., npm, pip, go mod).</li>
+<li><strong>Entrypoint:</strong> Define the start command (e.g., <code>node app.js</code>).</li>
+<li><strong>Port:</strong> Define the listener (e.g., 8080).</li>
+</ol>
+</div>
+<p><strong>Resulting Artifacts:</strong></p>
+<ul>
+<li><code>Dockerfile</code>: Optimized for the chosen language.</li>
+<li><code>.dockerignore</code>: Prevents sensitive or heavy files (like <code>node_modules</code> or <code>.git</code>) from entering the build context.</li>
+<li><code>compose.yaml</code>: Ready-to-use local orchestration.</li>
+<li><code>README.Docker.md</code>: Documentation for the generated files.</li>
+</ul>
+<hr>
+<h2 id="notes-docker-8.%20containerizing%20an%20app-3-anatomy-of-a-production-ready-dockerfile">3. Anatomy of a Production-Ready Dockerfile<a class="headerlink" href="#notes-docker-8.%20containerizing%20an%20app-3-anatomy-of-a-production-ready-dockerfile" title="Permanent link">¶</a></h2>
+<p>A well-crafted <code>Dockerfile</code> is efficient, secure, and utilizes layer caching. Below is an annotated example of an MkDocs (Python) application.</p>
+<div class="language-dockerfile highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-1"></a><span class="c"># 1. Define global arguments</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-2"></a><span class="k">ARG</span><span class="w"> </span><span class="nv">PYTHON_VERSION</span><span class="o">=</span><span class="m">3</span>.11
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-3"></a><span class="c"># Use a lightweight Python alpine image as the base</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-4"></a><span class="k">FROM</span><span class="w"> </span><span class="s">python:${PYTHON_VERSION}-alpine</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-5"></a>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-6"></a><span class="c"># 2. Environment Configuration</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-7"></a><span class="c"># Disable MkDocs 2.0 warnings for future-proofing</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-8"></a><span class="k">ENV</span><span class="w"> </span><span class="nv">NO_MKDOCS_2_WARNING</span><span class="o">=</span><span class="m">1</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-9"></a><span class="c"># Prevent Python from writing .pyc files</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-10"></a><span class="k">ENV</span><span class="w"> </span><span class="nv">PYTHONDONTWRITEBYTECODE</span><span class="o">=</span><span class="m">1</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-11"></a><span class="c"># Ensure logs are emitted immediately (unbuffered)</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-12"></a><span class="k">ENV</span><span class="w"> </span><span class="nv">PYTHONUNBUFFERED</span><span class="o">=</span><span class="m">1</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-13"></a>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-14"></a><span class="c"># 3. Install System Dependencies</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-15"></a><span class="c"># --no-cache keeps the image small by skipping index storage</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-16"></a><span class="k">RUN</span><span class="w"> </span>apk<span class="w"> </span>add<span class="w"> </span>--no-cache<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-17"></a><span class="w">    </span>cairo<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-18"></a><span class="w">    </span>pango<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-19"></a><span class="w">    </span>gdk-pixbuf<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-20"></a><span class="w">    </span>libffi<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-21"></a><span class="w">    </span>git
 </span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-22"></a>
-</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-23"></a># COPY the requirements file from your machine into the container
-</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-24"></a>COPY requirements.txt .
-</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-25"></a>
-</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-26"></a># Install MkDocs (and any themes/plugins you might need)
-</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-27"></a># You can also copy a requirements.txt here if you have multiple plugins
-</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-28"></a>RUN pip install -r requirements.txt
-</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-29"></a>
-</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-30"></a># Expose the default MkDocs port
-</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-31"></a>EXPOSE 8000
-</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-32"></a>
-</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-33"></a># Run the serve command, binding to all interfaces so Docker can map the port
-</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-34"></a>CMD ["mkdocs", "serve", "--dev-addr=0.0.0.0:8000"]
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-23"></a><span class="c"># 4. Security: Implement Non-Privileged User</span>
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-24"></a><span class="c"># CKAD Note: Always avoid running containers as root in production.</span>
+</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-25"></a><span class="k">ARG</span><span class="w"> </span><span class="nv">UID</span><span class="o">=</span><span class="m">10001</span>
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-26"></a><span class="k">RUN</span><span class="w"> </span>adduser<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-27"></a><span class="w">    </span>--disabled-password<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-28"></a><span class="w">    </span>--gecos<span class="w"> </span><span class="s2">""</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-29"></a><span class="w">    </span>--home<span class="w"> </span><span class="s2">"/nonexistent"</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-30"></a><span class="w">    </span>--shell<span class="w"> </span><span class="s2">"/sbin/nologin"</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-31"></a><span class="w">    </span>--no-create-home<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-32"></a><span class="w">    </span>--uid<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">UID</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-33"></a><span class="w">    </span>appuser
+</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-34"></a>
+</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-35"></a><span class="c"># 5. Build Logic</span>
+</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-36"></a><span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+</span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-37"></a><span class="k">COPY</span><span class="w"> </span>requirements.txt<span class="w"> </span>.
+</span><span id="__span-1-38"><a id="__codelineno-1-38" name="__codelineno-1-38" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-38"></a>
+</span><span id="__span-1-39"><a id="__codelineno-1-39" name="__codelineno-1-39" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-39"></a><span class="c"># Leverage BuildKit cache mounts and bind mounts for high performance</span>
+</span><span id="__span-1-40"><a id="__codelineno-1-40" name="__codelineno-1-40" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-40"></a><span class="k">RUN</span><span class="w"> </span>--mount<span class="o">=</span><span class="nv">type</span><span class="o">=</span>cache,target<span class="o">=</span>/root/.cache/pip<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-41"><a id="__codelineno-1-41" name="__codelineno-1-41" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-41"></a><span class="w">    </span>--mount<span class="o">=</span><span class="nv">type</span><span class="o">=</span>bind,source<span class="o">=</span>requirements.txt,target<span class="o">=</span>requirements.txt<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-42"><a id="__codelineno-1-42" name="__codelineno-1-42" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-42"></a><span class="w">    </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</span><span id="__span-1-43"><a id="__codelineno-1-43" name="__codelineno-1-43" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-43"></a>
+</span><span id="__span-1-44"><a id="__codelineno-1-44" name="__codelineno-1-44" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-44"></a><span class="c"># 6. Runtime Configuration</span>
+</span><span id="__span-1-45"><a id="__codelineno-1-45" name="__codelineno-1-45" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-45"></a><span class="k">USER</span><span class="w"> </span><span class="s">appuser</span>
+</span><span id="__span-1-46"><a id="__codelineno-1-46" name="__codelineno-1-46" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-46"></a><span class="k">EXPOSE</span><span class="w"> </span><span class="s">8000</span>
+</span><span id="__span-1-47"><a id="__codelineno-1-47" name="__codelineno-1-47" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-1-47"></a><span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">"mkdocs"</span><span class="p">,</span><span class="w"> </span><span class="s2">"serve"</span><span class="p">,</span><span class="w"> </span><span class="s2">"--dev-addr=0.0.0.0:8000"</span><span class="p">]</span>
 </span></code></pre></div>
-<p>Lines 1 and 2 tell Docker to pull the <code>python:${PYTHON_VERSION}-alpine</code> image and use it as the base for the new image.
-Line 3 sets an env variable
-Line 4 installs the dependency
-Line 5 sets the working directory for the remaining steps.
-Line 6 copies the <code>requirements.txt</code> from build context.
-Line 7 install the pythin dependency 
-Line 8 documents the application’s network port.
-Line 9 is the command Docker will execute whenever it starts a container from the image</p></body></html></section></section>
+<h3 id="notes-docker-8.%20containerizing%20an%20app-instruction-breakdown">Instruction Breakdown<a class="headerlink" href="#notes-docker-8.%20containerizing%20an%20app-instruction-breakdown" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Line Group</th>
+<th style="text-align: left;">Instruction</th>
+<th style="text-align: left;">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>1</strong></td>
+<td style="text-align: left;"><code>FROM</code></td>
+<td style="text-align: left;">Defines the base image. Pulls from Docker Hub if not local.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>2</strong></td>
+<td style="text-align: left;"><code>ENV</code></td>
+<td style="text-align: left;">Sets persistent environment variables within the image.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>3</strong></td>
+<td style="text-align: left;"><code>RUN apk</code></td>
+<td style="text-align: left;">Executes shell commands to install OS-level dependencies.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>4</strong></td>
+<td style="text-align: left;"><code>WORKDIR</code></td>
+<td style="text-align: left;">Sets the context for all subsequent <code>RUN</code>, <code>CMD</code>, and <code>COPY</code> steps.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>5</strong></td>
+<td style="text-align: left;"><code>COPY</code></td>
+<td style="text-align: left;">Transfers files from the local <strong>Build Context</strong> to the image filesystem.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>6</strong></td>
+<td style="text-align: left;"><code>RUN pip</code></td>
+<td style="text-align: left;">Installs application-level dependencies.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>7</strong></td>
+<td style="text-align: left;"><code>EXPOSE</code></td>
+<td style="text-align: left;"><strong>Documentation only:</strong> Informs users which port the app intends to use.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>8</strong></td>
+<td style="text-align: left;"><code>CMD</code></td>
+<td style="text-align: left;">Defines the default command to execute when the container starts.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="notes-docker-8.%20containerizing%20an%20app-4-executing-the-build">4. Executing the Build<a class="headerlink" href="#notes-docker-8.%20containerizing%20an%20app-4-executing-the-build" title="Permanent link">¶</a></h2>
+<h3 id="notes-docker-8.%20containerizing%20an%20app-standard-build-command">Standard Build Command<a class="headerlink" href="#notes-docker-8.%20containerizing%20an%20app-standard-build-command" title="Permanent link">¶</a></h3>
+<p>Use the <code>-t</code> flag to "tag" your image with a human-readable name.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-2-1"></a>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>study-saathi-mkdocs:latest<span class="w"> </span>.
+</span></code></pre></div>
+<details class="info">
+<summary>Deep Dive: The Build Output &amp; Layering</summary>
+<p>When you build an image, BuildKit parses the file line-by-line.</p>
+<ul>
+<li><strong>Layer Count:</strong> You may notice more layers in <code>RootFS</code> than instructions in your Dockerfile. For example, a 6-line Dockerfile might result in 9 layers. This happens because the <strong>Base Image</strong> (e.g., <code>python:alpine</code>) already contains its own set of layers.</li>
+<li><strong>CACHED:</strong> If an instruction hasn't changed since the last build, Docker uses the local cache to skip the step.</li>
+<li><strong>Exporting:</strong> The final stage creates an <strong>Image Manifest</strong> (JSON) and an <strong>Image Config</strong> that describes the stack.</li>
+</ul>
+</details>
+<hr>
+<h2 id="notes-docker-8.%20containerizing%20an%20app-5-image-distribution-and-registries">5. Image Distribution and Registries<a class="headerlink" href="#notes-docker-8.%20containerizing%20an%20app-5-image-distribution-and-registries" title="Permanent link">¶</a></h2>
+<h3 id="notes-docker-8.%20containerizing%20an%20app-pushing-to-docker-hub">Pushing to Docker Hub<a class="headerlink" href="#notes-docker-8.%20containerizing%20an%20app-pushing-to-docker-hub" title="Permanent link">¶</a></h3>
+<p>To share an image, it must follow a specific naming convention: <code>DockerID/Repository:Tag</code>.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="notes-docker-8.%20containerizing%20an%20app-__tabbed_1_1" name="notes-docker-8.%20containerizing%20an%20app-__tabbed_1" type="radio"><input id="notes-docker-8.%20containerizing%20an%20app-__tabbed_1_2" name="notes-docker-8.%20containerizing%20an%20app-__tabbed_1" type="radio"><input id="notes-docker-8.%20containerizing%20an%20app-__tabbed_1_3" name="notes-docker-8.%20containerizing%20an%20app-__tabbed_1" type="radio"><div class="tabbed-labels"><label for="notes-docker-8.%20containerizing%20an%20app-__tabbed_1_1">Step 1: Tagging</label><label for="notes-docker-8.%20containerizing%20an%20app-__tabbed_1_2">Step 2: Pushing</label><label for="notes-docker-8.%20containerizing%20an%20app-__tabbed_1_3">Step 3: External Registries</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>If you built an image as <code>ddd-book:latest</code>, you must re-tag it with your username.
+</p><div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-3-1"></a>docker<span class="w"> </span>tag<span class="w"> </span>ddd-book:latest<span class="w"> </span>nigelpoulton/ddd-book:ch8.node
+</span></code></pre></div><p></p>
+</div>
+<div class="tabbed-block">
+<p>Ensure you are logged in via <code>docker login</code>.
+</p><div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-4-1"></a>docker<span class="w"> </span>push<span class="w"> </span>nigelpoulton/ddd-book:ch8.node
+</span></code></pre></div><p></p>
+</div>
+<div class="tabbed-block">
+<p>To use a different registry (like GitHub Container Registry), prefix the tag with the DNS name.
+</p><div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-5-1"></a>docker<span class="w"> </span>pull<span class="w"> </span>ghcr.io/regclient/regsync:latest
+</span></code></pre></div><p></p>
+</div>
+</div>
+</div>
+<hr>
+<h2 id="notes-docker-8.%20containerizing%20an%20app-6-multi-stage-builds-production-optimization">6. Multi-Stage Builds (Production Optimization)<a class="headerlink" href="#notes-docker-8.%20containerizing%20an%20app-6-multi-stage-builds-production-optimization" title="Permanent link">¶</a></h2>
+<p>Multi-stage builds allow you to use a "Heavy" image for building (with compilers) and a "Slim" image for the final production environment.</p>
+<div class="admonition tip">
+<p class="admonition-title">CKAD Tip: Minimal Images</p>
+<p>Production images should only contain runtime artifacts. This reduces the <strong>Attack Surface</strong> and bandwidth usage.</p>
+</div>
+<div class="language-dockerfile highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-6-1"></a><span class="c"># Stage 0: Base build tools</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-6-2"></a><span class="k">FROM</span><span class="w"> </span><span class="s">golang:1.23.4-alpine</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">base</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-6-3"></a><span class="k">WORKDIR</span><span class="w"> </span><span class="s">/src</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-6-4"></a><span class="k">COPY</span><span class="w"> </span>go.mod<span class="w"> </span>go.sum<span class="w"> </span>.
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-6-5"></a><span class="k">RUN</span><span class="w"> </span>go<span class="w"> </span>mod<span class="w"> </span>download
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-6-6"></a><span class="k">COPY</span><span class="w"> </span>.<span class="w"> </span>.
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-6-7"></a>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-6-8"></a><span class="c"># Stage 1: Build Client (Parallelizable)</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-6-9"></a><span class="k">FROM</span><span class="w"> </span><span class="s">base</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">build-client</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-6-10"></a><span class="k">RUN</span><span class="w"> </span>go<span class="w"> </span>build<span class="w"> </span>-o<span class="w"> </span>/bin/client<span class="w"> </span>./cmd/client
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-6-11"></a>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-6-12"></a><span class="c"># Stage 2: Build Server (Parallelizable)</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-6-13"></a><span class="k">FROM</span><span class="w"> </span><span class="s">base</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">build-server</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-6-14"></a><span class="k">RUN</span><span class="w"> </span>go<span class="w"> </span>build<span class="w"> </span>-o<span class="w"> </span>/bin/server<span class="w"> </span>./cmd/server
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-6-15"></a>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-6-16"></a><span class="c"># Stage 3: Final Production Image</span>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-6-17"></a><span class="k">FROM</span><span class="w"> </span><span class="s">scratch</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">prod</span>
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-6-18"></a><span class="k">COPY</span><span class="w"> </span>--from<span class="o">=</span>build-client<span class="w"> </span>/bin/client<span class="w"> </span>/bin/
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-6-19"></a><span class="k">COPY</span><span class="w"> </span>--from<span class="o">=</span>build-server<span class="w"> </span>/bin/server<span class="w"> </span>/bin/
+</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-6-20"></a><span class="k">ENTRYPOINT</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"/bin/server"</span><span class="w"> </span><span class="p">]</span>
+</span></code></pre></div>
+<h3 id="notes-docker-8.%20containerizing%20an%20app-stages-vs-parallelism">Stages vs. Parallelism<a class="headerlink" href="#notes-docker-8.%20containerizing%20an%20app-stages-vs-parallelism" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Sequential:</strong> The builder runs <code>base</code> first.</li>
+<li><strong>Parallel:</strong> <code>build-client</code> and <code>build-server</code> can run simultaneously because they both depend on <code>base</code> but not on each other.</li>
+<li><strong>Scratch:</strong> Using <code>FROM scratch</code> creates a zero-byte base, the smallest possible starting point for statically compiled binaries.</li>
+</ul>
+<h3 id="notes-docker-8.%20containerizing%20an%20app-targeting-specific-stages">Targeting Specific Stages<a class="headerlink" href="#notes-docker-8.%20containerizing%20an%20app-targeting-specific-stages" title="Permanent link">¶</a></h3>
+<p>You can stop the build at a specific stage using <code>--target</code>:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-7-1"></a>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>multi:client<span class="w"> </span>--target<span class="w"> </span>prod-client<span class="w"> </span>-f<span class="w"> </span>Dockerfile<span class="w"> </span>.
+</span></code></pre></div>
+<p>this can be used build multiple images from a single Dockerfile.</p>
+<hr>
+<h2 id="notes-docker-8.%20containerizing%20an%20app-7-advanced-build-engine-buildx-buildkit">7. Advanced Build Engine: Buildx &amp; BuildKit<a class="headerlink" href="#notes-docker-8.%20containerizing%20an%20app-7-advanced-build-engine-buildx-buildkit" title="Permanent link">¶</a></h2>
+<h3 id="notes-docker-8.%20containerizing%20an%20app-architecture">Architecture<a class="headerlink" href="#notes-docker-8.%20containerizing%20an%20app-architecture" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Client (Buildx):</strong> CLI plugin supporting advanced features.</li>
+<li><strong>Server (BuildKit):</strong> The execution engine.</li>
+</ul>
+<h3 id="notes-docker-8.%20containerizing%20an%20app-builders-and-drivers">Builders and Drivers<a class="headerlink" href="#notes-docker-8.%20containerizing%20an%20app-builders-and-drivers" title="Permanent link">¶</a></h3>
+<p>You can create isolated BuildKit instances (Builders) using different drivers.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Driver</th>
+<th style="text-align: left;">Environment</th>
+<th style="text-align: left;">Performance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>docker</strong></td>
+<td style="text-align: left;">Default daemon</td>
+<td style="text-align: left;">Standard.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>docker-container</strong></td>
+<td style="text-align: left;">Dedicated container</td>
+<td style="text-align: left;">Supports Multi-Arch via QEMU emulation.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>remote</strong></td>
+<td style="text-align: left;">External server</td>
+<td style="text-align: left;">Highest performance, offloads CPU/RAM from dev machine.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Build Cloud</strong></td>
+<td style="text-align: left;">Docker Managed</td>
+<td style="text-align: left;">Native hardware speeds, shared team cache.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="notes-docker-8.%20containerizing%20an%20app-8-multi-architecture-builds">8. Multi-Architecture Builds<a class="headerlink" href="#notes-docker-8.%20containerizing%20an%20app-8-multi-architecture-builds" title="Permanent link">¶</a></h2>
+<p>To support both Intel (<code>amd64</code>) and Apple Silicon/Graviton (<code>arm64</code>), use the <code>--platform</code> flag.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-8-1"></a><span class="c1"># 1. Create a builder that supports multi-arch</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-8-2"></a>docker<span class="w"> </span>buildx<span class="w"> </span>create<span class="w"> </span>--driver<span class="o">=</span>docker-container<span class="w"> </span>--name<span class="o">=</span>container<span class="w"> </span>--use
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-8-4"></a><span class="c1"># 2. Build for multiple platforms</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-8-5"></a>docker<span class="w"> </span>buildx<span class="w"> </span>build<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-8-6"></a><span class="w">  </span>--platform<span class="o">=</span>linux/amd64,linux/arm64<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-8-7"></a><span class="w">  </span>-t<span class="w"> </span>nigelpoulton/ddd-book:ch8.1<span class="w"> </span>--push<span class="w"> </span>.
+</span></code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Emulation Note</p>
+<p>The <code>docker-container</code> driver uses <strong>QEMU</strong> to emulate target hardware. While highly compatible, it is significantly slower than native builds or Docker Build Cloud.</p>
+</div>
+<hr>
+<h2 id="notes-docker-8.%20containerizing%20an%20app-9-security-vulnerability-scanning-with-docker-scout">9. Security: Vulnerability Scanning with Docker Scout<a class="headerlink" href="#notes-docker-8.%20containerizing%20an%20app-9-security-vulnerability-scanning-with-docker-scout" title="Permanent link">¶</a></h2>
+<p>Scanning should be an integrated part of your build pipeline.</p>
+<h3 id="notes-docker-8.%20containerizing%20an%20app-quickview-and-cve-analysis">Quickview and CVE Analysis<a class="headerlink" href="#notes-docker-8.%20containerizing%20an%20app-quickview-and-cve-analysis" title="Permanent link">¶</a></h3>
+<p>Use <code>docker scout</code> to analyze an image for known vulnerabilities before deployment.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-9-1"></a><span class="c1"># Get a summary</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-9-2"></a>docker<span class="w"> </span>scout<span class="w"> </span>quickview<span class="w"> </span>&lt;IMAGE_ID&gt;
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-9-3"></a>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-9-4"></a><span class="c1"># Get detailed CVE info and remediation advice</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-9-5"></a>docker<span class="w"> </span>scout<span class="w"> </span>cves<span class="w"> </span>&lt;IMAGE_ID&gt;
+</span></code></pre></div>
+<hr>
+<h2 id="notes-docker-8.%20containerizing%20an%20app-10-build-best-practices">10. Build Best Practices<a class="headerlink" href="#notes-docker-8.%20containerizing%20an%20app-10-build-best-practices" title="Permanent link">¶</a></h2>
+<h3 id="notes-docker-8.%20containerizing%20an%20app-i-leverage-the-build-cache">I. Leverage the Build Cache<a class="headerlink" href="#notes-docker-8.%20containerizing%20an%20app-i-leverage-the-build-cache" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Order Matters:</strong> Instructions that change frequently (like <code>COPY . .</code>) should go at the end.</li>
+<li><strong>Cache Invalidation:</strong> If one line results in a "cache miss," all subsequent lines are re-executed.</li>
+<li><strong>Checksums:</strong> For <code>COPY</code> and <code>ADD</code>, Docker performs a checksum on the content. If a single bit in <code>requirements.txt</code> changes, the cache is invalidated for that step.</li>
+</ul>
+<h3 id="notes-docker-8.%20containerizing%20an%20app-ii-minimal-package-installation">II. Minimal Package Installation<a class="headerlink" href="#notes-docker-8.%20containerizing%20an%20app-ii-minimal-package-installation" title="Permanent link">¶</a></h3>
+<p>Avoid installing recommended or suggested packages that aren't strictly necessary.</p>
+<div class="language-dockerfile highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-10-1"></a><span class="c"># Example: Debian/Ubuntu</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-10-2"></a><span class="k">RUN</span><span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>--no-install-recommends<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-10-3"></a><span class="w">    </span>curl<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-10-4"></a><span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/var/lib/apt/lists/*
+</span></code></pre></div>
+<h3 id="notes-docker-8.%20containerizing%20an%20app-iii-managing-images">III. Managing Images<a class="headerlink" href="#notes-docker-8.%20containerizing%20an%20app-iii-managing-images" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Remove Image:</strong> <code>docker rmi &lt;ID&gt;</code> (Removes the image and all unshared layer data).</li>
+<li><strong>Force Remove:</strong> <code>docker rmi -f</code> (Use with caution; this untags images in use, leaving "dangling" images).</li>
+<li><strong>Bulk Cleanup:</strong>
+    <div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-11-1"></a><span class="c1"># Deletes all local images</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#notes-docker-8.%20containerizing%20an%20app-__codelineno-11-2"></a>docker<span class="w"> </span>rmi<span class="w"> </span><span class="k">$(</span>docker<span class="w"> </span>images<span class="w"> </span>-q<span class="k">)</span><span class="w"> </span>-f
+</span></code></pre></div></li>
+</ul></body></html></section><section class="print-page" id="notes-docker-9.%20multi-container%20apps%20with%20compose" heading-number="5.3.7"><html><head>
+        <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            remove_material_navigation();remove_mkdocs_theme_navigation();generate_toc();
+        })
+        </script>
+        </head><body><h1 id="multi-container-orchestration-with-docker-compose">Multi-Container Orchestration with Docker Compose<a class="headerlink" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-multi-container-orchestration-with-docker-compose" title="Permanent link">¶</a></h1>
+<p>Docker Compose is a tool for defining and running multi-container applications. Instead of managing individual containers via complex CLI commands, Compose allows you to use a <strong>declarative YAML file</strong> to manage your entire application stack as a single unit.</p>
+<hr>
+<h2 id="notes-docker-9.%20multi-container%20apps%20with%20compose-1-concepts-and-evolution">1. Concepts and Evolution<a class="headerlink" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-1-concepts-and-evolution" title="Permanent link">¶</a></h2>
+<h3 id="notes-docker-9.%20multi-container%20apps%20with%20compose-the-journey-from-fig-to-compose">The Journey from Fig to Compose<a class="headerlink" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-the-journey-from-fig-to-compose" title="Permanent link">¶</a></h3>
+<p>Originally, a tool called <strong>Fig</strong> (developed by Orchard Labs) revolutionized Docker by allowing users to define multi-container microservices in a simple YAML file. Docker, Inc. acquired Orchard Labs and rebranded Fig as <strong>Docker Compose</strong>.</p>
+<p>Today, Compose is driven by the <strong>Compose Specification</strong>, an open community-led standard. While Docker Compose is the reference implementation, the specification ensures consistent governance across different platforms.</p>
+<h3 id="notes-docker-9.%20multi-container%20apps%20with%20compose-why-use-compose">Why Use Compose?<a class="headerlink" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-why-use-compose" title="Permanent link">¶</a></h3>
+<p>While primarily used for development, testing, and CI/CD environments, Compose introduces concepts that are foundational for the <strong>CKAD (Certified Kubernetes Application Developer)</strong> exam:</p>
+<ul>
+<li><strong>Self-healing &amp; Scaling:</strong> Provides a simplified view of how microservices benefit from these patterns.</li>
+<li><strong>Service Discovery:</strong> Allowing containers to communicate via service names rather than IP addresses.</li>
+<li><strong>Declarative Configuration:</strong> Defining the "desired state" of your infrastructure in code.</li>
+<li><strong>Resource Isolation:</strong> Automatic creation of dedicated networks and volumes.</li>
+</ul>
+<hr>
+<h2 id="notes-docker-9.%20multi-container%20apps%20with%20compose-2-architecture-of-a-compose-app">2. Architecture of a Compose App<a class="headerlink" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-2-architecture-of-a-compose-app" title="Permanent link">¶</a></h2>
+<p>When you deploy an application, Docker Compose parses your YAML file and orchestrates the creation of several objects: Services, Networks, and Volumes .etc</p>
+<h3 id="notes-docker-9.%20multi-container%20apps%20with%20compose-resource-naming-conventions">Resource Naming Conventions<a class="headerlink" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-resource-naming-conventions" title="Permanent link">¶</a></h3>
+<p>Docker assigns a <strong>Project Name</strong> based on the directory name of your build context. It then names resources using the pattern: <code>[project-name]-[service-name]-[index]</code>.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Resource Type</th>
+<th style="text-align: left;">Internal Name Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Service</strong></td>
+<td style="text-align: left;"><code>multi-container-web-fe-1</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Network</strong></td>
+<td style="text-align: left;"><code>multi-container_counter-net</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Volume</strong></td>
+<td style="text-align: left;"><code>multi-container_counter-vol</code></td>
+</tr>
+</tbody>
+</table>
+<p>It names resources using a predictable pattern to avoid conflicts.</p>
+<hr>
+<h2 id="notes-docker-9.%20multi-container%20apps%20with%20compose-3-the-compose-file-composeyaml">3. The Compose File (<code>compose.yaml</code>)<a class="headerlink" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-3-the-compose-file-composeyaml" title="Permanent link">¶</a></h2>
+<p>Compose looks for a file named <code>compose.yaml</code> or <code>compose.yml</code> by default. </p>
+<div class="admonition tip">
+<p class="admonition-title">Standard Filenames</p>
+<p>Modern Docker standards prefer <code>compose.yaml</code>. If you use a custom name like <code>prod.yaml</code>, you must specify it using the <code>-f</code> flag:
+<code>docker compose -f prod.yaml up</code>.</p>
+</div>
+<h3 id="notes-docker-9.%20multi-container%20apps%20with%20compose-sample-application-configuration">Sample Application Configuration<a class="headerlink" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-sample-application-configuration" title="Permanent link">¶</a></h3>
+<p>The following example defines a web frontend and a Redis backend.</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-0-1"></a><span class="nt">services</span><span class="p">:</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-0-2"></a><span class="w">  </span><span class="nt">web-fe</span><span class="p">:</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-0-3"></a><span class="w">    </span><span class="nt">deploy</span><span class="p">:</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-0-4"></a><span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-0-5"></a><span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-0-6"></a><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python app.py</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-0-7"></a><span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-0-8"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">target</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-0-9"></a><span class="w">        </span><span class="nt">published</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5001</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-0-10"></a><span class="w">    </span><span class="nt">networks</span><span class="p">:</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-0-11"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">counter-net</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-0-12"></a>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-0-13"></a><span class="w">  </span><span class="nt">redis</span><span class="p">:</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-0-14"></a><span class="w">    </span><span class="nt">deploy</span><span class="p">:</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-0-15"></a><span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-0-16"></a><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="s">"redis:alpine"</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-0-17"></a><span class="w">    </span><span class="nt">networks</span><span class="p">:</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-0-18"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">counter-net</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-0-19"></a><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-0-20"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">volume</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-0-21"></a><span class="w">        </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">counter-vol</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-0-22"></a><span class="w">        </span><span class="nt">target</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/data</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-0-23"></a>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-0-24"></a><span class="nt">networks</span><span class="p">:</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-0-25"></a><span class="w">  </span><span class="nt">counter-net</span><span class="p">:</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-0-26"></a>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-0-27"></a><span class="nt">volumes</span><span class="p">:</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-0-28"></a><span class="w">  </span><span class="nt">counter-vol</span><span class="p">:</span>
+</span></code></pre></div>
+<pre class="mermaid"><code>graph TD
+    subgraph "Docker Host"
+    A[Compose Project] --&gt; B(Service: web-fe)
+    A --&gt; C(Service: redis)
+    B --- D((Network: counter-net))
+    C --- D
+    C --- E[[Volume: counter-vol]]
+    end
+
+    User((User)) --&gt;|Port 5001| B
+</code></pre>
+<h3 id="notes-docker-9.%20multi-container%20apps%20with%20compose-key-directives-explained">Key Directives Explained<a class="headerlink" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-key-directives-explained" title="Permanent link">¶</a></h3>
+<ul>
+<li><code>services</code>: The mandatory top-level key defining the application components.</li>
+<li><code>build: .</code>: Directs Docker to build an image from the Dockerfile in the current directory.</li>
+<li><code>image</code>: Specifies an existing image to pull (e.g., from Docker Hub).</li>
+<li><code>ports</code>: Maps the container port (target) to the host port (published).</li>
+<li><code>command</code>: The execution instruction.</li>
+<li><code>networks</code>: Connects containers to a shared network. This enables Service Discovery, allowing web-fe to reach redis simply by using the hostname redis.</li>
+<li><code>volumes</code>: Mounts a persistent volume. This ensures data is not lost if the container is stopped or deleted.</li>
+<li><code>deploy.replicas</code> : Defines the number of containers. </li>
+</ul>
+<div class="admonition info">
+<p>On Docker Desktop, you can usually only run <strong>1 replica</strong> for services that bind to a specific host port (e.g., 5001), as multiple containers cannot bind to the same host port simultaneously.</p>
+</div>
+<h2 id="notes-docker-9.%20multi-container%20apps%20with%20compose-4-operational-lifecycle">4. Operational Lifecycle<a class="headerlink" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-4-operational-lifecycle" title="Permanent link">¶</a></h2>
+<p>Deployment and Management</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="notes-docker-9.%20multi-container%20apps%20with%20compose-__tabbed_1_1" name="notes-docker-9.%20multi-container%20apps%20with%20compose-__tabbed_1" type="radio"><input id="notes-docker-9.%20multi-container%20apps%20with%20compose-__tabbed_1_2" name="notes-docker-9.%20multi-container%20apps%20with%20compose-__tabbed_1" type="radio"><input id="notes-docker-9.%20multi-container%20apps%20with%20compose-__tabbed_1_3" name="notes-docker-9.%20multi-container%20apps%20with%20compose-__tabbed_1" type="radio"><div class="tabbed-labels"><label for="notes-docker-9.%20multi-container%20apps%20with%20compose-__tabbed_1_1">Deploying</label><label for="notes-docker-9.%20multi-container%20apps%20with%20compose-__tabbed_1_2">Monitoring</label><label for="notes-docker-9.%20multi-container%20apps%20with%20compose-__tabbed_1_3">Stopping &amp; Restarting</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>The up command is the primary way to deploy. It builds images, creates networks/volumes, and starts containers.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-1-1"></a><span class="w">    </span><span class="c1"># Start in the background (detached mode) </span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-1-2"></a><span class="w">    </span>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>Check the health and processes of your multi-container stack.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-2-1"></a><span class="c1"># List container status, ports, and state</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-2-2"></a>docker<span class="w"> </span>compose<span class="w"> </span>ps
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-2-3"></a><span class="c1"># List processes running inside each container (Host PIDs)</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-2-4"></a>docker<span class="w"> </span>compose<span class="w"> </span>top
+</span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Process IDs (PID)</p>
+<p>The PID numbers returned by <code>docker compose top</code> are the PIDs as seen from the <strong>Docker Host</strong>, not from within the container's isolated namespace.</p>
+</div>
+</div>
+<div class="tabbed-block">
+<p>Stop the app without deleting resources, or perform a restart.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-3-1"></a><span class="c1"># Stop containers (preserves container state)</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-3-2"></a>docker<span class="w"> </span>compose<span class="w"> </span>stop
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-3-3"></a><span class="c1"># Restart stopped containers</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-3-4"></a>docker<span class="w"> </span>compose<span class="w"> </span>restart
+</span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Restart Limitation</p>
+<p>docker compose restart does not pick up changes made to the compose.yaml file. To apply configuration changes, you must run docker compose up again (which performs a recreation of affected services).</p>
+</div>
+</div>
+</div>
+</div>
+<h2 id="notes-docker-9.%20multi-container%20apps%20with%20compose-5-teardown-and-cleanup">5. Teardown and Cleanup<a class="headerlink" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-5-teardown-and-cleanup" title="Permanent link">¶</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="notes-docker-9.%20multi-container%20apps%20with%20compose-__tabbed_2_1" name="notes-docker-9.%20multi-container%20apps%20with%20compose-__tabbed_2" type="radio"><input id="notes-docker-9.%20multi-container%20apps%20with%20compose-__tabbed_2_2" name="notes-docker-9.%20multi-container%20apps%20with%20compose-__tabbed_2" type="radio"><div class="tabbed-labels"><label for="notes-docker-9.%20multi-container%20apps%20with%20compose-__tabbed_2_1">Standard Down</label><label for="notes-docker-9.%20multi-container%20apps%20with%20compose-__tabbed_2_2">Full Purge</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Stops and removes containers and networks.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-4-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>down<span class="w"> </span>
+</span></code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Persistence of Volumes</p>
+<p>By default, docker compose down does not delete volumes. This is a safety feature to prevent accidental data loss. You must explicitly use the <code>--volumes</code> (or <code>-v</code>) flag to remove them.</p>
+</div>
+</div>
+<div class="tabbed-block">
+<p>Removes volumes and images along with containers. Use this to ensure a completely clean slate.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-__codelineno-5-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>down<span class="w"> </span>--volumes<span class="w"> </span>--rmi<span class="w"> </span>all<span class="w"> </span>
+</span></code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="notes-docker-9.%20multi-container%20apps%20with%20compose-6-ckad-bridge-from-compose-to-kubernetes">6. CKAD Bridge: From Compose to Kubernetes<a class="headerlink" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-6-ckad-bridge-from-compose-to-kubernetes" title="Permanent link">¶</a></h2>
+<p>For those transitioning to Kubernetes, use the following mental model to map Compose concepts to K8s objects:</p>
+<table>
+<thead>
+<tr>
+<th>Docker Compose</th>
+<th>Kubernetes Equivalent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>service</code></td>
+<td><code>Deployment</code> (controls Pods/Replicas)</td>
+</tr>
+<tr>
+<td><code>network</code></td>
+<td><code>Service</code> (DNS/ClusterIP)</td>
+</tr>
+<tr>
+<td><code>volume</code></td>
+<td><code>PersistentVolumeClaim (PVC)</code></td>
+</tr>
+<tr>
+<td><code>image</code></td>
+<td>Container image inside a <code>Pod</code></td>
+</tr>
+<tr>
+<td><code>compose.yaml</code></td>
+<td>Kubernetes manifests (multiple YAML files or Helm Charts)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="notes-docker-9.%20multi-container%20apps%20with%20compose-7-command-summary-reference">7. Command Summary Reference<a class="headerlink" href="#notes-docker-9.%20multi-container%20apps%20with%20compose-7-command-summary-reference" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>docker compose up -d</code></td>
+<td>Deploy the application stack in detached mode</td>
+</tr>
+<tr>
+<td><code>docker compose ps</code></td>
+<td>View the status of containers in the current Compose project</td>
+</tr>
+<tr>
+<td><code>docker compose top</code></td>
+<td>View host-level process IDs for each service</td>
+</tr>
+<tr>
+<td><code>docker compose logs -f</code></td>
+<td>Tail and follow logs for all services in the stack</td>
+</tr>
+<tr>
+<td><code>docker compose stop</code></td>
+<td>Stop services without removing containers or networks</td>
+</tr>
+<tr>
+<td><code>docker compose down</code></td>
+<td>Stop and remove containers, networks, and related resources</td>
+</tr>
+<tr>
+<td><code>docker compose ls</code></td>
+<td>List all running Docker Compose projects on the host</td>
+</tr>
+</tbody>
+</table></body></html></section></section>
                     <section class='print-page md-section' id='section-5-4' heading-number='5.4'>
                         <h1>Misc<a class='headerlink' href='#section-5-4' title='Permanent link'></a>
                         </h1>
@@ -24394,43 +24914,43 @@ Otherwise, , where the insertion point is defined as the point at which the key 
 <tbody>
 <tr>
 <td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-misc-implement-upper-bound">Implement Upper Bound</a></td>
-<td>2026-05-12</td>
+<td>2026-05-13</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-misc-flatten-a-linked-list">Flatten A Linked List</a></td>
-<td>2026-05-12</td>
+<td>2026-05-13</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-misc-find-nth-root-of-m">Find Nth Root Of M</a></td>
-<td>2026-05-12</td>
+<td>2026-05-13</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-misc-number-of-occurrence">Number Of Occurrence</a></td>
-<td>2026-05-12</td>
+<td>2026-05-13</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-misc-implement-lower-bound">Implement Lower Bound</a></td>
-<td>2026-05-12</td>
+<td>2026-05-13</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-misc-calculate-floor-and-ceiling">Calculate Floor And Ceiling</a></td>
-<td>2026-05-12</td>
+<td>2026-05-13</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-3169.-count-days-without-meetings">3169. Count Days Without Meetings</a></td>
-<td>2026-05-12</td>
+<td>2026-05-13</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-34.-find-first-and-last-position-of-element-in-sorted-array">34. Find First And Last Position Of Element In Sorted Array</a></td>
-<td>2026-05-12</td>
+<td>2026-05-13</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-56.-merge-intervals">56. Merge Intervals</a></td>
-<td>2026-05-12</td>
+<td>2026-05-13</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-leetcode-nonecode scratch-leetcode-medium-49.-group-anagrams">49. Group Anagrams</a></td>
-<td>2026-05-12</td>
+<td>2026-05-13</td>
 </tr>
 </tbody>
 </table></body></html></section>
@@ -30199,43 +30719,43 @@ To count how many times <code>x</code> appears, we can:</p>
 <tbody>
 <tr>
 <td><a href="#code%20scratch-take%20u%20forward-nonecode scratch-take u forward-index">Index</a></td>
-<td>2026-05-12</td>
+<td>2026-05-13</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-take%20u%20forward-nonecode scratch-take u forward-sorting-selection sort">Selection Sort</a></td>
-<td>2026-05-12</td>
+<td>2026-05-13</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-take%20u%20forward-nonecode scratch-take u forward-sorting-quick sort">Quick Sort</a></td>
-<td>2026-05-12</td>
+<td>2026-05-13</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-take%20u%20forward-nonecode scratch-take u forward-sorting-insertion sort">Insertion Sort</a></td>
-<td>2026-05-12</td>
+<td>2026-05-13</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-take%20u%20forward-nonecode scratch-take u forward-sorting-merge sort">Merge Sort</a></td>
-<td>2026-05-12</td>
+<td>2026-05-13</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-take%20u%20forward-nonecode scratch-take u forward-sorting-bubble sort">Bubble Sort</a></td>
-<td>2026-05-12</td>
+<td>2026-05-13</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-take%20u%20forward-nonecode scratch-take u forward-recursion-implementation problems-power set">Power Set</a></td>
-<td>2026-05-12</td>
+<td>2026-05-13</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-take%20u%20forward-nonecode scratch-take u forward-recursion-implementation problems-pow(x,n)">Pow(X,N)</a></td>
-<td>2026-05-12</td>
+<td>2026-05-13</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-take%20u%20forward-nonecode scratch-take u forward-recursion-subsequence pattern problems-check if there exists a subsequence with sum k">Check If There Exists A Subsequence With Sum K</a></td>
-<td>2026-05-12</td>
+<td>2026-05-13</td>
 </tr>
 <tr>
 <td><a href="#code%20scratch-take%20u%20forward-nonecode scratch-take u forward-recursion-subsequence pattern problems-count all subsequences with sum k">Count All Subsequences With Sum K</a></td>
-<td>2026-05-12</td>
+<td>2026-05-13</td>
 </tr>
 </tbody>
 </table>
@@ -37051,6 +37571,8 @@ The backtracking process effectively performs a Depth-First Search (DFS) on the 
 .print-site-enumerate-headings #notes-docker-7.%20working%20with%20containers > h1:before { content: '5.3.5 ' }
 
 .print-site-enumerate-headings #notes-docker-8.%20containerizing%20an%20app > h1:before { content: '5.3.6 ' }
+
+.print-site-enumerate-headings #notes-docker-9.%20multi-container%20apps%20with%20compose > h1:before { content: '5.3.7 ' }
 
 .print-site-enumerate-headings #section-5-4 > h1:before { content: '5.4 ' }
 .print-site-enumerate-headings #section-5-4-1 > h1:before { content: '5.4.1 ' }
